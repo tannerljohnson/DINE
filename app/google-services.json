@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "409523588799-ap9hgbcdrob6qqn8pbm82tdlg5cfnvcm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.duke.compsci290.dukefoodapp",
+            "certificate_hash": "7cd6fdbe6ff46ed103792995839bd2d726099b45"
+          }
+        },
+        {
           "client_id": "409523588799-bqbqmchm3n594uo5uktehsbj3abssbff.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "409523588799-bqbqmchm3n594uo5uktehsbj3abssbff.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
