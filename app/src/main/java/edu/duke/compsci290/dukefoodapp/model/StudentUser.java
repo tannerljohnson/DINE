@@ -16,6 +16,7 @@ public class StudentUser implements IUser {
     public int mPoints;
     public boolean mEligibleForReward;
     public String mPendingOrder;
+    // TODO: mOrderHistory should be type List<Order>
     public List<String> mOrderHistory;
 
     // empty constructor requires all necessary setters
@@ -35,6 +36,8 @@ public class StudentUser implements IUser {
         mOrderHistory = orderHistory;
     }
 
+
+    // getters and setters -- must be in accordance with Realtime Database data structure
     public String getUserName() {
         return this.mName;
     }
