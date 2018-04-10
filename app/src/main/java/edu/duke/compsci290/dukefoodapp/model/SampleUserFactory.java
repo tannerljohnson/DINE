@@ -10,7 +10,8 @@ import java.util.List;
 public class SampleUserFactory {
 
     private static SampleUserFactory mInstance;
-    private StudentUser mUser;
+    private StudentUser mStudentUser;
+    private RecipientUser mRecipientUser;
 
     public static SampleUserFactory getInstance() {
         if (mInstance == null) {
@@ -24,19 +25,21 @@ public class SampleUserFactory {
     }
 
     // constructs our one instance of SampleUserFactory mInstance
-    // makes mUser
+    // makes mStudentUser
     private void doConstruct() {
-        mUser = new StudentUser();
-        mUser.setUserName("Benito Smith");
-        mUser.setUserType("student");
-        mUser.setUserEmail("bsmith@gmail.com");
-        mUser.setUserBio("this is my bio.");
-        mUser.setUserPoints(200);
-        mUser.setUserEligibleForReward(false);
-        mUser.setUserPendingOrder("o_id_123");
+        mStudentUser = new StudentUser();
+        mStudentUser.setId("rqXb2oZizsQLy6mXM2lkCuHU7UH3");
+        mStudentUser.setName("Benito Smith");
+        mStudentUser.setType("student");
+        mStudentUser.setEmail("bsmith@gmail.com");
+        mStudentUser.setBio("this is my bio.");
+        mStudentUser.setPoints(200);
+        mStudentUser.setEligibleForReward(false);
+        mStudentUser.setPendingOrder("o_id_123");
         List<String> history = new ArrayList<>();
         history.add("o_id_1");
         history.add("o_id_2");
+
         mUser.setUserOrderHistory(history);
         ArrayList<String> Statistics = new ArrayList<>();
         Statistics.add("Orders: 2");
@@ -55,6 +58,38 @@ public class SampleUserFactory {
     // use this method to return user object
     public StudentUser getSampleUser() {
         return mUser;
+
+        mStudentUser.setOrderHistory(history);
+
+        constructRecipientUser();
+    }
+
+    private void constructRecipientUser() {
+        mRecipientUser = new RecipientUser();
+        // only allows writing for authenticated users
+        mRecipientUser.setId("3ulvzYImhjV8eMwCsG6keo6wgTs1");
+        mRecipientUser.setName("Testy McTest");
+        mRecipientUser.setType("recipient");
+        mRecipientUser.setEmail("test@test.com");
+        mRecipientUser.setBio("hey y'all, how are ya?");
+        mRecipientUser.setPoints(0);
+        mRecipientUser.setEligibleForReward(false);
+        mRecipientUser.setPendingOrder("o_id_123");
+        List<String> history = new ArrayList<>();
+        history.add("o_id_1");
+        history.add("o_id_2");
+        mRecipientUser.setOrderHistory(history);
+    }
+
+    // use this method to return student user object
+    public StudentUser getSampleStudentUser() {
+        return mStudentUser;
+    }
+
+    // use this method to return recipient user object
+    public RecipientUser getSampleRecipientUser() {
+        return mRecipientUser;
+
     }
 
 }
