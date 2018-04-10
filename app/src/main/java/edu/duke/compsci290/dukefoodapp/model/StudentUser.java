@@ -16,6 +16,7 @@ public class StudentUser implements IUser {
     public int mPoints;
     public boolean mEligibleForReward;
     public String mPendingOrder;
+    // TODO: mOrderHistory should be type List<Order>
     public List<String> mOrderHistory;
     public ArrayList<String> mStatistics;
     public ArrayList<String> mSettings;
@@ -38,6 +39,8 @@ public class StudentUser implements IUser {
         mStatistics = statistics;
     }
 
+
+    // getters and setters -- must be in accordance with Realtime Database data structure
     public String getUserName() {
         return this.mName;
     }
