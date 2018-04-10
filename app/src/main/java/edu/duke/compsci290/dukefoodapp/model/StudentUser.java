@@ -1,5 +1,6 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,15 +10,7 @@ import java.util.List;
 public class StudentUser implements IUser {
 
 
-    public String mName;
-    public String mType;
-    public String mEmail;
-    public String mBio;
-    public int mPoints;
-    public boolean mEligibleForReward;
-    public String mPendingOrder;
-    public List<String> mOrderHistory;
-    public ArrayList<String> mStatistics;
+    public ArrayList<String> statistics;
     public ArrayList<String> mSettings;
 
     public String id;
@@ -28,7 +21,6 @@ public class StudentUser implements IUser {
     public int points;
     public boolean eligibleForReward;
     public String pendingOrder;
-    // TODO: orderHistory should be type List<Order>
     public List<String> orderHistory;
 
 
@@ -38,19 +30,9 @@ public class StudentUser implements IUser {
 
     public StudentUser(String id, String name, String type, String email, String bio,
                 int points, boolean eligibleForReward, String pendingOrder,
-<<<<<<< HEAD
                 List<String> orderHistory, ArrayList<String> statistics) {
-        mName = name;
-        mType = type;
-        mEmail = email;
-        mBio = bio;
-        mPoints = points;
-        mEligibleForReward = eligibleForReward;
-        mPendingOrder = pendingOrder;
-        mOrderHistory = orderHistory;
-        mStatistics = statistics;
-=======
-                List<String> orderHistory) {
+
+        this.statistics = statistics;
         this.id = id;
         this.name = name;
         this.type = type;
@@ -60,7 +42,6 @@ public class StudentUser implements IUser {
         this.eligibleForReward = eligibleForReward;
         this.pendingOrder = pendingOrder;
         this.orderHistory = orderHistory;
->>>>>>> origin/database
     }
 
 
@@ -119,9 +100,9 @@ public class StudentUser implements IUser {
 
     public void setEligibleForReward(boolean eligible) { eligibleForReward = eligible; }
 
-    public void setStatistics(ArrayList<String> stats) { mStatistics = stats; }
+    public void setStatistics(ArrayList<String> stats) { statistics = stats; }
 
-    public ArrayList<String> getStatistics() { return this.mStatistics; }
+    public ArrayList<String> getStatistics() { return this.statistics; }
 
     public void setSettings(ArrayList<String> settings) { mSettings = settings; }
 

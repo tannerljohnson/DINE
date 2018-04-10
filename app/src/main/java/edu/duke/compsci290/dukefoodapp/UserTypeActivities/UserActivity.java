@@ -38,7 +38,7 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         SampleUserFactory factory = SampleUserFactory.getInstance();
-        StudentUser user = factory.getSampleUser();
+        StudentUser user = factory.getSampleStudentUser();
 
 
         //initialize views
@@ -51,8 +51,8 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
         mCalendar = findViewById(R.id.calendar);
 
         //assign values to views
-        mUsertype.setText(user.getUserType());
-        mUsername.setText(user.getUserName());
+        mUsertype.setText(user.getType());
+        mUsername.setText(user.getName());
 
         //make statistics and settings array
         mStatistics = user.getStatistics();
