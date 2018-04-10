@@ -9,91 +9,100 @@ import java.util.List;
 
 public class StudentUser implements IUser {
 
-    public String mName;
-    public String mType;
-    public String mEmail;
-    public String mBio;
-    public int mPoints;
-    public boolean mEligibleForReward;
-    public String mPendingOrder;
-    // TODO: mOrderHistory should be type List<Order>
-    public List<String> mOrderHistory;
-    public ArrayList<String> mStatistics;
+
+    public ArrayList<String> statistics;
     public ArrayList<String> mSettings;
+
+    public String id;
+    public String name;
+    public String type;
+    public String email;
+    public String bio;
+    public int points;
+    public boolean eligibleForReward;
+    public String pendingOrder;
+    public List<String> orderHistory;
+
 
     // empty constructor requires all necessary setters
     public StudentUser() {
     }
 
-    public StudentUser(String name, String type, String email, String bio,
+    public StudentUser(String id, String name, String type, String email, String bio,
                 int points, boolean eligibleForReward, String pendingOrder,
                 List<String> orderHistory, ArrayList<String> statistics) {
-        mName = name;
-        mType = type;
-        mEmail = email;
-        mBio = bio;
-        mPoints = points;
-        mEligibleForReward = eligibleForReward;
-        mPendingOrder = pendingOrder;
-        mOrderHistory = orderHistory;
-        mStatistics = statistics;
+
+        this.statistics = statistics;
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.email = email;
+        this.bio = bio;
+        this.points = points;
+        this.eligibleForReward = eligibleForReward;
+        this.pendingOrder = pendingOrder;
+        this.orderHistory = orderHistory;
     }
 
 
     // getters and setters -- must be in accordance with Realtime Database data structure
-    public String getUserName() {
-        return this.mName;
+    public String getId() { return this.id; }
+
+    public void setId(String id) { this.id = id; }
+
+    public String getName() {
+        return this.name;
     }
 
-    public void setUserName(String name) {
-        mName = name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getUserType() {
-        return this.mType;
+    public String getType() {
+        return this.type;
     }
 
-    public void setUserType(String type) {
-        mType = type;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getUserEmail() {
-        return this.mEmail;
+    public String getEmail() {
+        return this.email;
     }
 
-    public void setUserEmail(String email) {
-        mEmail = email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getUserBio() {
-        return this.mBio;
+    public String getBio() {
+        return this.bio;
     }
 
-    public void setUserBio(String bio) { mBio = bio; }
+    public void setBio(String bio) { this.bio = bio; }
 
-    public String getUserPendingOrder() {
-        return this.mPendingOrder;
+    public String getPendingOrder() {
+        return this.pendingOrder;
     }
 
-    public void setUserPendingOrder(String order) { mPendingOrder = order; }
+    public void setPendingOrder(String order) { pendingOrder = order; }
 
-    public List<String> getUserOrderHistory() {
-        return this.mOrderHistory;
+    public List<String> getOrderHistory() {
+        return this.orderHistory;
     }
 
-    public void setUserOrderHistory(List<String> orderHistory) { mOrderHistory = orderHistory; }
+    public void setOrderHistory(List<String> orderHistory) { this.orderHistory = orderHistory; }
 
-    public int getUserPoints() { return this.mPoints; }
+    public int getPoints() { return this.points; }
 
-    public void setUserPoints(int points) { mPoints = points; }
+    public void setPoints(int points) { this.points = points; }
 
-    public boolean getUserEligibleForReward() { return this.mEligibleForReward; }
+    public boolean getEligibleForReward() { return this.eligibleForReward; }
 
-    public void setUserEligibleForReward(boolean eligible) { mEligibleForReward = eligible; }
+    public void setEligibleForReward(boolean eligible) { eligibleForReward = eligible; }
 
-    public void setStatistics(ArrayList<String> stats) { mStatistics = stats; }
+    public void setStatistics(ArrayList<String> stats) { statistics = stats; }
 
-    public ArrayList<String> getStatistics() { return this.mStatistics; }
+    public ArrayList<String> getStatistics() { return this.statistics; }
 
     public void setSettings(ArrayList<String> settings) { mSettings = settings; }
 

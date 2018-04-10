@@ -7,10 +7,11 @@ import java.util.List;
  */
 
 public interface IUser {
-    String getUserName();
-    String getUserType();
-    String getUserEmail();
-    String getUserBio();
-    String getUserPendingOrder();
-    List<String> getUserOrderHistory();
+    String getId();
+    String getName();
+    String getType();
+    String getEmail();
+    String getBio();
+    String getPendingOrder();
+    List<String> getOrderHistory();
 }

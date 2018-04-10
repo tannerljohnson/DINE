@@ -35,6 +35,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import edu.duke.compsci290.dukefoodapp.model.SampleUserFactory;
+import edu.duke.compsci290.dukefoodapp.model.StudentUser;
 
 /**
  * Demonstrate Firebase Authentication using a Google ID Token.
@@ -48,6 +53,7 @@ public class GoogleSignInActivity extends BaseActivity implements
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
     private GoogleSignInClient mGoogleSignInClient;
     private TextView mStatusTextView;
@@ -190,6 +196,11 @@ public class GoogleSignInActivity extends BaseActivity implements
 
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+            Log.d(TAG, "successfully signed in with Google account!\n Sending sample data to Realtime db...");
+
+            // TODO: put this in User Preferences Activity (i.e., this is for testing purposes only!!
+            writeSampleData();
+            updateSampleData();
         } else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);
@@ -198,6 +209,8 @@ public class GoogleSignInActivity extends BaseActivity implements
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -209,5 +222,23 @@ public class GoogleSignInActivity extends BaseActivity implements
         } else if (i == R.id.disconnect_button) {
             revokeAccess();
         }
+    }
+
+    private void writeSampleData() {
+        SampleUserFactory factory = SampleUserFactory.getInstance();
+        StudentUser studentUser = factory.getSampleStudentUser();
+        studentUser.setBio("changing up my bio a bit again...");
+        mDatabase.child("users").child(studentUser.getId()).setValue(studentUser);
+        mDatabase.child("users").child(studentUser.getId()).child("name").setValue("Jared Keyes");
+    }
+
+    private void updateSampleData() {
+        // Create new post at /user-posts/$userid/$postid and at
+        // /posts/$postid simultaneously
+        SampleUserFactory factory = SampleUserFactory.getInstance();
+        StudentUser studentUser = factory.getSampleStudentUser();
+        String id = mDatabase.child("users").child(studentUser.getId()).child("name").toString();
+
+        Log.d(TAG, "user name: " + id);
     }
 }
