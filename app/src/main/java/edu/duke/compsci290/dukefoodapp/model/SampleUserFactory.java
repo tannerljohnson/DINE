@@ -38,7 +38,19 @@ public class SampleUserFactory {
         history.add("o_id_1");
         history.add("o_id_2");
         mUser.setUserOrderHistory(history);
+        ArrayList<String> Statistics = new ArrayList<>();
+        Statistics.add("Orders: 2");
+        Statistics.add("Reward Eligibility: False");
+        Statistics.add("Pending Order: Yes");
+        Statistics.add("Points: 200");
+        mUser.setStatistics(Statistics);
+        ArrayList<String> Settings = new ArrayList<>();
+        Settings.add("My Account");
+        Settings.add("My Orders");
+        Settings.add("Calendar");
+        mUser.setSettings(Settings);
     }
+
 
     // use this method to return user object
     public StudentUser getSampleUser() {

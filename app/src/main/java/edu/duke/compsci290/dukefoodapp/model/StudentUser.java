@@ -17,6 +17,8 @@ public class StudentUser implements IUser {
     public boolean mEligibleForReward;
     public String mPendingOrder;
     public List<String> mOrderHistory;
+    public ArrayList<String> mStatistics;
+    public ArrayList<String> mSettings;
 
     // empty constructor requires all necessary setters
     public StudentUser() {
@@ -24,7 +26,7 @@ public class StudentUser implements IUser {
 
     public StudentUser(String name, String type, String email, String bio,
                 int points, boolean eligibleForReward, String pendingOrder,
-                List<String> orderHistory) {
+                List<String> orderHistory, ArrayList<String> statistics) {
         mName = name;
         mType = type;
         mEmail = email;
@@ -33,6 +35,7 @@ public class StudentUser implements IUser {
         mEligibleForReward = eligibleForReward;
         mPendingOrder = pendingOrder;
         mOrderHistory = orderHistory;
+        mStatistics = statistics;
     }
 
     public String getUserName() {
@@ -84,5 +87,13 @@ public class StudentUser implements IUser {
     public boolean getUserEligibleForReward() { return this.mEligibleForReward; }
 
     public void setUserEligibleForReward(boolean eligible) { mEligibleForReward = eligible; }
+
+    public void setStatistics(ArrayList<String> stats) { mStatistics = stats; }
+
+    public ArrayList<String> getStatistics() { return this.mStatistics; }
+
+    public void setSettings(ArrayList<String> settings) { mSettings = settings; }
+
+    public ArrayList<String> getSettings() { return this.mSettings; }
 
 }

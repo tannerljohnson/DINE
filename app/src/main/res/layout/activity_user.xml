@@ -17,7 +17,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/userlogo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|start"
@@ -35,7 +35,7 @@
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="5dp">
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/usertype"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="UserType" />
@@ -50,8 +50,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
+
+                <Spinner
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/userpagesetting"
+                    android:layout_gravity="right"
+                    android:text="Settings"/>
+
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -60,7 +68,7 @@
                     android:layout_gravity="center"/>
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/userimage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
@@ -68,16 +76,17 @@
                     android:background="@drawable/ic_launcher_background"/>
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/statistics"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
                     android:text="Statistics"
                     android:layout_gravity="center_horizontal"/>
 
-                <android.support.v7.widget.RecyclerView
+                <ListView
                     android:layout_width="wrap_content"
-                    android:layout_height="100dp"
+                    android:id="@+id/statisticslistview"
+                    android:layout_height="300dp"
                     android:layout_gravity="center_horizontal"/>
 
                 <LinearLayout
@@ -86,11 +95,12 @@
                     android:orientation="horizontal"
                     android:layout_gravity="center_horizontal">
                     <Button
-                        android:id="@+id/button2"
+                        android:id="@+id/calendar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Calendar"/>
                     <Button
+                        android:id="@+id/myorders"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="My Orders" />

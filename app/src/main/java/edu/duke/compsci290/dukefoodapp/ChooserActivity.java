@@ -26,11 +26,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import edu.duke.compsci290.dukefoodapp.UserTypeActivities.UserActivity;
+
 public class ChooserActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
+    private Button button;
     private static final Class[] CLASSES = new Class[]{
             GoogleSignInActivity.class,
 //            FacebookLoginActivity.class,
@@ -42,6 +46,7 @@ public class ChooserActivity extends AppCompatActivity implements AdapterView.On
             FirebaseUIActivity.class
 //            CustomAuthActivity.class
     };
+
 
     private static final int[] DESCRIPTION_IDS = new int[] {
             R.string.desc_google_sign_in,
@@ -60,6 +65,15 @@ public class ChooserActivity extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chooser);
 
+        //set up button and onclick
+        button = findViewById(R.id.button2);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                toSamplePage();
+            }
+        });
+
         // Set up ListView and Adapter
         ListView listView = findViewById(R.id.list_view);
 
@@ -74,6 +88,10 @@ public class ChooserActivity extends AppCompatActivity implements AdapterView.On
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Class clicked = CLASSES[position];
         startActivity(new Intent(this, clicked));
+    }
+
+    public void toSamplePage(){
+        startActivity(new Intent(this,UserActivity.class));
     }
 
     public static class MyArrayAdapter extends ArrayAdapter<Class> {
