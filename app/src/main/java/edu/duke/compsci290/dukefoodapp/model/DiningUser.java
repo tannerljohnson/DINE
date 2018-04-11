@@ -1,17 +1,12 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tannerjohnson on 4/3/18.
+ * Created by tannerjohnson on 4/10/18.
  */
 
-public class StudentUser implements IUser {
-
-
-    public ArrayList<String> statistics;
-    public ArrayList<String> mSettings;
+public class DiningUser implements IUser {
 
     public String id;
     public String name;
@@ -20,34 +15,13 @@ public class StudentUser implements IUser {
     public String bio;
     public int points;
     public boolean eligibleForReward;
-
     public Order pendingOrder;
-    // TODO: orderHistory should be type List<Order>
     public List<Order> orderHistory;
 
+    public DiningUser() {}
 
+    // don't think we even need a full constructor
 
-    // empty constructor requires all necessary setters
-    public StudentUser() {
-    }
-
-    public StudentUser(String id, String name, String type, String email, String bio,
-                int points, boolean eligibleForReward, Order pendingOrder,
-                List<Order> orderHistory, ArrayList<String> statistics) {
-        this.statistics = statistics;
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.email = email;
-        this.bio = bio;
-        this.points = points;
-        this.eligibleForReward = eligibleForReward;
-        this.pendingOrder = pendingOrder;
-        this.orderHistory = orderHistory;
-    }
-
-
-    // getters and setters -- must be in accordance with Realtime Database data structure
     public String getId() { return this.id; }
 
     public void setId(String id) { this.id = id; }
@@ -101,13 +75,5 @@ public class StudentUser implements IUser {
     public boolean getEligibleForReward() { return this.eligibleForReward; }
 
     public void setEligibleForReward(boolean eligible) { eligibleForReward = eligible; }
-
-    public void setStatistics(ArrayList<String> stats) { statistics = stats; }
-
-    public ArrayList<String> getStatistics() { return this.statistics; }
-
-    public void setSettings(ArrayList<String> settings) { mSettings = settings; }
-
-    public ArrayList<String> getSettings() { return this.mSettings; }
 
 }
