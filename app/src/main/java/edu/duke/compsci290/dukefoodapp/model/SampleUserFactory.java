@@ -55,11 +55,11 @@ public class SampleUserFactory {
 //        Statistics.add("Pending Order: Yes");
 //        Statistics.add("Points: 200");
 //        mStudentUser.setStatistics(Statistics);
-        ArrayList<String> Settings = new ArrayList<>();
-        Settings.add("My Account");
-        Settings.add("My Orders");
-        Settings.add("Calendar");
-        mStudentUser.setSettings(Settings);
+//        ArrayList<String> Settings = new ArrayList<>();
+//        Settings.add("My Account");
+//        Settings.add("My Orders");
+//        Settings.add("Calendar");
+//        mStudentUser.setSettings(Settings);
         constructRecipientUser();
     }
 

@@ -10,31 +10,36 @@ import java.util.List;
 public class StudentUser implements IUser {
 
 
-    public ArrayList<String> statistics;
-    public ArrayList<String> mSettings;
-
-    public String id;
-    public String name;
-    public String type;
-    public String email;
-    public String bio;
-    public int points;
-    public boolean eligibleForReward;
-
-    public String pendingOrder;
-    // TODO: orderHistory should be type List<String>
-    public List<String> orderHistory;
+    private ArrayList<String> mSettings;
+    private String id;
+    private String name;
+    private String type;
+    private String email;
+    private String bio;
+    private int points;
+    private boolean eligibleForReward;
+    private String pendingOrder;
+    private List<String> orderHistory;
 
 
 
-    // empty constructor requires all necessary setters
+    // always set up mSettings in constructor. used for building UI
     public StudentUser() {
+        makeSettings();
+    }
+
+    private void makeSettings() {
+        mSettings = new ArrayList<>();
+        mSettings.add("My Account");
+        mSettings.add("My Orders");
+        mSettings.add("Calendar");
     }
 
     public StudentUser(String id, String name, String type, String email, String bio,
                 int points, boolean eligibleForReward, String pendingOrder,
-                List<String> orderHistory, ArrayList<String> statistics) {
-        this.statistics = statistics;
+                List<String> orderHistory) {
+        makeSettings();
+//        this.statistics = statistics;
         this.id = id;
         this.name = name;
         this.type = type;
@@ -102,7 +107,7 @@ public class StudentUser implements IUser {
 
     public void setEligibleForReward(boolean eligible) { eligibleForReward = eligible; }
 
-    public void setStatistics(ArrayList<String> stats) { statistics = stats; }
+//    public void setStatistics(ArrayList<String> stats) { statistics = stats; }
 
     public ArrayList<String> getStatistics() throws UserMalformedException {
         // ALWAYS make a new Statistics object because our database has writes happening constantly...
@@ -116,7 +121,7 @@ public class StudentUser implements IUser {
         return stats.getAllStats();
     }
 
-    public void setSettings(ArrayList<String> settings) { mSettings = settings; }
+//    public void setSettings(ArrayList<String> settings) { mSettings = settings; }
 
     public ArrayList<String> getSettings() { return this.mSettings; }
 

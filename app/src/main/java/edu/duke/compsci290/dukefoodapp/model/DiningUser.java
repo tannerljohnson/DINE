@@ -9,17 +9,42 @@ import java.util.List;
 
 public class DiningUser implements IUser {
 
-    public String id;
-    public String name;
-    public String type;
-    public String email;
-    public String bio;
-    public int points;
-    public boolean eligibleForReward;
-    public String pendingOrder;
-    public List<String> orderHistory;
+    private ArrayList<String> mSettings;
+    private String id;
+    private String name;
+    private String type;
+    private String email;
+    private String bio;
+    private int points;
+    private boolean eligibleForReward;
+    private String pendingOrder;
+    private List<String> orderHistory;
 
-    public DiningUser() {}
+    public DiningUser() {
+        makeSettings();
+    }
+
+    public DiningUser(String id, String name, String type, String email, String bio,
+                         int points, boolean eligibleForReward, String pendingOrder,
+                         List<String> orderHistory) {
+        makeSettings();
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.email = email;
+        this.bio = bio;
+        this.points = points;
+        this.eligibleForReward = eligibleForReward;
+        this.pendingOrder = pendingOrder;
+        this.orderHistory = orderHistory;
+    }
+
+    private void makeSettings() {
+        mSettings = new ArrayList<>();
+        mSettings.add("My Account");
+        mSettings.add("My Orders");
+        mSettings.add("Calendar");
+    }
 
     // don't think we even need a full constructor
 
@@ -85,5 +110,7 @@ public class DiningUser implements IUser {
         Statistics stats = new Statistics(this);
         return stats.getAllStats();
     }
+
+    public ArrayList<String> getSettings() { return this.mSettings; }
 
 }

@@ -9,23 +9,33 @@ import java.util.List;
 
 public class RecipientUser implements IUser {
 
-    public String id;
-    public String name;
-    public String type;
-    public String email;
-    public String bio;
-    public int points;
-    public boolean eligibleForReward;
-    public String pendingOrder;
-    // TODO: orderHistory should be type List<Order>
-    public List<String> orderHistory;
+    private ArrayList<String> mSettings;
+    private String id;
+    private String name;
+    private String type;
+    private String email;
+    private String bio;
+    private int points;
+    private boolean eligibleForReward;
+    private String pendingOrder;
+    private List<String> orderHistory;
 
     // empty constructor requires all necessary setters
-    public RecipientUser() {}
+    public RecipientUser() {
+        makeSettings();
+    }
+
+    private void makeSettings() {
+        mSettings = new ArrayList<>();
+        mSettings.add("My Account");
+        mSettings.add("My Orders");
+        mSettings.add("Calendar");
+    }
 
     public RecipientUser(String id, String name, String type, String email, String bio,
                        int points, boolean eligibleForReward, String pendingOrder,
                        List<String> orderHistory) {
+        makeSettings();
         this.id = id;
         this.name = name;
         this.type = type;
@@ -101,5 +111,7 @@ public class RecipientUser implements IUser {
         Statistics stats = new Statistics(this);
         return stats.getAllStats();
     }
+
+    public ArrayList<String> getSettings() { return this.mSettings; }
 
 }

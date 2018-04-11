@@ -14,12 +14,6 @@ public class TextUserGiver {
         SampleUserFactory factory = SampleUserFactory.getInstance();
         StudentUser studentUser = factory.getSampleStudentUser();
 
-//        Statistics studentUserStats = new Statistics(studentUser);
-//        System.out.println(studentUserStats.getOrdersDone());
-//        System.out.println(studentUserStats.getPendingOrderBoolean());
-//        System.out.println(studentUserStats.getPointTotal());
-//        System.out.println(studentUserStats.getRewardEligibility());
-
         int i=0;
         List<String> allStats = studentUser.getStatistics();
         for(String s : allStats) {
@@ -28,6 +22,13 @@ public class TextUserGiver {
         }
 
         System.out.println("student user name: " + studentUser.getName());
+
+        List<String> studentSettings = studentUser.getSettings();
+        for(String s : studentSettings) {
+            i++;
+            System.out.println(s);
+        }
+
         RecipientUser recipientUser = factory.getSampleRecipientUser();
         System.out.println("recipient user name: " + recipientUser.getName());
     }

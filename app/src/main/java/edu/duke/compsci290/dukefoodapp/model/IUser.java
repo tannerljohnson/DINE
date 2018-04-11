@@ -18,4 +18,5 @@ public interface IUser {
     boolean getEligibleForReward();
     int getPoints();
     ArrayList<String> getStatistics() throws UserMalformedException;
+    ArrayList<String> getSettings();
 }
