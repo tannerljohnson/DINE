@@ -12,6 +12,7 @@ public class SampleUserFactory {
     private static SampleUserFactory mInstance;
     private StudentUser mStudentUser;
     private RecipientUser mRecipientUser;
+    private Order mPendingOrder;
 
     public static SampleUserFactory getInstance() {
         if (mInstance == null) {
@@ -35,10 +36,12 @@ public class SampleUserFactory {
         mStudentUser.setBio("this is my bio.");
         mStudentUser.setPoints(200);
         mStudentUser.setEligibleForReward(false);
-        mStudentUser.setPendingOrder("o_id_123");
-        List<String> history = new ArrayList<>();
-        history.add("o_id_1");
-        history.add("o_id_2");
+
+        SampleOrderFactory factory = SampleOrderFactory.getInstance();
+        mPendingOrder = factory.getSampleOrder();
+
+        mStudentUser.setPendingOrder(mPendingOrder);
+        List<Order> history = new ArrayList<>();
         mStudentUser.setOrderHistory(history);
 
         constructRecipientUser();
@@ -54,10 +57,9 @@ public class SampleUserFactory {
         mRecipientUser.setBio("hey y'all, how are ya?");
         mRecipientUser.setPoints(0);
         mRecipientUser.setEligibleForReward(false);
-        mRecipientUser.setPendingOrder("o_id_123");
-        List<String> history = new ArrayList<>();
-        history.add("o_id_1");
-        history.add("o_id_2");
+        mRecipientUser.setPendingOrder(mPendingOrder);
+        List<Order> history = new ArrayList<>();
+        history.add(mPendingOrder); // not realistic to have pending in history, but only for testing.
         mRecipientUser.setOrderHistory(history);
     }
 

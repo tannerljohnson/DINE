@@ -15,17 +15,17 @@ public class StudentUser implements IUser {
     public String bio;
     public int points;
     public boolean eligibleForReward;
-    public String pendingOrder;
+    public Order pendingOrder;
     // TODO: orderHistory should be type List<Order>
-    public List<String> orderHistory;
+    public List<Order> orderHistory;
 
     // empty constructor requires all necessary setters
     public StudentUser() {
     }
 
     public StudentUser(String id, String name, String type, String email, String bio,
-                int points, boolean eligibleForReward, String pendingOrder,
-                List<String> orderHistory) {
+                int points, boolean eligibleForReward, Order pendingOrder,
+                List<Order> orderHistory) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -73,17 +73,17 @@ public class StudentUser implements IUser {
 
     public void setBio(String bio) { this.bio = bio; }
 
-    public String getPendingOrder() {
+    public Order getPendingOrder() {
         return this.pendingOrder;
     }
 
-    public void setPendingOrder(String order) { pendingOrder = order; }
+    public void setPendingOrder(Order order) { pendingOrder = order; }
 
-    public List<String> getOrderHistory() {
+    public List<Order> getOrderHistory() {
         return this.orderHistory;
     }
 
-    public void setOrderHistory(List<String> orderHistory) { this.orderHistory = orderHistory; }
+    public void setOrderHistory(List<Order> orderHistory) { this.orderHistory = orderHistory; }
 
     public int getPoints() { return this.points; }
 
