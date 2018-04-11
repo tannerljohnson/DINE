@@ -21,9 +21,9 @@ public class StudentUser implements IUser {
     public int points;
     public boolean eligibleForReward;
 
-    public Order pendingOrder;
-    // TODO: orderHistory should be type List<Order>
-    public List<Order> orderHistory;
+    public String pendingOrder;
+    // TODO: orderHistory should be type List<String>
+    public List<String> orderHistory;
 
 
 
@@ -32,8 +32,8 @@ public class StudentUser implements IUser {
     }
 
     public StudentUser(String id, String name, String type, String email, String bio,
-                int points, boolean eligibleForReward, Order pendingOrder,
-                List<Order> orderHistory, ArrayList<String> statistics) {
+                int points, boolean eligibleForReward, String pendingOrder,
+                List<String> orderHistory, ArrayList<String> statistics) {
         this.statistics = statistics;
         this.id = id;
         this.name = name;
@@ -82,17 +82,17 @@ public class StudentUser implements IUser {
 
     public void setBio(String bio) { this.bio = bio; }
 
-    public Order getPendingOrder() {
+    public String getPendingOrder() {
         return this.pendingOrder;
     }
 
-    public void setPendingOrder(Order order) { pendingOrder = order; }
+    public void setPendingOrder(String order) { pendingOrder = order; }
 
-    public List<Order> getOrderHistory() {
+    public List<String> getOrderHistory() {
         return this.orderHistory;
     }
 
-    public void setOrderHistory(List<Order> orderHistory) { this.orderHistory = orderHistory; }
+    public void setOrderHistory(List<String> orderHistory) { this.orderHistory = orderHistory; }
 
     public int getPoints() { return this.points; }
 
@@ -104,7 +104,17 @@ public class StudentUser implements IUser {
 
     public void setStatistics(ArrayList<String> stats) { statistics = stats; }
 
-    public ArrayList<String> getStatistics() { return this.statistics; }
+    public ArrayList<String> getStatistics() throws UserMalformedException {
+        // ALWAYS make a new Statistics object because our database has writes happening constantly...
+        // i.e., don't display old data
+
+        // check if Statistics can be built
+        if (this == null) {
+            throw new UserMalformedException("Must initialize user before creating statistics!");
+        }
+        Statistics stats = new Statistics(this);
+        return stats.getAllStats();
+    }
 
     public void setSettings(ArrayList<String> settings) { mSettings = settings; }
 

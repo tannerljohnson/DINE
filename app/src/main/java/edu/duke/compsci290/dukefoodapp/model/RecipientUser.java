@@ -1,5 +1,6 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,16 +16,16 @@ public class RecipientUser implements IUser {
     public String bio;
     public int points;
     public boolean eligibleForReward;
-    public Order pendingOrder;
+    public String pendingOrder;
     // TODO: orderHistory should be type List<Order>
-    public List<Order> orderHistory;
+    public List<String> orderHistory;
 
     // empty constructor requires all necessary setters
     public RecipientUser() {}
 
     public RecipientUser(String id, String name, String type, String email, String bio,
-                       int points, boolean eligibleForReward, Order pendingOrder,
-                       List<Order> orderHistory) {
+                       int points, boolean eligibleForReward, String pendingOrder,
+                       List<String> orderHistory) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -72,17 +73,17 @@ public class RecipientUser implements IUser {
 
     public void setBio(String bio) { this.bio = bio; }
 
-    public Order getPendingOrder() {
+    public String getPendingOrder() {
         return this.pendingOrder;
     }
 
-    public void setPendingOrder(Order order) { pendingOrder = order; }
+    public void setPendingOrder(String order) { pendingOrder = order; }
 
-    public List<Order> getOrderHistory() {
+    public List<String> getOrderHistory() {
         return this.orderHistory;
     }
 
-    public void setOrderHistory(List<Order> orderHistory) { this.orderHistory = orderHistory; }
+    public void setOrderHistory(List<String> orderHistory) { this.orderHistory = orderHistory; }
 
     public int getPoints() { return this.points; }
 
@@ -91,5 +92,14 @@ public class RecipientUser implements IUser {
     public boolean getEligibleForReward() { return this.eligibleForReward; }
 
     public void setEligibleForReward(boolean eligible) { eligibleForReward = eligible; }
+
+    public ArrayList<String> getStatistics() throws UserMalformedException {
+        // check if Statistics can be built
+        if (this == null) {
+            throw new UserMalformedException("Must initialize user before creating statistics!");
+        }
+        Statistics stats = new Statistics(this);
+        return stats.getAllStats();
+    }
 
 }

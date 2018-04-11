@@ -20,6 +20,7 @@ import java.util.List;
 import edu.duke.compsci290.dukefoodapp.R;
 import edu.duke.compsci290.dukefoodapp.model.SampleUserFactory;
 import edu.duke.compsci290.dukefoodapp.model.StudentUser;
+import edu.duke.compsci290.dukefoodapp.model.UserMalformedException;
 
 public class UserActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     //create variables
@@ -55,7 +56,11 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
         mUsername.setText(user.getName());
 
         //make statistics and settings array
-        mStatistics = user.getStatistics();
+        try {
+            mStatistics = user.getStatistics();
+        } catch (UserMalformedException e) {
+            e.printStackTrace();
+        }
         mSettings = user.getSettings();
 
         //set up spinner
