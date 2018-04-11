@@ -52,7 +52,7 @@ public class SampleOrderFactory {
 
 
     // use this method to return student user object
-    public Order getSampleStudentUser() {
+    public Order getSampleOrder() {
         return mOrder;
     }
 }
