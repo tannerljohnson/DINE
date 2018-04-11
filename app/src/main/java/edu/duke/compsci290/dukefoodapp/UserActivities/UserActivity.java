@@ -1,8 +1,10 @@
-package edu.duke.compsci290.dukefoodapp.UserTypeActivities;
+package edu.duke.compsci290.dukefoodapp.UserActivities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,12 +69,24 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Set up ListView and Adapter
         ListView listView = findViewById(R.id.statisticslistview);
-
         MyArrayAdapter adapter = new MyArrayAdapter(this, android.R.layout.simple_list_item_1,mStatistics);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
 
+        //set onclick for calendar
+        Button calendar = findViewById(R.id.calendar);
+        calendar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("tag1:", "clicked calendar");
+                toCalendar();
+            }
+        });
 
+
+    }
+
+    public void toCalendar(){
+        startActivity(new Intent(this,CalendarActivity.class));
     }
 
     @Override

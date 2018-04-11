@@ -52,7 +52,7 @@ public class SampleUserFactory {
         ArrayList<String> Settings = new ArrayList<>();
         Settings.add("My Account");
         Settings.add("My Orders");
-        Settings.add("Calendar");
+        Settings.add("CalendarActivity");
         mStudentUser.setSettings(Settings);
         constructRecipientUser();
     }

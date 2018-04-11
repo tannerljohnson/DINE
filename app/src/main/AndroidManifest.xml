@@ -19,7 +19,8 @@
         <activity android:name=".FirebaseUIActivity" />
         <activity android:name=".EmailPasswordActivity" />
         <activity android:name=".GoogleSignInActivity" />
-        <activity android:name=".UserTypeActivities.UserActivity"></activity>
+        <activity android:name=".UserActivities.UserActivity" />
+        <activity android:name=".UserActivities.CalendarActivity" />
     </application>
 
 </manifest>

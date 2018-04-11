@@ -30,7 +30,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import edu.duke.compsci290.dukefoodapp.UserTypeActivities.UserActivity;
+import edu.duke.compsci290.dukefoodapp.UserActivities.UserActivity;
 
 public class ChooserActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
