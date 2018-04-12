@@ -1,5 +1,6 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by tannerjohnson on 4/10/18.
  */
 
-public class DiningUser implements IUser {
+public class DiningUser implements IUser,Serializable {
 
     private ArrayList<String> mSettings;
     private String id;

@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.duke.compsci290.dukefoodapp.R;
+import edu.duke.compsci290.dukefoodapp.model.IUser;
 import edu.duke.compsci290.dukefoodapp.model.SampleUserFactory;
+import edu.duke.compsci290.dukefoodapp.model.SendUserAsIntent;
 import edu.duke.compsci290.dukefoodapp.model.StudentUser;
 import edu.duke.compsci290.dukefoodapp.model.UserMalformedException;
 
@@ -35,13 +37,14 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
     private Button mCalendar;
     private ArrayList<String> mStatistics;
     private ArrayList<String> mSettings;
+    private IUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         SampleUserFactory factory = SampleUserFactory.getInstance();
-        StudentUser user = factory.getSampleStudentUser();
+        user = factory.getSampleStudentUser();
 
 
         //initialize views
@@ -78,6 +81,7 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
 
+        //TODO:Make these work with the spinner and remove buttons
         //set onclick for calendar
         Button calendar = findViewById(R.id.calendar);
         calendar.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +91,22 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+        //set onclick for MyOrders
+        Button myOrders = findViewById(R.id.myorders);
+        myOrders.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("tag1:", "clicked calendar");
+                toMyOrders(user);
+            }
+        });
 
+
+    }
+
+    private void toMyOrders(IUser user) {
+        SendUserAsIntent usersender = new SendUserAsIntent(this,user,MyOrdersActivity.class);
+        Intent intent = usersender.getIntent();
+        startActivity(intent);
     }
 
     public void toCalendar(){
