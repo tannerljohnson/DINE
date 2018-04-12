@@ -21,6 +21,7 @@
         <activity android:name=".GoogleSignInActivity" />
         <activity android:name=".UserActivities.UserActivity" />
         <activity android:name=".UserActivities.CalendarActivity" />
+        <activity android:name=".UserActivities.DayActivity"></activity>
     </application>
 
 </manifest>
