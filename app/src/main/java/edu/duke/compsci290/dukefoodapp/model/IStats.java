@@ -1,5 +1,7 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
+import java.util.List;
+
 /**
  * Created by tannerjohnson on 4/10/18.
  */
@@ -11,5 +13,6 @@ public interface IStats {
     String getRewardEligibility();
     String getPendingOrderBoolean();
     String getPointTotal();
+    List<String> getAllStats();
 
 }

@@ -1,5 +1,6 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,17 +9,42 @@ import java.util.List;
 
 public class DiningUser implements IUser {
 
-    public String id;
-    public String name;
-    public String type;
-    public String email;
-    public String bio;
-    public int points;
-    public boolean eligibleForReward;
-    public Order pendingOrder;
-    public List<Order> orderHistory;
+    private ArrayList<String> mSettings;
+    private String id;
+    private String name;
+    private String type;
+    private String email;
+    private String bio;
+    private int points;
+    private boolean eligibleForReward;
+    private String pendingOrder;
+    private List<String> orderHistory;
 
-    public DiningUser() {}
+    public DiningUser() {
+        makeSettings();
+    }
+
+    public DiningUser(String id, String name, String type, String email, String bio,
+                         int points, boolean eligibleForReward, String pendingOrder,
+                         List<String> orderHistory) {
+        makeSettings();
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.email = email;
+        this.bio = bio;
+        this.points = points;
+        this.eligibleForReward = eligibleForReward;
+        this.pendingOrder = pendingOrder;
+        this.orderHistory = orderHistory;
+    }
+
+    private void makeSettings() {
+        mSettings = new ArrayList<>();
+        mSettings.add("My Account");
+        mSettings.add("My Orders");
+        mSettings.add("Calendar");
+    }
 
     // don't think we even need a full constructor
 
@@ -56,17 +82,17 @@ public class DiningUser implements IUser {
 
     public void setBio(String bio) { this.bio = bio; }
 
-    public Order getPendingOrder() {
+    public String getPendingOrder() {
         return this.pendingOrder;
     }
 
-    public void setPendingOrder(Order order) { pendingOrder = order; }
+    public void setPendingOrder(String order) { pendingOrder = order; }
 
-    public List<Order> getOrderHistory() {
+    public List<String> getOrderHistory() {
         return this.orderHistory;
     }
 
-    public void setOrderHistory(List<Order> orderHistory) { this.orderHistory = orderHistory; }
+    public void setOrderHistory(List<String> orderHistory) { this.orderHistory = orderHistory; }
 
     public int getPoints() { return this.points; }
 
@@ -75,5 +101,16 @@ public class DiningUser implements IUser {
     public boolean getEligibleForReward() { return this.eligibleForReward; }
 
     public void setEligibleForReward(boolean eligible) { eligibleForReward = eligible; }
+
+    public ArrayList<String> getStatistics() throws UserMalformedException {
+        // check if Statistics can be built
+        if (this == null) {
+            throw new UserMalformedException("Must initialize user before creating statistics!");
+        }
+        Statistics stats = new Statistics(this);
+        return stats.getAllStats();
+    }
+
+    public ArrayList<String> getSettings() { return this.mSettings; }
 
 }

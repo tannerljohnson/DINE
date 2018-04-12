@@ -1,5 +1,6 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,8 +13,10 @@ public interface IUser {
     String getType();
     String getEmail();
     String getBio();
-    Order getPendingOrder();
-    List<Order> getOrderHistory();
+    String getPendingOrder();
+    List<String> getOrderHistory();
     boolean getEligibleForReward();
     int getPoints();
+    ArrayList<String> getStatistics() throws UserMalformedException;
+    ArrayList<String> getSettings();
 }
