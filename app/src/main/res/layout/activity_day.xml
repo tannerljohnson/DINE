@@ -15,11 +15,10 @@
             android:layout_height="50dp"
             android:id="@+id/day_textview"
             android:gravity="center"/>
-        <ListView
-            android:id="@+id/day_listview"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/day_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </ListView>
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
