@@ -1,5 +1,6 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * For custom settings, @Override makeSettings method in user subclass
  */
 
-public abstract class UserParent implements IUser {
+public abstract class UserParent implements IUser, Serializable {
 
     protected ArrayList<String> mSettings;
     protected String id;

@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 
-public class DiningUser extends UserParent implements IUser,Serializable {
+public class DiningUser extends UserParent{
 
     private ArrayList<String> mSettings;
     private String id;

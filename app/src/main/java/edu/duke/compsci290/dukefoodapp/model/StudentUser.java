@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 
-public class StudentUser extends UserParent implements IUser, Serializable {
+public class StudentUser extends UserParent {
 
 
 

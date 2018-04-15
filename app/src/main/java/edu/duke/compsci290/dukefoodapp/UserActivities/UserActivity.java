@@ -20,11 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.duke.compsci290.dukefoodapp.R;
-import edu.duke.compsci290.dukefoodapp.model.IUser;
 import edu.duke.compsci290.dukefoodapp.model.SampleUserFactory;
-import edu.duke.compsci290.dukefoodapp.model.SendUserAsIntent;
-import edu.duke.compsci290.dukefoodapp.model.StudentUser;
 import edu.duke.compsci290.dukefoodapp.model.UserMalformedException;
+import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
 public class UserActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     //create variables
@@ -37,7 +35,7 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
     private Button mCalendar;
     private ArrayList<String> mStatistics;
     private ArrayList<String> mSettings;
-    private IUser user;
+    private UserParent user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,9 +101,10 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    private void toMyOrders(IUser user) {
-        SendUserAsIntent usersender = new SendUserAsIntent(this,user,MyOrdersActivity.class);
-        Intent intent = usersender.getIntent();
+    private void toMyOrders(UserParent user) {
+        Intent intent = new Intent(this, MyOrdersActivity.class);
+        intent.putExtra("type",user.getType());
+        intent.putExtra("user",user);
         startActivity(intent);
     }
 
