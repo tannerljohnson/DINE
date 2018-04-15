@@ -14,7 +14,7 @@ public interface IUser{
     String getType();
     String getEmail();
     String getBio();
-    String getPendingOrder();
+    List<String> getPendingOrders();
     List<String> getOrderHistory();
     boolean getEligibleForReward();
     int getPoints();

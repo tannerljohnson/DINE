@@ -1,4 +1,4 @@
-package edu.duke.compsci290.dukefoodapp;
+package edu.duke.compsci290.dukefoodapp.login;
 
 /*
 * Taken from: https://github.com/firebase/quickstart-android/blob/master/auth
@@ -16,6 +16,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
+
+import edu.duke.compsci290.dukefoodapp.BuildConfig;
+import edu.duke.compsci290.dukefoodapp.R;
 
 public class FirebaseUIActivity extends AppCompatActivity implements View.OnClickListener {
 

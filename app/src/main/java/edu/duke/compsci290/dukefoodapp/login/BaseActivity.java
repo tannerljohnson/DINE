@@ -1,4 +1,4 @@
-package edu.duke.compsci290.dukefoodapp;
+package edu.duke.compsci290.dukefoodapp.login;
 
 
 import android.app.ProgressDialog;
@@ -7,6 +7,8 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import edu.duke.compsci290.dukefoodapp.R;
 
 public class BaseActivity extends AppCompatActivity {
 

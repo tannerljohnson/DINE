@@ -24,9 +24,12 @@ public class SampleDayFactory {
         return mInstance;
     }
 
-    public void SampleDayFactory(){doConstruct();}
+    private SampleDayFactory() {
+        doConstruct();
+    }
 
     public void doConstruct(){
+        mday = new Day();
         SampleOrderFactory orderFactory =  SampleOrderFactory.getInstance();
         ArrayList<Order> orders = new ArrayList<>();
         orders.add(orderFactory.getSampleOrder());

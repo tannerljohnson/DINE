@@ -1,4 +1,4 @@
-package edu.duke.compsci290.dukefoodapp;
+package edu.duke.compsci290.dukefoodapp.login;
 
 /**
  * Copyright 2016 Google Inc. All Rights Reserved.
@@ -20,7 +20,6 @@ package edu.duke.compsci290.dukefoodapp;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +32,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import edu.duke.compsci290.dukefoodapp.R;
 
 public class EmailPasswordActivity extends BaseActivity implements
         View.OnClickListener {

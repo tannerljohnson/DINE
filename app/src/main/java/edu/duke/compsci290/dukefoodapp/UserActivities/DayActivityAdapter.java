@@ -3,6 +3,7 @@ package edu.duke.compsci290.dukefoodapp.UserActivities;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
     public String mUserId;
     public List<Order> mOrders;
     public List<String> mOrderIds;
+    public static SparseBooleanArray mCheckedArray;
 
     public static final String sTAG = "DayActivityAdapter";
 
@@ -36,6 +38,7 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
         this.mContext = context;
         this.mDay = day;
         this.mUserId = uId;
+        this.mCheckedArray = new SparseBooleanArray();
         this.mOrderIds = new ArrayList<>();
         this.mOrders = new ArrayList<>();
         mOrders.addAll(day.getOrders());
@@ -68,6 +71,7 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
                 boolean checked = ((CheckBox) view).isChecked();
                 manualSetStatus(position, checked);
                 Log.d(sTAG, "clicked complete widget for order: " + mOrderIds.get(position));
+
             }
         });
 
@@ -80,9 +84,11 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
         if (markingAsComplete) {
             // give Order status the User's id
             mOrders.get(position).setStudentId(mUserId);
+            mCheckedArray.put(position, true);
         } else {
             // clean slate
             mOrders.get(position).setStudentId(null);
+            mCheckedArray.put(position, false);
             assert mOrders.get(position).getStudentId() == null;
         }
         Log.d(sTAG, mOrderIds.get(position) + " has student owner: " + mOrders.get(position).getStudentId());
