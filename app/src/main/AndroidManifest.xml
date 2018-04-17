@@ -22,7 +22,8 @@
         <activity android:name=".UserActivities.UserActivity" />
         <activity android:name=".UserActivities.CalendarActivity" />
         <activity android:name=".UserActivities.DayActivity" />
-        <activity android:name=".UserActivities.MyOrdersActivity"></activity>
+        <activity android:name=".UserActivities.MyOrdersActivity" />
+        <activity android:name=".UserActivities.OrderActivity"></activity>
     </application>
 
 </manifest>
