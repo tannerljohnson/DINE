@@ -25,8 +25,13 @@ import java.util.List;
 
 import edu.duke.compsci290.dukefoodapp.R;
 import edu.duke.compsci290.dukefoodapp.model.IUser;
+import edu.duke.compsci290.dukefoodapp.model.Order;
+import edu.duke.compsci290.dukefoodapp.model.SampleOrderFactory;
 
 public class MyOrdersActivity extends AppCompatActivity {
+    //This activity is for the user to look at their current orders, and the progress of the order
+    //maybe save the specific users order in SQLite, and update the orders the user already has.
+    //helps with the no connection problems
     public RecyclerView rv;
     public IUser user;
     public List<String> orderHistory;
@@ -93,9 +98,26 @@ public class MyOrdersActivity extends AppCompatActivity {
             //create inflater and viewholder
             LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = mInflater.inflate(R.layout.order_layout, parent, false);
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MyOrdersActivity.this,OrderActivity.class);
+                    Order order = grabOrder();
+                    intent.putExtra("order",order);
+                    startActivity(intent);
+                }
+            });
             Log.d("tag1", row.toString());
             final ViewHolder orderHolder = new ViewHolder(row);
             return orderHolder;
+        }
+
+        private Order grabOrder() {
+            //code below for testing purposes only
+            SampleOrderFactory orderFactory = SampleOrderFactory.getInstance();
+            Order order = orderFactory.getSampleOrder();
+            return order;
+            //In reality, this should use the clicked orderid, and grab info from database to populate an Order object
         }
 
         @Override

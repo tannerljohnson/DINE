@@ -22,6 +22,7 @@ import edu.duke.compsci290.dukefoodapp.model.UserParent;
 import static edu.duke.compsci290.dukefoodapp.UserActivities.DayActivityAdapter.sTAG;
 
 public class DayActivity extends AppCompatActivity {
+    //this activity is used for the user to sign up for items on the specified day
     private TextView dateTextView;
     private RecyclerView rv;
     public IUser user;
