@@ -1,5 +1,6 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * For custom settings, @Override makeSettings method in user subclass
  */
 
-public abstract class UserParent implements IUser {
+public abstract class UserParent implements IUser, Serializable {
 
     protected ArrayList<String> mSettings;
     protected String id;
@@ -20,7 +21,7 @@ public abstract class UserParent implements IUser {
     protected String bio;
     protected int points;
     protected boolean eligibleForReward;
-    protected String pendingOrder;
+    protected List<String> pendingOrder;
     protected List<String> orderHistory;
 
     protected void makeSettings() {
@@ -65,11 +66,11 @@ public abstract class UserParent implements IUser {
 
     public void setBio(String bio) { this.bio = bio; }
 
-    public String getPendingOrder() {
+    public List<String> getPendingOrders() {
         return this.pendingOrder;
     }
 
-    public void setPendingOrder(String order) { pendingOrder = order; }
+    public void setPendingOrder(List<String> order) { pendingOrder = order; }
 
     public List<String> getOrderHistory() {
         return this.orderHistory;

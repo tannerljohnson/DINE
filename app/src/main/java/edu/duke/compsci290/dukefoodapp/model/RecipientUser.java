@@ -1,12 +1,16 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by tannerjohnson on 4/3/18.
  */
 
-public class RecipientUser extends UserParent implements IUser {
+
+public class RecipientUser extends UserParent {
+
 
 
     public RecipientUser() {
@@ -15,7 +19,7 @@ public class RecipientUser extends UserParent implements IUser {
 
 
     public RecipientUser(String id, String name, String type, String email, String bio,
-                       int points, boolean eligibleForReward, String pendingOrder,
+                       int points, boolean eligibleForReward, List<String> pendingOrder,
                        List<String> orderHistory) {
         makeSettings();
         this.id = id;

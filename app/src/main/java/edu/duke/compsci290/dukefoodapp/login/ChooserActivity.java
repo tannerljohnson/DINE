@@ -1,4 +1,4 @@
-package edu.duke.compsci290.dukefoodapp;
+package edu.duke.compsci290.dukefoodapp.login;
 
 /**
  * Copyright 2016 Google Inc. All Rights Reserved.
@@ -30,7 +30,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import edu.duke.compsci290.dukefoodapp.UserTypeActivities.UserActivity;
+import edu.duke.compsci290.dukefoodapp.R;
+import edu.duke.compsci290.dukefoodapp.UserActivities.UserActivity;
 
 public class ChooserActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 

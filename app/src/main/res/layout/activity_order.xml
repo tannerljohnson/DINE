@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@android:style/Theme.Dialog"
+    tools:context="edu.duke.compsci290.dukefoodapp.UserActivities.OrderActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/order_activity_order_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"/>
+
+        <LinearLayout
+            android:id="@+id/order_activity_image_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/order_activity_dining_textView"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/order_activity_student_textView"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/order_activity_recipient_textView"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:text="TextView" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

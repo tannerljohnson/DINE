@@ -1,8 +1,10 @@
-package edu.duke.compsci290.dukefoodapp.UserTypeActivities;
+package edu.duke.compsci290.dukefoodapp.UserActivities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +21,8 @@ import java.util.List;
 
 import edu.duke.compsci290.dukefoodapp.R;
 import edu.duke.compsci290.dukefoodapp.model.SampleUserFactory;
-import edu.duke.compsci290.dukefoodapp.model.StudentUser;
 import edu.duke.compsci290.dukefoodapp.model.UserMalformedException;
+import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
 public class UserActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     //create variables
@@ -33,13 +35,14 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
     private Button mCalendar;
     private ArrayList<String> mStatistics;
     private ArrayList<String> mSettings;
+    private UserParent user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         SampleUserFactory factory = SampleUserFactory.getInstance();
-        StudentUser user = factory.getSampleStudentUser();
+        user = factory.getSampleStudentUser();
 
 
         //initialize views
@@ -72,12 +75,44 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Set up ListView and Adapter
         ListView listView = findViewById(R.id.statisticslistview);
-
         MyArrayAdapter adapter = new MyArrayAdapter(this, android.R.layout.simple_list_item_1,mStatistics);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
 
+        //TODO:Make these work with the spinner and remove buttons
+        //set onclick for calendar
+        Button calendar = findViewById(R.id.calendar);
+        calendar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("tag1:", "clicked calendar");
+                toCalendar();
+            }
+        });
 
+        //set onclick for MyOrders
+        Button myOrders = findViewById(R.id.myorders);
+        myOrders.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("tag1:", "clicked calendar");
+                toMyOrders(user);
+            }
+        });
+
+
+    }
+
+    private void toMyOrders(UserParent user) {
+        Intent intent = new Intent(this, MyOrdersActivity.class);
+        intent.putExtra("type",user.getType());
+        intent.putExtra("user",user);
+        startActivity(intent);
+    }
+
+    public void toCalendar(){
+        Intent intent = new Intent(this, CalendarActivity.class);
+        intent.putExtra("type",user.getType());
+        intent.putExtra("user",user);
+        startActivity(intent);
     }
 
     @Override

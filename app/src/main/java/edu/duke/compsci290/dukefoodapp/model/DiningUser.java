@@ -1,19 +1,34 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by tannerjohnson on 4/10/18.
  */
 
-public class DiningUser extends UserParent implements IUser {
+
+public class DiningUser extends UserParent {
+
+    private ArrayList<String> mSettings;
+    private String id;
+    private String name;
+    private String type;
+    private String email;
+    private String bio;
+    private int points;
+    private boolean eligibleForReward;
+    private List<String> pendingOrders;
+    private List<String> orderHistory;
+
 
     public DiningUser() {
         makeSettings();
     }
 
     public DiningUser(String id, String name, String type, String email, String bio,
-                         int points, boolean eligibleForReward, String pendingOrder,
+                         int points, boolean eligibleForReward, List<String> pendingOrders,
                          List<String> orderHistory) {
         makeSettings();
         this.id = id;
@@ -23,7 +38,7 @@ public class DiningUser extends UserParent implements IUser {
         this.bio = bio;
         this.points = points;
         this.eligibleForReward = eligibleForReward;
-        this.pendingOrder = pendingOrder;
+        this.pendingOrders = pendingOrders;
         this.orderHistory = orderHistory;
     }
 }
