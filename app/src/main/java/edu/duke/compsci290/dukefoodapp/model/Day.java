@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 /**
  * Created by tevin on 4/11/2018.
+ *
+ * Query database for relevant orders for a specific date.
+ * Send this as parameter to DayActivityAdapter for recycler view in DayActivity
+ *
  */
 
 public class Day implements IDay {

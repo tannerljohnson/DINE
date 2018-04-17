@@ -36,30 +36,15 @@ public class SampleUserFactory {
         mStudentUser.setBio("this is my bio.");
         mStudentUser.setPoints(200);
         mStudentUser.setEligibleForReward(false);
-//        SampleOrderFactory factory = SampleOrderFactory.getInstance();
-//        mPendingOrder = factory.getSampleOrder();
-//
-//        mStudentUser.setPendingOrder(mPendingOrder);
-//        List<Order> history = new ArrayList<>();
-//        mStudentUser.setOrderHistory(history);
-        mStudentUser.setPendingOrder("oid_0");
+
+        List<String> pending = new ArrayList<>();
+        pending.add("oid_0");
+        mStudentUser.setPendingOrder(pending);
         List<String> history = new ArrayList<>();
         history.add("oid_1");
         history.add("oid_2");
         mStudentUser.setOrderHistory(history);
 
-        //will use a builder package to create a new package
-//        ArrayList<String> Statistics = new ArrayList<>();
-//        Statistics.add("Orders: 2");
-//        Statistics.add("Reward Eligibility: False");
-//        Statistics.add("Pending Order: Yes");
-//        Statistics.add("Points: 200");
-//        mStudentUser.setStatistics(Statistics);
-//        ArrayList<String> Settings = new ArrayList<>();
-//        Settings.add("My Account");
-//        Settings.add("My Orders");
-//        Settings.add("Calendar");
-//        mStudentUser.setSettings(Settings);
         constructRecipientUser();
     }
 
@@ -73,7 +58,9 @@ public class SampleUserFactory {
         mRecipientUser.setBio("hey y'all, how are ya?");
         mRecipientUser.setPoints(0);
         mRecipientUser.setEligibleForReward(false);
-        mRecipientUser.setPendingOrder("oid_0");
+        List<String> pending = new ArrayList<>();
+        pending.add("oid_0");
+        mRecipientUser.setPendingOrder(pending);
         List<String> history = new ArrayList<>();
         history.add("oid_0"); // not realistic to have pending in history, but only for testing.
         mRecipientUser.setOrderHistory(history);

@@ -10,10 +10,12 @@ import android.util.Size;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CalendarView;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.data.model.User;
 
@@ -29,14 +31,16 @@ public class CalendarActivity extends AppCompatActivity {
     private UserParent user;
     private String Tag = "CalendarActivity";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calendar);
-
+        // retrieve intent info
         //Grab Intent information
         Intent receivedIntent = this.getIntent();
-        user = (UserParent) receivedIntent.getSerializableExtra("user");
+        user = (UserParent)receivedIntent.getSerializableExtra("user");
+        setContentView(R.layout.activity_calendar);
+
 
 
         mCalendarView = (CalendarView) findViewById(R.id.calendarView);
@@ -61,6 +65,5 @@ public class CalendarActivity extends AppCompatActivity {
         });
 
     }
-
 
 }

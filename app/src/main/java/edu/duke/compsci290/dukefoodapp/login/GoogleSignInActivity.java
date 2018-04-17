@@ -1,4 +1,4 @@
-package edu.duke.compsci290.dukefoodapp;
+package edu.duke.compsci290.dukefoodapp.login;
 /**
  * Copyright 2016 Google Inc. All Rights Reserved.
  *
@@ -38,6 +38,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import edu.duke.compsci290.dukefoodapp.R;
 import edu.duke.compsci290.dukefoodapp.model.SampleUserFactory;
 import edu.duke.compsci290.dukefoodapp.model.StudentUser;
 

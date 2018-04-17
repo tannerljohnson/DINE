@@ -109,7 +109,10 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void toCalendar(){
-        startActivity(new Intent(this,CalendarActivity.class));
+        Intent intent = new Intent(this, CalendarActivity.class);
+        intent.putExtra("type",user.getType());
+        intent.putExtra("user",user);
+        startActivity(intent);
     }
 
     @Override

@@ -19,7 +19,7 @@ public class RecipientUser extends UserParent {
 
 
     public RecipientUser(String id, String name, String type, String email, String bio,
-                       int points, boolean eligibleForReward, String pendingOrder,
+                       int points, boolean eligibleForReward, List<String> pendingOrder,
                        List<String> orderHistory) {
         makeSettings();
         this.id = id;

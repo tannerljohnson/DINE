@@ -9,16 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChooserActivity">
+        <activity android:name=".login.ChooserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FirebaseUIActivity" />
-        <activity android:name=".EmailPasswordActivity" />
-        <activity android:name=".GoogleSignInActivity" />
+        <activity android:name=".login.FirebaseUIActivity" />
+        <activity android:name=".login.EmailPasswordActivity" />
+        <activity android:name=".login.GoogleSignInActivity" />
         <activity android:name=".UserActivities.UserActivity" />
         <activity android:name=".UserActivities.CalendarActivity" />
         <activity android:name=".UserActivities.DayActivity" />

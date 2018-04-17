@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 
-public class DiningUser extends UserParent{
+public class DiningUser extends UserParent {
 
     private ArrayList<String> mSettings;
     private String id;
@@ -19,7 +19,7 @@ public class DiningUser extends UserParent{
     private String bio;
     private int points;
     private boolean eligibleForReward;
-    private String pendingOrder;
+    private List<String> pendingOrders;
     private List<String> orderHistory;
 
 
@@ -28,7 +28,7 @@ public class DiningUser extends UserParent{
     }
 
     public DiningUser(String id, String name, String type, String email, String bio,
-                         int points, boolean eligibleForReward, String pendingOrder,
+                         int points, boolean eligibleForReward, List<String> pendingOrders,
                          List<String> orderHistory) {
         makeSettings();
         this.id = id;
@@ -38,7 +38,7 @@ public class DiningUser extends UserParent{
         this.bio = bio;
         this.points = points;
         this.eligibleForReward = eligibleForReward;
-        this.pendingOrder = pendingOrder;
+        this.pendingOrders = pendingOrders;
         this.orderHistory = orderHistory;
     }
 }
