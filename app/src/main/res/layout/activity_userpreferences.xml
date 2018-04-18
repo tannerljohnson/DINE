@@ -42,8 +42,8 @@
                 android:layout_marginLeft="16dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="User Name"
                 android:inputType="textPersonName"
-                android:text="User Name"
                 android:textSize="30sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 tools:layout_editor_absoluteY="31dp" />
@@ -124,8 +124,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="Phone number"
                 android:inputType="phone"
-                android:text="Phone number"
                 android:textSize="24sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 tools:layout_editor_absoluteY="173dp" />
@@ -152,8 +152,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="Bio"
                 android:inputType="textMultiLine"
-                android:text="Bio"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
 
