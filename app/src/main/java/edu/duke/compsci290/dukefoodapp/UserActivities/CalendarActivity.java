@@ -27,6 +27,7 @@ import edu.duke.compsci290.dukefoodapp.model.IUser;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
 public class CalendarActivity extends AppCompatActivity {
+    //This activity allows the user to decide what day to choose an order
     private CalendarView mCalendarView;
     private UserParent user;
     private String Tag = "CalendarActivity";
