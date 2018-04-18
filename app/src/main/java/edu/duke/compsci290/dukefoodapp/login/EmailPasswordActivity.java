@@ -18,6 +18,7 @@ package edu.duke.compsci290.dukefoodapp.login;
 
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -34,6 +35,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import edu.duke.compsci290.dukefoodapp.R;
+import edu.duke.compsci290.dukefoodapp.UserActivities.UserPreferencesActivity;
 
 public class EmailPasswordActivity extends BaseActivity implements
         View.OnClickListener {
@@ -98,7 +100,10 @@ public class EmailPasswordActivity extends BaseActivity implements
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+//                            updateUI(user);
+//                            intent = new Intent(GoogleSignInActivity.this, UserPreferencesActivity.class);
+//                            intent.putExtra("id", mUserId);
+//                            startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
