@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -35,12 +36,26 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.duke.compsci290.dukefoodapp.R;
+import edu.duke.compsci290.dukefoodapp.UserActivities.UserActivity;
+import edu.duke.compsci290.dukefoodapp.UserActivities.UserPreferencesActivity;
+import edu.duke.compsci290.dukefoodapp.model.DiningUser;
+import edu.duke.compsci290.dukefoodapp.model.IUser;
+import edu.duke.compsci290.dukefoodapp.model.RecipientUser;
 import edu.duke.compsci290.dukefoodapp.model.SampleUserFactory;
 import edu.duke.compsci290.dukefoodapp.model.StudentUser;
+import edu.duke.compsci290.dukefoodapp.model.UserMalformedException;
+import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
 /**
  * Demonstrate Firebase Authentication using a Google ID Token.
@@ -55,6 +70,7 @@ public class GoogleSignInActivity extends BaseActivity implements
     private FirebaseAuth mAuth;
     // [END declare_auth]
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private String mUserId;
 
     private GoogleSignInClient mGoogleSignInClient;
     private TextView mStatusTextView;
@@ -192,16 +208,24 @@ public class GoogleSignInActivity extends BaseActivity implements
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-            Log.d(TAG, "successfully signed in with Google account!\n Sending sample data to Realtime db...");
+//            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
+//            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+//
+//            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+//            Log.d(TAG, "successfully signed in with Google account!\n Sending sample data to Realtime db...");
+            // start UserPreferencesActivity
+            String userId = user.getUid();
+            mUserId = userId;
+            Log.d(TAG, "user has firebase auth id: " + userId);
+            verifyId(userId);
+            showProgressDialog();
+//            Intent intent = new Intent(GoogleSignInActivity.this, UserPreferencesActivity.class);
+//            startActivity(intent);
 
             // TODO: put this in User Preferences Activity (i.e., this is for testing purposes only!!
-            writeSampleData();
-            updateSampleData();
+//            writeSampleData();
+//            updateSampleData();
         } else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);
@@ -211,6 +235,56 @@ public class GoogleSignInActivity extends BaseActivity implements
         }
     }
 
+    private void verifyId(final String userId) {
+        Query query = mDatabase.child("users").orderByChild("id").equalTo(userId);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Intent intent;
+                if (dataSnapshot.exists()) {
+//                    String test = dataSnapshot.getValue(String.class);
+//                    Log.d(TAG, "verfied ID in db: " + test);
+                    Log.d(TAG, "snapshot does exist");
+                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                        // look up child("type") and create user based on that
+                        Map<String, Object> map = (HashMap<String, Object>)issue.getValue();
+                        String userType = map.get("type").toString();
+                        Log.d(TAG, "user's type is: " +userType);
+
+                        UserParent foundUser = null;
+
+                        if (userType.equals("student")) {
+                            foundUser = (StudentUser)issue.getValue(StudentUser.class);
+                        } else if (userType.equals("recipient")) {
+                            foundUser = (RecipientUser)issue.getValue(RecipientUser.class);
+                        } else if (userType.equals("admin")) {
+                            foundUser = (DiningUser)issue.getValue(DiningUser.class);
+                        } else {
+                            Log.d(TAG, "user does not have valid type field!");
+                        }
+                        Log.d(TAG, "verfied ID in db: " + foundUser.getId());
+                        // launch new activity as intent!
+                        intent = new Intent(GoogleSignInActivity.this, UserActivity.class);
+                        intent.putExtra("user", foundUser);
+                        startActivity(intent);
+                    }
+                } else { // does not exist
+                    Log.d(TAG, "snapshot does NOT exist");
+                    intent = new Intent(GoogleSignInActivity.this, UserPreferencesActivity.class);
+                    intent.putExtra("id", mUserId);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled", databaseError.toException());
+                Intent intent = new Intent(GoogleSignInActivity.this, UserPreferencesActivity.class);
+                intent.putExtra("id", mUserId);
+                startActivity(intent);
+            }
+        });
+    }
 
 
     @Override

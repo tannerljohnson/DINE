@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.data.model.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,7 @@ import edu.duke.compsci290.dukefoodapp.model.UserMalformedException;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
 public class UserActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+    private static final String TAG = "UserActivity";
     //create variables
     private ImageView mLogo;
     private TextView mUsertype;
@@ -40,6 +43,12 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // get id from sign in activity intent
+        Intent receivedIntent = this.getIntent();
+        user= (UserParent) receivedIntent.getSerializableExtra("user");
+        Log.d(TAG, "received user name: " + user.getName());
+
         setContentView(R.layout.activity_user);
         SampleUserFactory factory = SampleUserFactory.getInstance();
         user = factory.getSampleStudentUser();

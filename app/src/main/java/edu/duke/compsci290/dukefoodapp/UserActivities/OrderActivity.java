@@ -76,9 +76,11 @@ public class OrderActivity extends AppCompatActivity {
                 }
                 else{
                     //may or may not work. unsure
+
                     Uri gmmIntentUri = Uri.parse("google.navigation:q="+ mOrder.getDropoffLocation() +"&avoid=tf");
                     //will need the address from the order, q can be address
                     // conneted by +s (101+Main+Street,Durham+NC)
+
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                     mapIntent.setPackage("com.google.android.apps.maps");
                     if (mapIntent.resolveActivity(getPackageManager()) != null) {
