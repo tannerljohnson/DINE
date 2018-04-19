@@ -18,8 +18,9 @@ public class Order implements Serializable{
     private String diningId;
     private String studentId;
     private int status; // 0: pending student acceptance, 1: pending student delivery + recipient has accepted, 2: complete
-    private Location pickupLocation;
-    private Location dropoffLocation;
+    private String pickupLocation;
+    private String dropoffLocation;
+    private String allergens;
 
     public Order() {}
 
@@ -30,8 +31,9 @@ public class Order implements Serializable{
     public String getDiningId() { return this.diningId; }
     public String getStudentId() { return this.studentId; }
     public int getStatus() { return this.status; }
-    public Location getPickupLocation() { return this.pickupLocation; }
-    public Location getDropoffLocation() { return this.dropoffLocation; }
+    public String getPickupLocation() { return this.pickupLocation; }
+    public String getDropoffLocation() { return this.dropoffLocation; }
+    public String getAllergens() { return this.allergens; }
 
     public void setId(String id) { this.id = id; }
     public void setDatePosted(Timestamp datePosted) { this.datePosted = datePosted; }
@@ -40,7 +42,8 @@ public class Order implements Serializable{
     public void setDiningId(String diningId) { this.diningId = diningId; }
     public void setStudentId(String studentId) { this.studentId = studentId; }
     public void setStatus(int status) { this.status = status; }
-    public void setPickupLocation(Location pickupLocation) { this.pickupLocation = pickupLocation; }
-    public void setDropoffLocation(Location dropoffLocation) { this.dropoffLocation = dropoffLocation; }
+    public void setPickupLocation(String pickupLocation) { this.pickupLocation = pickupLocation; }
+    public void setDropoffLocation(String dropoffLocation) { this.dropoffLocation = dropoffLocation; }
+    public void setAllergens(String allergens) { this.allergens = allergens; }
 
 }

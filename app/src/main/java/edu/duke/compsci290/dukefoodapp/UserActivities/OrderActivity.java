@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import edu.duke.compsci290.dukefoodapp.R;
 import edu.duke.compsci290.dukefoodapp.model.Order;
@@ -24,6 +25,7 @@ public class OrderActivity extends AppCompatActivity {
     private TextView mRecipientAddress;
     private Order mOrder;
     private Button mButton;
+    private int mStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,21 +56,29 @@ public class OrderActivity extends AppCompatActivity {
         mRecipientName.setText(mOrder.getRecipientId());
         mDinningLocation.setText("");
         mRecipientAddress.setText("");
-        final int status = mOrder.getStatus();
+        mStatus = mOrder.getStatus();
+
         //arrows need to be dynamically assigned
-        mDiningImage.setBackgroundResource(R.drawable.redarrow);
-        mStudentImage.setBackgroundResource(R.drawable.yellowarrow);
-        mRecipientImage.setBackgroundResource(R.drawable.greenarrow);
+        if(mOrder.getDiningId() != null){mDiningImage.setBackgroundResource(R.drawable.redarrow);}
+        if(mOrder.getStudentId() != null){mStudentImage.setBackgroundResource(R.drawable.yellowarrow);}
+        if(mOrder.getRecipientId() != null){mRecipientImage.setBackgroundResource(R.drawable.greenarrow);}
+
+        //added for testing purposes only
+        //TODO: Remove the following when app integration
+        if(mOrder.getRecipientId() == null){mStatus = 0;}
+
         //set button onclick
         mButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                if (status == 0){
-                    //put toast here
+                if (mStatus == 0){
+                    Toast.makeText(OrderActivity.this, "Order Not Ready for Delivery", Toast.LENGTH_LONG).show();
                 }
                 else{
                     //may or may not work. unsure
-                    Uri gmmIntentUri = Uri.parse("google.navigation:q=geo:36.0014,-78.9382"); //address of duke; will need to make unique address
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q="+ mOrder.getDropoffLocation() +"&avoid=tf");
+                    //will need the address from the order, q can be address
+                    // conneted by +s (101+Main+Street,Durham+NC)
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                     mapIntent.setPackage("com.google.android.apps.maps");
                     if (mapIntent.resolveActivity(getPackageManager()) != null) {

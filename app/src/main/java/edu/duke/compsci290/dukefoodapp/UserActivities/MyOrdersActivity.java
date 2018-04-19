@@ -98,25 +98,24 @@ public class MyOrdersActivity extends AppCompatActivity {
             //create inflater and viewholder
             LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = mInflater.inflate(R.layout.order_layout, parent, false);
-            row.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(MyOrdersActivity.this,OrderActivity.class);
-                    Order order = grabOrder();
-                    intent.putExtra("order",order);
-                    startActivity(intent);
-                }
-            });
             Log.d("tag1", row.toString());
             final ViewHolder orderHolder = new ViewHolder(row);
             return orderHolder;
         }
 
-        private Order grabOrder() {
+        private Order grabOrder( int pos) {
             //code below for testing purposes only
+            //TODO: remove pos when done with testing phase
             SampleOrderFactory orderFactory = SampleOrderFactory.getInstance();
-            Order order = orderFactory.getSampleOrder();
-            return order;
+            if (pos == 0){
+                Order order = orderFactory.getSampleOrder();
+                return order;
+            }
+            else{
+                Order order = orderFactory.getIncompleteOrder();
+                return order;
+            }
+
             //In reality, this should use the clicked orderid, and grab info from database to populate an Order object
         }
 
@@ -133,6 +132,15 @@ public class MyOrdersActivity extends AppCompatActivity {
             holder.recipient.setText("Recipient");
             holder.recipient.setGravity(Gravity.CENTER);
             holder.orderid.setText(orderhistory.get(position));
+            holder.orderLL.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MyOrdersActivity.this,OrderActivity.class);
+                    Order order = grabOrder(position);
+                    intent.putExtra("order",order);
+                    startActivity(intent);
+                }
+            });
 
         }
 

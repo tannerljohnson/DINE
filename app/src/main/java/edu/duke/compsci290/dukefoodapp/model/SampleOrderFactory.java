@@ -40,14 +40,27 @@ public class SampleOrderFactory {
         mOrder.setStudentId("rqXb2oZizsQLy6mXM2lkCuHU7UH3");
         mOrder.setDiningId("lasndSPROUT12312");
         mOrder.setStatus(1);
-//        Location pickup = new Location("");//provider name is unnecessary
-//        pickup.setLatitude(0.0d);//your coords of course
-//        pickup.setLongitude(0.0d);
-//        Location dropoff = new Location("");
-//        dropoff.setLatitude(0.0d);
-//        dropoff.setLongitude(0.0d);
-//        mOrder.setPickupLocation(pickup);
-//        mOrder.setDropoffLocation(dropoff);
+        mOrder.setPickupLocation("1324+Campus+Dr,+Durham+NC+27705");
+        mOrder.setDropoffLocation("300+Swift+Ave,+Durham+NC+27705");
+        mOrder.setAllergens("Peanuts");
+
+    }
+
+    public Order getIncompleteOrder(){
+        mOrder = new Order();
+        mOrder.setId("1oiwh1092he");
+        Timestamp today = new Timestamp(System.currentTimeMillis());
+        mOrder.setDatePosted(today);
+        Timestamp tomorrow = new Timestamp(System.currentTimeMillis());
+        tomorrow.setDate(tomorrow.getDay()+1);
+        mOrder.setDateDelivered(tomorrow);
+        mOrder.setStudentId("rqXb2oZizsQLy6mXM2lkCuHU7UH3");
+        mOrder.setDiningId("lasndSPROUT12312");
+        mOrder.setStatus(1);
+        mOrder.setPickupLocation("1324+Campus+Dr,+Durham+NC+27705");
+        mOrder.setDropoffLocation("300+Swift+Ave,+Durham+NC+27705");
+        mOrder.setAllergens("Peanuts");
+        return mOrder;
     }
 
 
