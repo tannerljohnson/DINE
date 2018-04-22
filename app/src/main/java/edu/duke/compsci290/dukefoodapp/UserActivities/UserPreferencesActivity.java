@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.firebase.ui.auth.data.model.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import edu.duke.compsci290.dukefoodapp.R;
 import edu.duke.compsci290.dukefoodapp.model.IUser;
@@ -20,7 +24,9 @@ import edu.duke.compsci290.dukefoodapp.model.IUser;
 // name, email, number, type, bio
 
 public class UserPreferencesActivity extends AppCompatActivity {
+
     private static final String TAG = "UserPreferencesActivity";
+    public User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +41,20 @@ public class UserPreferencesActivity extends AppCompatActivity {
         Log.d(TAG, "received id: " + uId);
 
         setContentView(R.layout.activity_userpreferences);
-        DatabaseReference mDatabase;
-        mDatabase  = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mUser = dataSnapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
+
 
     }
 
