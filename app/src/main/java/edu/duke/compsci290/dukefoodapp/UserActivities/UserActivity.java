@@ -47,7 +47,9 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
         // get id from sign in activity intent
         Intent receivedIntent = this.getIntent();
         user= (UserParent) receivedIntent.getSerializableExtra("user");
-        Log.d(TAG, "received user name: " + user.getName());
+        if (user != null) {
+            Log.d(TAG, "received user name: " + user.getName());
+        }
 
         setContentView(R.layout.activity_user);
         SampleUserFactory factory = SampleUserFactory.getInstance();

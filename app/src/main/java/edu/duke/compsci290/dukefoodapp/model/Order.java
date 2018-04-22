@@ -15,12 +15,17 @@ public class Order implements Serializable{
     private Timestamp datePosted;
     private Timestamp dateDelivered;
     private String recipientId;
+    private String recipientName;
+    private String recipientPhone;
     private String diningId;
     private String studentId;
-    private int status; // 0: pending student acceptance, 1: pending student delivery + recipient has accepted, 2: complete
+    private String studentName;
+    private String studentPhone;
+    private int status; // 0: pending student acceptance, 1: pending student delivery + recipient has accepted, 2:student has reconfirmed, 3: ready, 4: complete
     private String pickupLocation;
     private String dropoffLocation;
     private String allergens;
+    private String studentConfirmation;
 
     public Order() {}
 
@@ -34,6 +39,11 @@ public class Order implements Serializable{
     public String getPickupLocation() { return this.pickupLocation; }
     public String getDropoffLocation() { return this.dropoffLocation; }
     public String getAllergens() { return this.allergens; }
+    public String getRecipientName() {return this.recipientName;}
+    public String getRecipientPhone() {return this.recipientPhone;}
+    public String getStudentName() {return studentName;}
+    public String getStudentPhone() {return studentPhone;}
+    public String getStudentConfirmation() {return studentConfirmation;}
 
     public void setId(String id) { this.id = id; }
     public void setDatePosted(Timestamp datePosted) { this.datePosted = datePosted; }
@@ -45,5 +55,10 @@ public class Order implements Serializable{
     public void setPickupLocation(String pickupLocation) { this.pickupLocation = pickupLocation; }
     public void setDropoffLocation(String dropoffLocation) { this.dropoffLocation = dropoffLocation; }
     public void setAllergens(String allergens) { this.allergens = allergens; }
+    public void setRecipientName(String recipientName) {this.recipientName = recipientName;}
+    public void setRecipientPhone(String recipientPhone) {this.recipientPhone = recipientPhone;}
+    public void setStudentName(String studentName) {this.studentName = studentName;}
+    public void setStudentPhone(String studentPhone) {this.studentPhone = studentPhone;}
+    public void setStudentConfirmation(String studentConfirmation) {this.studentConfirmation = studentConfirmation;}
 
 }

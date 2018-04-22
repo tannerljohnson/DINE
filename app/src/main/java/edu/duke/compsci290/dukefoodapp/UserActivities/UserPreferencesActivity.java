@@ -37,6 +37,7 @@ public class UserPreferencesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_userpreferences);
         DatabaseReference mDatabase;
         mDatabase  = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("users").setValue(uId,null);
 
     }
 

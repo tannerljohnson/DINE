@@ -107,14 +107,14 @@ public class MyOrdersActivity extends AppCompatActivity {
             //code below for testing purposes only
             //TODO: remove pos when done with testing phase
             SampleOrderFactory orderFactory = SampleOrderFactory.getInstance();
-            if (pos == 0){
+//            if (pos == 0){
                 Order order = orderFactory.getSampleOrder();
                 return order;
-            }
-            else{
-                Order order = orderFactory.getIncompleteOrder();
-                return order;
-            }
+//            }
+//            else{
+//                Order order = orderFactory.getIncompleteOrder();
+//            return order;
+//            }
 
             //In reality, this should use the clicked orderid, and grab info from database to populate an Order object
         }
@@ -138,6 +138,7 @@ public class MyOrdersActivity extends AppCompatActivity {
                     Intent intent = new Intent(MyOrdersActivity.this,OrderActivity.class);
                     Order order = grabOrder(position);
                     intent.putExtra("order",order);
+                    intent.putExtra("type",user.getType());
                     startActivity(intent);
                 }
             });
