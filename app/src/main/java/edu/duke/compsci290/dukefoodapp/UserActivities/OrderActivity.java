@@ -68,7 +68,7 @@ public class OrderActivity extends AppCompatActivity {
                 }
                 else{
                     //may or may not work. unsure
-                    Uri gmmIntentUri = Uri.parse("google.navigation:q=geo:36.0014,-78.9382"); //address of duke; will need to make unique address
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q=36.0014,-78.9382"); //address of duke; will need to make unique address
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                     mapIntent.setPackage("com.google.android.apps.maps");
                     if (mapIntent.resolveActivity(getPackageManager()) != null) {
