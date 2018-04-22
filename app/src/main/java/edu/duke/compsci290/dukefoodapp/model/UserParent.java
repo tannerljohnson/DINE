@@ -18,6 +18,7 @@ public abstract class UserParent implements IUser, Serializable {
     protected String name;
     protected String type;
     protected String email;
+    protected String phone;
     protected String bio;
     protected int points;
     protected boolean eligibleForReward;
@@ -35,6 +36,10 @@ public abstract class UserParent implements IUser, Serializable {
     public String getId() { return this.id; }
 
     public void setId(String id) { this.id = id; }
+
+    public String getPhone() { return this. phone; }
+
+    public void setPhone(String phone) { this.phone = phone; }
 
     public String getName() {
         return this.name;
