@@ -31,6 +31,7 @@
             <TextView
                 android:id="@+id/userNamePrompt"
                 android:layout_width="183dp"
+                android:layout_marginLeft="16dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="User Name" />
@@ -40,6 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="User Name"
@@ -57,11 +59,22 @@
 
             <TextView
                 android:id="@+id/userTypePrompt"
-                android:layout_width="89dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:layout_weight="1"
                 android:text="User Type" />
 
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:layout_marginTop="16dp"
+                android:inputType="textPersonName"
+                android:text="Recipient, Student, or Dining" />
+
+            <!--
             <TextView
                 android:id="@+id/userType"
                 android:layout_width="272dp"
@@ -73,6 +86,7 @@
                 android:textSize="24sp"
                 tools:layout_editor_absoluteX="272dp"
                 tools:layout_editor_absoluteY="43dp" />
+                -->
 
         </LinearLayout>
 
@@ -83,11 +97,22 @@
 
             <TextView
                 android:id="@+id/userEmailPrompt"
-                android:layout_width="183dp"
+                android:layout_width="48dp"
+                android:layout_marginLeft="16dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Email" />
 
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:layout_marginTop="16dp"
+                android:inputType="textEmailAddress"
+                android:hint="Your email" />
+
+            <!--
             <TextView
                 android:id="@+id/userEmail"
                 android:layout_width="match_parent"
@@ -101,6 +126,7 @@
                 android:textSize="24sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 tools:layout_editor_absoluteY="103dp" />
+                -->
 
         </LinearLayout>
 
@@ -112,7 +138,8 @@
             <TextView
                 android:id="@+id/phoneNumberPrompt"
                 android:layout_width="183dp"
-                android:layout_height="wrap_content"
+                android:layout_height="23dp"
+                android:layout_marginLeft="16dp"
                 android:layout_weight="1"
                 android:text="Phone number" />
 
@@ -124,7 +151,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Phone number"
+                android:hint="Your phone number"
                 android:inputType="phone"
                 android:textSize="24sp"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -140,6 +167,7 @@
             <TextView
                 android:id="@+id/userBioPrompt"
                 android:layout_width="183dp"
+                android:layout_marginLeft="16dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Bio" />
@@ -152,7 +180,6 @@
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Bio"
                 android:inputType="textMultiLine"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
