@@ -13,7 +13,7 @@ import java.util.List;
 
 public abstract class UserParent implements IUser, Serializable {
 
-    protected ArrayList<String> mSettings;
+    protected ArrayList<String> settings;
     protected String id;
     protected String name;
     protected String type;
@@ -26,10 +26,10 @@ public abstract class UserParent implements IUser, Serializable {
     protected List<String> orderHistory;
 
     protected void makeSettings() {
-        mSettings = new ArrayList<>();
-        mSettings.add("My Account");
-        mSettings.add("My Orders");
-        mSettings.add("Calendar");
+        settings = new ArrayList<>();
+        settings.add("My Account");
+        settings.add("My Orders");
+        settings.add("Calendar");
     }
 
     // getters and setters -- must be in accordance with Realtime Database data structure
@@ -103,5 +103,5 @@ public abstract class UserParent implements IUser, Serializable {
         return stats.getAllStats();
     }
 
-    public ArrayList<String> getSettings() { return this.mSettings; }
+    public ArrayList<String> getSettings() { return this.settings; }
 }

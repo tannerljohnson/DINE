@@ -118,10 +118,13 @@ public class UserPreferencesActivity extends AppCompatActivity {
             String userType = mSpinner.getSelectedItem().toString();
             if (userType.equals("student")) {
                 newUser = new StudentUser();
+                newUser.setType("student");
             } else if (userType.equals("recipient")) {
                 newUser = new RecipientUser();
+                newUser.setType("recipient");
             } else  {
                 newUser = new DiningUser();
+                newUser.setType("admin");
             }
 
             newUser.setId(uId);
@@ -133,11 +136,15 @@ public class UserPreferencesActivity extends AppCompatActivity {
             newUser.setEligibleForReward(false);
             newUser.setPoints(0);
             Toast.makeText(this, "Creating User and sending as intent", Toast.LENGTH_SHORT).show();
-
+            writeToFirebase(newUser);
             Intent intent = new Intent(UserPreferencesActivity.this, UserActivity.class);
             intent.putExtra("user", newUser);
             startActivity(intent);
         }
+    }
+
+    private void writeToFirebase(UserParent newUser) {
+        mDatabase.child("users").child(newUser.getId()).setValue(newUser);
     }
 
     private boolean validateForm() {
