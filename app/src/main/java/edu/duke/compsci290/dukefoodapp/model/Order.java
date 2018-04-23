@@ -18,6 +18,7 @@ public class Order implements Serializable{
     private String recipientName;
     private String recipientPhone;
     private String diningId;
+    private String diningName;
     private String studentId;
     private String studentName;
     private String studentPhone;
@@ -25,7 +26,6 @@ public class Order implements Serializable{
     private String pickupLocation;
     private String dropoffLocation;
     private String allergens;
-    private String studentConfirmation;
 
     public Order() {}
 
@@ -43,7 +43,7 @@ public class Order implements Serializable{
     public String getRecipientPhone() {return this.recipientPhone;}
     public String getStudentName() {return studentName;}
     public String getStudentPhone() {return studentPhone;}
-    public String getStudentConfirmation() {return studentConfirmation;}
+    public String getDiningName() {return this.diningName;}
 
     public void setId(String id) { this.id = id; }
     public void setDatePosted(Timestamp datePosted) { this.datePosted = datePosted; }
@@ -59,6 +59,6 @@ public class Order implements Serializable{
     public void setRecipientPhone(String recipientPhone) {this.recipientPhone = recipientPhone;}
     public void setStudentName(String studentName) {this.studentName = studentName;}
     public void setStudentPhone(String studentPhone) {this.studentPhone = studentPhone;}
-    public void setStudentConfirmation(String studentConfirmation) {this.studentConfirmation = studentConfirmation;}
+    public void setDiningName(String diningName) {this.diningName = diningName;}
 
 }

@@ -47,6 +47,7 @@ public class SampleOrderFactory {
         mOrder.setStudentPhone("9998887777");
         mOrder.setRecipientName("Toni Montana");
         mOrder.setRecipientPhone("1112223333");
+        mOrder.setDiningName("Marketplace");
 
     }
 

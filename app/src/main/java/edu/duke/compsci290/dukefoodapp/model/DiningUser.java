@@ -11,34 +11,24 @@ import java.util.List;
 
 public class DiningUser extends UserParent {
 
-    private ArrayList<String> mSettings;
-    private String id;
-    private String name;
-    private String type;
-    private String email;
-    private String bio;
-    private int points;
-    private boolean eligibleForReward;
-    private List<String> pendingOrders;
-    private List<String> orderHistory;
-
 
     public DiningUser() {
         makeSettings();
     }
 
-    public DiningUser(String id, String name, String type, String email, String bio,
+    public DiningUser(String id, String name, String type, String email, String phone, String bio,
                          int points, boolean eligibleForReward, List<String> pendingOrders,
                          List<String> orderHistory) {
         makeSettings();
         this.id = id;
         this.name = name;
         this.type = type;
+        this.phone = phone;
         this.email = email;
         this.bio = bio;
         this.points = points;
         this.eligibleForReward = eligibleForReward;
-        this.pendingOrders = pendingOrders;
+        this.pendingOrder = pendingOrders;
         this.orderHistory = orderHistory;
     }
 }

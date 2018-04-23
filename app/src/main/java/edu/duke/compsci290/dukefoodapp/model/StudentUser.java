@@ -18,12 +18,13 @@ public class StudentUser extends UserParent {
     }
 
 
-    public StudentUser(String id, String name, String type, String email, String bio,
+    public StudentUser(String id, String name, String type, String email, String phone, String bio,
                 int points, boolean eligibleForReward, List<String> pendingOrder,
                 List<String> orderHistory) {
         makeSettings();
         this.id = id;
         this.name = name;
+        this.phone = phone;
         this.type = type;
         this.email = email;
         this.bio = bio;

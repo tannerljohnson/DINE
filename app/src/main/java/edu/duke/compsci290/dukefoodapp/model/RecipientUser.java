@@ -18,13 +18,14 @@ public class RecipientUser extends UserParent {
     }
 
 
-    public RecipientUser(String id, String name, String type, String email, String bio,
+    public RecipientUser(String id, String name, String type, String email, String phone, String bio,
                        int points, boolean eligibleForReward, List<String> pendingOrder,
                        List<String> orderHistory) {
         makeSettings();
         this.id = id;
         this.name = name;
         this.type = type;
+        this.phone = phone;
         this.email = email;
         this.bio = bio;
         this.points = points;

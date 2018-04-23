@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -42,8 +43,9 @@
                 android:layout_marginLeft="16dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="User Name"
                 android:inputType="textPersonName"
-                android:text="User Name"
+                android:selectAllOnFocus="false"
                 android:textSize="30sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 tools:layout_editor_absoluteY="31dp" />
@@ -62,17 +64,23 @@
                 android:layout_weight="1"
                 android:text="User Type" />
 
-            <TextView
-                android:id="@+id/userType"
-                android:layout_width="272dp"
+            <!--<TextView-->
+            <!--android:id="@+id/userType"-->
+            <!--android:layout_width="272dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="User Type"-->
+            <!--android:textSize="24sp"-->
+            <!--tools:layout_editor_absoluteX="272dp"-->
+            <!--tools:layout_editor_absoluteY="43dp" />-->
+            <Spinner
+                android:id="@+id/userTypeSpinner"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_weight="1"
-                android:text="User Type"
-                android:textSize="24sp"
-                tools:layout_editor_absoluteX="272dp"
-                tools:layout_editor_absoluteY="43dp" />
+                android:layout_gravity="right"
+                android:text="Settings" />
 
         </LinearLayout>
 
@@ -124,8 +132,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="Phone number"
                 android:inputType="phone"
-                android:text="Phone number"
                 android:textSize="24sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 tools:layout_editor_absoluteY="173dp" />
@@ -152,11 +160,25 @@
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="Bio"
                 android:inputType="textMultiLine"
-                android:text="Bio"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
 
         </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/userPrefsSubmitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="17dp"
+        android:layout_marginEnd="148dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="155dp"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 </android.support.constraint.ConstraintLayout>
