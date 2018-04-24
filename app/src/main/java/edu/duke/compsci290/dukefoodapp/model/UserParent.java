@@ -22,7 +22,7 @@ public abstract class UserParent implements IUser, Serializable {
     protected String bio;
     protected int points;
     protected boolean eligibleForReward;
-    protected List<String> pendingOrder;
+    protected List<String> pendingOrders;
     protected List<String> orderHistory;
 
     protected void makeSettings() {
@@ -72,10 +72,10 @@ public abstract class UserParent implements IUser, Serializable {
     public void setBio(String bio) { this.bio = bio; }
 
     public List<String> getPendingOrders() {
-        return this.pendingOrder;
+        return this.pendingOrders;
     }
 
-    public void setPendingOrder(List<String> order) { pendingOrder = order; }
+    public void setPendingOrders(List<String> order) { pendingOrders = order; }
 
     public List<String> getOrderHistory() {
         return this.orderHistory;

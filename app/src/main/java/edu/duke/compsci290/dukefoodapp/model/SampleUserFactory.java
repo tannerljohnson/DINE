@@ -39,7 +39,7 @@ public class SampleUserFactory {
 
         List<String> pending = new ArrayList<>();
         pending.add("oid_0");
-        mStudentUser.setPendingOrder(pending);
+        mStudentUser.setPendingOrders(pending);
         List<String> history = new ArrayList<>();
         history.add("oid_1");
         history.add("oid_2");
@@ -60,7 +60,7 @@ public class SampleUserFactory {
         mRecipientUser.setEligibleForReward(false);
         List<String> pending = new ArrayList<>();
         pending.add("oid_0");
-        mRecipientUser.setPendingOrder(pending);
+        mRecipientUser.setPendingOrders(pending);
         List<String> history = new ArrayList<>();
         history.add("oid_0"); // not realistic to have pending in history, but only for testing.
         mRecipientUser.setOrderHistory(history);
