@@ -9,8 +9,6 @@ import java.util.List;
 
 public class RecipientUser extends UserParent {
 
-    private int familySize;
-
 
     public RecipientUser() {
         makeSettings();
@@ -32,12 +30,12 @@ public class RecipientUser extends UserParent {
         this.orderHistory = orderHistory;
     }
 
-    public void setFamilySize(int famSize) {
-        this.familySize = famSize;
-    }
-
-    public int getFamilySize() {
-        return this.familySize;
-    }
+//    public void setFamilySize(int famSize) {
+//        this.familySize = famSize;
+//    }
+//
+//    public int getFamilySize() {
+//        return this.familySize;
+//    }
 
 }

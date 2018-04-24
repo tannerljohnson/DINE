@@ -150,6 +150,7 @@ public class UserPreferencesActivity extends AppCompatActivity {
             } else if (userType.equals("recipient")) {
                 newUser = new RecipientUser();
                 newUser.setType("recipient");
+                newUser.setFamilySize(Integer.parseInt(mFamilySize));
             } else  {
                 newUser = new DiningUser();
                 newUser.setType("admin");

@@ -24,6 +24,7 @@ public abstract class UserParent implements IUser, Serializable {
     protected boolean eligibleForReward;
     protected List<String> pendingOrders;
     protected List<String> orderHistory;
+    protected int familySize;
 
     protected void makeSettings() {
         settings = new ArrayList<>();
@@ -104,4 +105,12 @@ public abstract class UserParent implements IUser, Serializable {
     }
 
     public ArrayList<String> getSettings() { return this.settings; }
+
+    public void setFamilySize(int size) {
+        this.familySize = size;
+    }
+
+    public int getFamilySize() {
+        return this.familySize;
+    }
 }
