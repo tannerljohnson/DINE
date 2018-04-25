@@ -1,6 +1,7 @@
 package edu.duke.compsci290.dukefoodapp.UserActivities;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -25,92 +26,71 @@ import edu.duke.compsci290.dukefoodapp.model.Order;
 public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.ViewHolder> {
 
     public Context mContext;
-    public IDay mDay;
-    public String mUserId;
-    public List<Order> mOrders;
-    public List<String> mOrderIds;
-    public static SparseBooleanArray mCheckedArray;
-
+    public String mUserType;
+    public ArrayList<Order> mOrders;
     public static final String sTAG = "DayActivityAdapter";
 
     // constructor
-    public DayActivityAdapter(final Context context, IDay day, String uId) {
+    public DayActivityAdapter(final Context context, ArrayList<Order> orders, String type) {
         this.mContext = context;
-        this.mDay = day;
-        this.mUserId = uId;
-        this.mCheckedArray = new SparseBooleanArray();
-        this.mOrderIds = new ArrayList<>();
-        this.mOrders = new ArrayList<>();
-        mOrders.addAll(day.getOrders());
-        for (Order o : mOrders) {
-            mOrderIds.add(o.getId());
-        }
+        this.mOrders = orders;
+        this.mUserType = type;
         Log.d(sTAG, "setting up DayActivityAdapter");
     }
 
     @Override
     public int getItemCount() {
-        return mDay.getOrders().size();
+        return mOrders.size();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+        Log.d(sTAG, "ocCreateViewHolder");
         LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = mInflater.inflate(R.layout.activity_day_order_holder, parent, false);
-
         final ViewHolder orderHolder = new ViewHolder(row);
-
-        // onclick listener for selecting orders
-        orderHolder.mStatusWidget.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // set quiz not complete if clicked
-                int position = orderHolder.getAdapterPosition();
-                // true if user is changing from unchecked to checked, else false
-                boolean checked = ((CheckBox) view).isChecked();
-                manualSetStatus(position, checked);
-                Log.d(sTAG, "clicked complete widget for order: " + mOrderIds.get(position));
-
-            }
-        });
-
         return orderHolder;
     }
 
-    // user manually sets order status
-    private void manualSetStatus(int position, boolean markingAsComplete) {
-        // overrides in progress and incomplete
-        if (markingAsComplete) {
-            // give Order status the User's id
-            mOrders.get(position).setStudentId(mUserId);
-            mCheckedArray.put(position, true);
-        } else {
-            // clean slate
-            mOrders.get(position).setStudentId(null);
-            mCheckedArray.put(position, false);
-            assert mOrders.get(position).getStudentId() == null;
-        }
-        Log.d(sTAG, mOrderIds.get(position) + " has student owner: " + mOrders.get(position).getStudentId());
-        // Database.writeToDb(mOrders);
-        // TODO: invoke database writes when user confirms selected orders
-    }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mOrderName.setText(mOrderIds.get(position));
-        holder.mStatusWidget.setChecked(false);
+        final Order order = mOrders.get(position);
+        holder.mOrderName.setText(order.getId());
+        //create colors for layout background
+        // onclick listener for selecting orders
+        holder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mUserType == "recipient"){
+                    if (order.getRecipientId() != null){
+                        //toast
+
+                    }
+                    else{
+                        // open dialogue for the user
+                    }
+                }
+                if(mUserType.equals("student")){
+                    if (order.getStudentId() != null){
+                        //toast
+
+                    }
+                    else{
+                        // open dialogue for the user
+                    }
+                }
+            }
+        });
     }
 
 
     class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mOrderName;
-        public CheckBox mStatusWidget;
         public LinearLayout mLinearLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            this.mStatusWidget = itemView.findViewById(R.id.order_status_token_image);
             this.mOrderName = itemView.findViewById(R.id.tv_order_name);
             this.mLinearLayout = itemView.findViewById(R.id.order_holder_linear_layout);
         }

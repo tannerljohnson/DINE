@@ -35,7 +35,7 @@ public class OrderActivity extends AppCompatActivity {
 
         // grab intent
         Intent receivedIntent = this.getIntent();
-        mOrder = (Order) receivedIntent.getSerializableExtra("order");
+        mOrder = (Order) receivedIntent.getParcelableExtra("order");
         mType = receivedIntent.getStringExtra("type");
         mStatus = mOrder.getStatus();
 

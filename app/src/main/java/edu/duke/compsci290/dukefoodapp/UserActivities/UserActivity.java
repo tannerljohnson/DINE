@@ -54,8 +54,8 @@ public class UserActivity extends AppCompatActivity{
 
 
         setContentView(R.layout.activity_user);
-        SampleUserFactory factory = SampleUserFactory.getInstance();
-        user = factory.getSampleStudentUser();
+//        SampleUserFactory factory = SampleUserFactory.getInstance();
+//        user = factory.getSampleStudentUser();
 
 
         //initialize views

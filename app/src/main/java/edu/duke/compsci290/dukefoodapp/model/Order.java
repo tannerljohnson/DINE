@@ -1,6 +1,8 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -9,7 +11,7 @@ import java.sql.Timestamp;
  * Created by tannerjohnson on 4/6/18.
  */
 
-public class Order implements Serializable{
+public class Order implements Parcelable{
 
     private String id;
     private Timestamp datePosted;
@@ -26,6 +28,9 @@ public class Order implements Serializable{
     private String pickupLocation;
     private String dropoffLocation;
     private String allergens;
+    private String date;
+    private String pickupTime;
+    private String deliveryTime;
 
     public Order() {}
 
@@ -44,6 +49,9 @@ public class Order implements Serializable{
     public String getStudentName() {return studentName;}
     public String getStudentPhone() {return studentPhone;}
     public String getDiningName() {return this.diningName;}
+    public String getDate() {return this.date;}
+    public String getPickupTime() {return this.pickupTime;}
+    public String getDeliveryTime() {return this.deliveryTime;}
 
     public void setId(String id) { this.id = id; }
     public void setDatePosted(Timestamp datePosted) { this.datePosted = datePosted; }
@@ -60,5 +68,69 @@ public class Order implements Serializable{
     public void setStudentName(String studentName) {this.studentName = studentName;}
     public void setStudentPhone(String studentPhone) {this.studentPhone = studentPhone;}
     public void setDiningName(String diningName) {this.diningName = diningName;}
+    public void setDate(String date) {this.date = date;}
+    public void setPickupTime(String pickupTime) {this.pickupTime = pickupTime;}
+    public void setDeliveryTime(String deliveryTime) {this.deliveryTime = deliveryTime;}
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+
+    @Override
+    public void writeToParcel(Parcel out, int i) {
+        out.writeString(id);
+        out.writeString(recipientId);
+        out.writeString(recipientName);
+        out.writeString(recipientPhone);
+        out.writeString(diningId);
+        out.writeString(diningName);
+        out.writeString(studentId);
+        out.writeString(studentName);
+        out.writeString(studentPhone);
+        out.writeInt(status);
+        out.writeString(pickupLocation);
+        out.writeString(dropoffLocation);
+        out.writeString(allergens);
+        out.writeString(date);
+        out.writeString(pickupTime);
+        out.writeString(deliveryTime);
+    }
+
+    private Order(Parcel in){
+        id = in.readString();
+        recipientId = in.readString();
+        recipientName = in.readString();
+        recipientPhone = in.readString();
+        diningId = in.readString();
+        diningName = in.readString();
+        studentId = in.readString();
+        studentName = in.readString();
+        studentPhone = in.readString();
+        status = in.readInt();
+        pickupLocation = in.readString();
+        dropoffLocation = in.readString();
+        allergens = in.readString();
+        date = in.readString();
+        pickupTime = in.readString();
+        deliveryTime = in.readString();
+    }
+
+    public static final Parcelable.Creator<Order> CREATOR
+            = new Parcelable.Creator<Order>() {
+
+        // This simply calls our new constructor (typically private) and
+        // passes along the unmarshalled `Parcel`, and then returns the new object!
+        @Override
+        public Order createFromParcel(Parcel in) {
+            return new Order(in);
+        }
+
+        // We just need to copy this and change the type to match our class.
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
 }

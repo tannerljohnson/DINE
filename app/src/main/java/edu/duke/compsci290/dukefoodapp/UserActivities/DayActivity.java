@@ -1,21 +1,44 @@
 package edu.duke.compsci290.dukefoodapp.UserActivities;
 
 import android.content.Intent;
+import android.nfc.Tag;
+import android.os.AsyncTask;
+import android.os.Parcelable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import edu.duke.compsci290.dukefoodapp.Database.IOnDatabaseRead;
+import edu.duke.compsci290.dukefoodapp.Database.OrderDB;
 import edu.duke.compsci290.dukefoodapp.R;
 import edu.duke.compsci290.dukefoodapp.model.IDay;
 import edu.duke.compsci290.dukefoodapp.model.IUser;
+import edu.duke.compsci290.dukefoodapp.model.Order;
 import edu.duke.compsci290.dukefoodapp.model.SampleDayFactory;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
@@ -25,62 +48,96 @@ public class DayActivity extends AppCompatActivity {
     //this activity is used for the user to sign up for items on the specified day
     private TextView dateTextView;
     private RecyclerView rv;
-    public IUser user;
-    public List<String> orderHistory;
+    public UserParent user;
+    public ArrayList<Order> orderHistory;
     public String date;
-
+    private LinearLayout dynamicLL;
+    private OrderDB oDB;
     public static final String mTAG = "DAY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //Grab Intent information passed from CalendarActivity
-        Intent receivedIntent = this.getIntent();
-        user = (IUser)receivedIntent.getSerializableExtra("user");
-        date = receivedIntent.getStringExtra("date");
-
-        // check some intent data
-        Log.d("tag1", user.getName().toString() + " requests data for date: " + date);
-
-        // TODO: retrieve user's ID to send to rv adapter (controller that will write to db) -- pass as intent from CalendarActivity
-        // TODO: for now, we use a simple string
-//        String mUserId = "sampleUserId1234";
-        String mUserId = user.getId();
-        Log.d(mTAG, "userId is: " + mUserId + " of type: " + user.getType());
-
         setContentView(R.layout.activity_day);
+        //Grab Intent information passed from CalendarActivity
+        final Intent receivedIntent = this.getIntent();
+        user = (UserParent) receivedIntent.getSerializableExtra("user");
+        date = receivedIntent.getStringExtra("date");
+        Log.d(mTAG,date);
 
-        // TODO: QUERY db for Day instead of using Factory ... actually build Day in Adapter instead
-        // TODO: just use here for testing, but you really want to send DayActivityAapter(this, date, mUserId) and build Day obj in Adapter
-        SampleDayFactory factory = SampleDayFactory.getInstance();
-        IDay day = factory.getDay();
 
         //grab views
         dateTextView = findViewById(R.id.day_textview);
-        rv = findViewById(R.id.day_recyclerview);
-
-        // set textview
-        dateTextView.setText(day.getDate());
-
-        Log.d(mTAG, "setting up rv in DayActivity...");
-        // set up recycler view
-
-        // pass this boolean array to keep track of checked items
-
-        rv.setAdapter(new DayActivityAdapter(this, day, mUserId));
-        rv.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-
-    public void submitSelectedOrders(View view) {
-        for (int i=0; i<DayActivityAdapter.mCheckedArray.size(); i++) {
-            if (DayActivityAdapter.mCheckedArray.get(i) == true) {
-                // hit (i.e. something is checked)
-                Toast.makeText(DayActivity.this, "sending this order to the database!", Toast.LENGTH_SHORT).show();
-                return;
+        dateTextView.setText(date);
+        oDB = OrderDB.getInstance();
+        oDB.setCustomEventListener(new IOnDatabaseRead() {
+            @Override
+            public void onEvent() {
+                orderHistory = oDB.getOrdersByDate();
+                Log.d(mTAG,"# of orders: " + Integer.toString(orderHistory.size()));
+                rv = findViewById(R.id.day_recyclerview);
+                rv.setAdapter(new DayActivityAdapter(DayActivity.this,orderHistory,user.getType()));
+                rv.setLayoutManager(new LinearLayoutManager(DayActivity.this));
             }
+        });
+        oDB.setOrdersByDate(date);
+
+
+
+
+
+        //TODO: Make the Dialogues for each user type
+        dynamicLL = findViewById(R.id.day_activity_dynamic_ll);
+        Button button = new Button(this);
+        if(user.getType().equals("admin")){
+            button.setText("New Order");
+            button.setTextSize(5);
+            button.setGravity(Gravity.RIGHT);
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // creates a dialogue
+                    final Order order = new Order();
+                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(DayActivity.this);
+                    View mView = getLayoutInflater().inflate(R.layout.create_order,null);
+                    Button submit = mView.findViewById(R.id.button_create_order);
+                    final EditText diningName = mView.findViewById(R.id.create_order_input_location);
+                    final EditText allergens = mView.findViewById(R.id.create_order_input_allergens);
+                    final EditText pickup = mView.findViewById(R.id.create_order_input_pickuptime);
+                    mBuilder.setView(mView);
+                    final AlertDialog dialog = mBuilder.create();
+                    dialog.show();
+                    submit.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            // submits the info
+                            order.setDiningName(diningName.getText().toString());
+                            order.setAllergens(allergens.getText().toString());
+                            order.setPickupTime(pickup.getText().toString());
+                            order.setDate(date);
+                            //create unique order id
+                            String id = UUID.randomUUID().toString();
+                            order.setId(id);
+                            oDB.setObject(order);
+                            oDB.writeToDatabase();
+                            //toast order sumbitted
+                            Log.d(mTAG,"order submitted");
+                            dialog.dismiss();
+                            Intent intent = new Intent(DayActivity.this, DayActivity.class);
+                            intent.putExtra("user" ,user);
+                            intent.putExtra("date", date);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                }
+            });
+            dynamicLL.addView(button);
         }
-        Toast.makeText(this, "please choose an answer(s)", Toast.LENGTH_SHORT).show();
-    }
+
+
+
+
+}
+
+
+
 }
