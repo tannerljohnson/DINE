@@ -25,6 +25,8 @@ public abstract class UserParent implements IUser, Serializable {
     protected List<String> pendingOrders;
     protected List<String> orderHistory;
     protected int familySize;
+    // admin (pickup) and recipient (dropoff) must have address
+    protected String address;
 
     protected void makeSettings() {
         settings = new ArrayList<>();
@@ -112,5 +114,13 @@ public abstract class UserParent implements IUser, Serializable {
 
     public int getFamilySize() {
         return this.familySize;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return this.address;
     }
 }

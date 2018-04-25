@@ -48,9 +48,13 @@ public class UserPreferencesActivity extends AppCompatActivity {
     private String mUserPhone;
     private String mFamilySize;
     private String userType;
+    private String mAddress;
+    private int mAddressLength;
 
     private TextView mFamilySizeTextView;
     private EditText mFamilySizeEditText;
+    private TextView mAddressTextView;
+    private EditText mAddressEditText;
 
 
 
@@ -77,12 +81,16 @@ public class UserPreferencesActivity extends AppCompatActivity {
         mFamilySizeTextView.setVisibility(View.GONE);
         mFamilySizeEditText.setVisibility(View.GONE);
 
+        // set up address fields
+        mAddressTextView = findViewById(R.id.userAddressPrompt);
+        mAddressEditText = findViewById(R.id.userAddressEdit);
+
 
         //set up spinner
         mTypes = this.getResources().getStringArray(R.array.user_types);
         mSpinner = findViewById(R.id.userTypeSpinner);
         ArrayAdapter<String> mSpinnerTypeAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mTypes);
+                R.layout.spinner_item_user_prefs, mTypes);
         mSpinnerTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(mSpinnerTypeAdapter);
 
@@ -93,11 +101,26 @@ public class UserPreferencesActivity extends AppCompatActivity {
             {
                 String selectedItem = parent.getItemAtPosition(position).toString();
                 if(selectedItem.equals("recipient")) {
+                    // set family size visible
                     mFamilySizeTextView.setVisibility(View.VISIBLE);
                     mFamilySizeEditText.setVisibility(View.VISIBLE);
-                } else {
+                    // set address visible
+                    mAddressEditText.setVisibility(View.VISIBLE);
+                    mAddressTextView.setVisibility(View.VISIBLE);
+                } else if (selectedItem.equals("admin")) {
+                    // set address visible
+                    mAddressEditText.setVisibility(View.VISIBLE);
+                    mAddressTextView.setVisibility(View.VISIBLE);
+                    // set family size invisible
                     mFamilySizeTextView.setVisibility(View.GONE);
                     mFamilySizeEditText.setVisibility(View.GONE);
+                } else { // student
+                    // set family size invisible
+                    mFamilySizeTextView.setVisibility(View.GONE);
+                    mFamilySizeEditText.setVisibility(View.GONE);
+                    // set address invisible
+                    mAddressEditText.setVisibility(View.GONE);
+                    mAddressTextView.setVisibility(View.GONE);
                 }
             } // to close the onItemSelected
             public void onNothingSelected(AdapterView<?> parent)
@@ -126,7 +149,7 @@ public class UserPreferencesActivity extends AppCompatActivity {
 
         // set up database
         mDatabase  = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("users").setValue(uId,null);
+//        mDatabase.child("users").child(uId).setValue(uId,null);
 
     }
 
@@ -152,9 +175,11 @@ public class UserPreferencesActivity extends AppCompatActivity {
                 newUser = new RecipientUser();
                 newUser.setType("recipient");
                 newUser.setFamilySize(Integer.parseInt(mFamilySize));
+                newUser.setAddress(mAddress);
             } else  {
                 newUser = new DiningUser();
                 newUser.setType("admin");
+                newUser.setAddress(mAddress);
             }
 
             newUser.setId(uId);
@@ -191,6 +216,8 @@ public class UserPreferencesActivity extends AppCompatActivity {
         userType = mSpinner.getSelectedItem().toString();
         if (userType.equals("recipient")) {
             mFamilySize = mFamilySizeEditText.getText().toString();
+            mAddress = mAddressEditText.getText().toString();
+            mAddressLength = mAddress.length();
 //            int familySizeInt = Integer.parseInt(mFamilySize);
             if (TextUtils.isEmpty(mFamilySize)) {
                 mPhoneText.setError("Required. Enter a number from 1 - 8");
@@ -213,6 +240,24 @@ public class UserPreferencesActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+            // verify recipient user has entered address
+            if (TextUtils.isEmpty(mAddress) || mAddressLength < 10) {
+                mAddressEditText.setError("Enter a valid address.");
+                valid = false;
+            } else {
+                mAddressEditText.setError(null);
+            }
+        } else if (userType.equals("admin")) {
+            mAddress = mAddressEditText.getText().toString();
+            mAddressLength = mAddress.length();
+            if (TextUtils.isEmpty(mAddress) || mAddressLength < 10) {
+                mAddressEditText.setError("Enter a valid address.");
+                valid = false;
+            } else {
+                mAddressEditText.setError(null);
+            }
+        } else { // validity checks for student -- none
+            // no checks for student family size or address
         }
 
         mUserPhone = mPhoneText.getText().toString();
