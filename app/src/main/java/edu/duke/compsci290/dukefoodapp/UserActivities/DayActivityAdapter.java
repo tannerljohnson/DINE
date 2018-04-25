@@ -35,17 +35,19 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
         this.mContext = context;
         this.mOrders = orders;
         this.mUserType = type;
+        Log.d(sTAG,"# of orders(38): "+Integer.toString(mOrders.size()));
         Log.d(sTAG, "setting up DayActivityAdapter");
     }
 
     @Override
     public int getItemCount() {
+        Log.d(sTAG,"# of orders(44): "+Integer.toString(mOrders.size()));
         return mOrders.size();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d(sTAG, "ocCreateViewHolder");
+        Log.d(sTAG, "onCreateViewHolder");
         LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = mInflater.inflate(R.layout.activity_day_order_holder, parent, false);
         final ViewHolder orderHolder = new ViewHolder(row);
@@ -56,7 +58,7 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Order order = mOrders.get(position);
-        holder.mOrderName.setText(order.getId());
+        holder.mOrderName.setText(order.getDiningName());
         //create colors for layout background
         // onclick listener for selecting orders
         holder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +87,7 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mOrderName;
         public LinearLayout mLinearLayout;
 
