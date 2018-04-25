@@ -22,6 +22,7 @@ import com.firebase.ui.auth.data.model.User;
 import java.util.Calendar;
 import java.util.Date;
 
+import edu.duke.compsci290.dukefoodapp.Database.OrderDB;
 import edu.duke.compsci290.dukefoodapp.R;
 import edu.duke.compsci290.dukefoodapp.model.IUser;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
@@ -56,7 +57,7 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
                 /// want "month day, year"
-                String date = "i + i1 + i2";
+                String date = Integer.toString(i)+ Integer.toString(i1) + Integer.toString(i2);
                 Log.d("Tag", date);
                 Intent intent = new Intent(CalendarActivity.this, DayActivity.class);
                 intent.putExtra("user",user);
