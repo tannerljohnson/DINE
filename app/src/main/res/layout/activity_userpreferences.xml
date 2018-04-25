@@ -49,16 +49,10 @@
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:ems="10"
-<<<<<<< HEAD
-                android:hint="User Name"
-                android:inputType="textPersonName"
-                android:textSize="30sp"
-=======
                 android:hint="Firstname Lastname"
                 android:inputType="textPersonName"
                 android:selectAllOnFocus="false"
                 android:textSize="20sp"
->>>>>>> 4274ffd237d9093905996a9824a2355cf2774544
                 app:layout_constraintLeft_toLeftOf="parent"
                 tools:layout_editor_absoluteY="31dp" />
 
@@ -71,14 +65,8 @@
 
             <TextView
                 android:id="@+id/userTypePrompt"
-<<<<<<< HEAD
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-=======
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
->>>>>>> 4274ffd237d9093905996a9824a2355cf2774544
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:text="User Type"
@@ -118,7 +106,7 @@
                 android:inputType="textPersonName"
                 android:text="Recipient, Student, or Dining" />
 
-            <!--
+
             <TextView
                 android:id="@+id/userFamilySizePrompt"
                 android:layout_width="183dp"
@@ -133,22 +121,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_weight="1"
-<<<<<<< HEAD
-                android:text="User Type"
-                android:textSize="24sp"
-                tools:layout_editor_absoluteX="272dp"
-                tools:layout_editor_absoluteY="43dp" />
-                -->
-=======
-                android:ems="10"
-                android:hint="example: 3"
-                android:inputType="number"
-                android:selectAllOnFocus="false"
-                android:textSize="20sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                tools:layout_editor_absoluteY="31dp" />
->>>>>>> 4274ffd237d9093905996a9824a2355cf2774544
+                android:layout_weight="1">
+            </EditText>
 
         </LinearLayout>
 
