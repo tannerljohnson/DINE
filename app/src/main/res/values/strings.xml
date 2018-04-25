@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">DukeFoodApp</string>
+    <string-array name="user_types">
+        <item>student</item>
+        <item>recipient</item>
+        <item>admin</item>
+    </string-array>
 
     <string name="label_google_sign_in">Firebase + Google Sign In</string>
     <string name="desc_google_sign_in">Use a Google Sign In credential to authenticate with Firebase.</string>

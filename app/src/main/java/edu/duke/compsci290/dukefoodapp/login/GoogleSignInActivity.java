@@ -217,8 +217,10 @@ public class GoogleSignInActivity extends BaseActivity implements
             // start UserPreferencesActivity
             String userId = user.getUid();
             mUserId = userId;
+            String userEmail = user.getEmail();
             Log.d(TAG, "user has firebase auth id: " + userId);
-            verifyId(userId);
+            Log.d(TAG, "user has firebase email: " + userEmail);
+            verifyId(userId, userEmail);
             showProgressDialog();
 //            Intent intent = new Intent(GoogleSignInActivity.this, UserPreferencesActivity.class);
 //            startActivity(intent);
@@ -235,7 +237,7 @@ public class GoogleSignInActivity extends BaseActivity implements
         }
     }
 
-    private void verifyId(final String userId) {
+    private void verifyId(final String userId, final String userEmail) {
         Query query = mDatabase.child("users").orderByChild("id").equalTo(userId);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -272,6 +274,7 @@ public class GoogleSignInActivity extends BaseActivity implements
                     Log.d(TAG, "snapshot does NOT exist");
                     intent = new Intent(GoogleSignInActivity.this, UserPreferencesActivity.class);
                     intent.putExtra("id", mUserId);
+                    intent.putExtra("email", userEmail);
                     startActivity(intent);
                 }
             }

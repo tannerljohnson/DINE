@@ -23,7 +23,13 @@ public class Statistics implements IStats {
         assert user instanceof IUser;
         assert user instanceof UserParent;
         System.out.println("sample user is instance of IUser and UserParent");
-        int totalOrdersToDate = user.getOrderHistory().size();
+        int totalOrdersToDate;
+        if (user.getOrderHistory() == null) {
+            totalOrdersToDate = 0;
+        } else {
+            totalOrdersToDate = user.getOrderHistory().size();
+        }
+
         mOrdersDone = "Orders: " + Integer.toString(totalOrdersToDate);
         mRewardEligibility = "Reward Eligibility: " + String.valueOf(user.getEligibleForReward());
         boolean pendingOrder = true;

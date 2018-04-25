@@ -1,7 +1,5 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,18 +16,19 @@ public class StudentUser extends UserParent {
     }
 
 
-    public StudentUser(String id, String name, String type, String email, String bio,
-                int points, boolean eligibleForReward, List<String> pendingOrder,
+    public StudentUser(String id, String name, String type, String email, String phone, String bio,
+                int points, boolean eligibleForReward, List<String> pendingOrders,
                 List<String> orderHistory) {
         makeSettings();
         this.id = id;
         this.name = name;
+        this.phone = phone;
         this.type = type;
         this.email = email;
         this.bio = bio;
         this.points = points;
         this.eligibleForReward = eligibleForReward;
-        this.pendingOrder = pendingOrder;
+        this.pendingOrders = pendingOrders;
         this.orderHistory = orderHistory;
     }
 

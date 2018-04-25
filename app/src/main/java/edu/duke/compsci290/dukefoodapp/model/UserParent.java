@@ -13,28 +13,36 @@ import java.util.List;
 
 public abstract class UserParent implements IUser, Serializable {
 
-    protected ArrayList<String> mSettings;
+    protected ArrayList<String> settings;
     protected String id;
     protected String name;
     protected String type;
     protected String email;
+    protected String phone;
     protected String bio;
     protected int points;
     protected boolean eligibleForReward;
-    protected List<String> pendingOrder;
+    protected List<String> pendingOrders;
     protected List<String> orderHistory;
+    protected int familySize;
+    // admin (pickup) and recipient (dropoff) must have address
+    protected String address;
 
     protected void makeSettings() {
-        mSettings = new ArrayList<>();
-        mSettings.add("My Account");
-        mSettings.add("My Orders");
-        mSettings.add("Calendar");
+        settings = new ArrayList<>();
+        settings.add("My Account");
+        settings.add("My Orders");
+        settings.add("Calendar");
     }
 
     // getters and setters -- must be in accordance with Realtime Database data structure
     public String getId() { return this.id; }
 
     public void setId(String id) { this.id = id; }
+
+    public String getPhone() { return this. phone; }
+
+    public void setPhone(String phone) { this.phone = phone; }
 
     public String getName() {
         return this.name;
@@ -67,10 +75,10 @@ public abstract class UserParent implements IUser, Serializable {
     public void setBio(String bio) { this.bio = bio; }
 
     public List<String> getPendingOrders() {
-        return this.pendingOrder;
+        return this.pendingOrders;
     }
 
-    public void setPendingOrder(List<String> order) { pendingOrder = order; }
+    public void setPendingOrders(List<String> order) { pendingOrders = order; }
 
     public List<String> getOrderHistory() {
         return this.orderHistory;
@@ -98,5 +106,21 @@ public abstract class UserParent implements IUser, Serializable {
         return stats.getAllStats();
     }
 
-    public ArrayList<String> getSettings() { return this.mSettings; }
+    public ArrayList<String> getSettings() { return this.settings; }
+
+    public void setFamilySize(int size) {
+        this.familySize = size;
+    }
+
+    public int getFamilySize() {
+        return this.familySize;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
 }
