@@ -7,14 +7,14 @@
     tools:context="edu.duke.compsci290.dukefoodapp.UserActivities.DayActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/day_activity_order_list_ll"
         android:layout_width="match_parent"
-        android:layout_height="467dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/day_activity_dynamic_ll">
 
@@ -25,14 +25,6 @@
                 android:layout_weight="1"
                 android:gravity="center" />
         </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/day_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
-
-
     </LinearLayout>
 
 

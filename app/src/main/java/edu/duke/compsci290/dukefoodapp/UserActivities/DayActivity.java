@@ -52,6 +52,7 @@ public class DayActivity extends AppCompatActivity {
     public ArrayList<Order> orderHistory;
     public String date;
     private LinearLayout dynamicLL;
+    private LinearLayout orderListLL;
     private OrderDB oDB;
     public static final String mTAG = "DAY";
 
@@ -63,10 +64,8 @@ public class DayActivity extends AppCompatActivity {
         final Intent receivedIntent = this.getIntent();
         user = (UserParent) receivedIntent.getSerializableExtra("user");
         date = receivedIntent.getStringExtra("date");
-        Log.d(mTAG,date);
-
-
         //grab views
+        orderListLL = findViewById(R.id.day_activity_order_list_ll);
         dateTextView = findViewById(R.id.day_textview);
         dateTextView.setText(date);
         oDB = OrderDB.getInstance();
@@ -75,9 +74,8 @@ public class DayActivity extends AppCompatActivity {
             public void onEvent() {
                 orderHistory = oDB.getOrdersByDate();
                 Log.d(mTAG,"# of orders: " + Integer.toString(orderHistory.size()));
-                rv = findViewById(R.id.day_recyclerview);
-                rv.setAdapter(new DayActivityAdapter(DayActivity.this,orderHistory,user.getType()));
-                rv.setLayoutManager(new LinearLayoutManager(DayActivity.this));
+                Log.d(mTAG,"Database Read!");
+                setupRV();
             }
         });
         oDB.setOrdersByDate(date);
@@ -91,7 +89,7 @@ public class DayActivity extends AppCompatActivity {
         Button button = new Button(this);
         if(user.getType().equals("admin")){
             button.setText("New Order");
-            button.setTextSize(5);
+            button.setTextSize(10);
             button.setGravity(Gravity.RIGHT);
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -136,7 +134,13 @@ public class DayActivity extends AppCompatActivity {
 
 
 
-}
+    }
+    public void setupRV(){
+        rv = new RecyclerView(this);
+        DayActivity.this.orderListLL.addView(rv);
+        rv.setAdapter(new DayActivityAdapter(this,this.orderHistory,user.getType()));
+        rv.setLayoutManager(new LinearLayoutManager(this));
+    }
 
 
 

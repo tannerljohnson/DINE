@@ -6,8 +6,7 @@
     android:layout_margin="10dp"
     android:orientation="horizontal"
     android:visibility="visible"
-    android:backgroundTint="@color/colorPrimaryDark"
-    android:background="@color/colorPrimary"
+    android:background="@color/grey_300"
     android:layout_gravity="center"
     android:weightSum="2">
 
@@ -16,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="viewStart"
-        android:textColor="@android:color/background_light"
         android:textSize="35sp" />
 
 </LinearLayout>

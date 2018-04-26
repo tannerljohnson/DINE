@@ -92,6 +92,7 @@ public class OrderDB implements IDatabase, Serializable {
 
     public void setOrdersByDate(final String date){
         //Queries DB to get orders on that date
+        this.mOrdersByDate = new ArrayList<>();
         new Thread(new Runnable() {
             @Override
             public void run() {
