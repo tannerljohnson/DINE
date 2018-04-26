@@ -155,7 +155,7 @@ public class UserPreferencesActivity extends AppCompatActivity {
 
         // set up database
         mDatabase  = FirebaseDatabase.getInstance().getReference();
-//        mDatabase.child("users").child(uId).setValue(uId,null);
+
 
     }
 
