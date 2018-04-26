@@ -1,7 +1,5 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +26,7 @@ public class DiningUser extends UserParent {
         this.bio = bio;
         this.points = points;
         this.eligibleForReward = eligibleForReward;
-        this.pendingOrder = pendingOrders;
+        this.pendingOrders = pendingOrders;
         this.orderHistory = orderHistory;
     }
 }

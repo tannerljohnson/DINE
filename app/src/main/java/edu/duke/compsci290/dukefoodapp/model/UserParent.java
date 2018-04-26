@@ -22,8 +22,11 @@ public abstract class UserParent implements IUser, Serializable {
     protected String bio;
     protected int points;
     protected boolean eligibleForReward;
-    protected List<String> pendingOrder;
+    protected List<String> pendingOrders;
     protected List<String> orderHistory;
+    protected int familySize;
+    // admin (pickup) and recipient (dropoff) must have address
+    protected String address;
 
     protected void makeSettings() {
         settings = new ArrayList<>();
@@ -72,10 +75,10 @@ public abstract class UserParent implements IUser, Serializable {
     public void setBio(String bio) { this.bio = bio; }
 
     public List<String> getPendingOrders() {
-        return this.pendingOrder;
+        return this.pendingOrders;
     }
 
-    public void setPendingOrder(List<String> order) { pendingOrder = order; }
+    public void setPendingOrders(List<String> order) { pendingOrders = order; }
 
     public List<String> getOrderHistory() {
         return this.orderHistory;
@@ -104,4 +107,20 @@ public abstract class UserParent implements IUser, Serializable {
     }
 
     public ArrayList<String> getSettings() { return this.settings; }
+
+    public void setFamilySize(int size) {
+        this.familySize = size;
+    }
+
+    public int getFamilySize() {
+        return this.familySize;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
 }

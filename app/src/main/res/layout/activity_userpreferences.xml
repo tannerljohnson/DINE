@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,6 +22,8 @@
             android:id="@+id/instructions2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
             android:text="Please fill out your user information below." />
 
         <LinearLayout
@@ -34,7 +36,9 @@
                 android:layout_width="183dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="User Name" />
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:text="User Name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <EditText
                 android:id="@+id/userName"
@@ -43,10 +47,10 @@
                 android:layout_marginLeft="16dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="User Name"
+                android:hint="Firstname Lastname"
                 android:inputType="textPersonName"
                 android:selectAllOnFocus="false"
-                android:textSize="30sp"
+                android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 tools:layout_editor_absoluteY="31dp" />
 
@@ -59,10 +63,12 @@
 
             <TextView
                 android:id="@+id/userTypePrompt"
-                android:layout_width="89dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="User Type" />
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:text="User Type"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <!--<TextView-->
             <!--android:id="@+id/userType"-->
@@ -90,11 +96,43 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/userFamilySizePrompt"
+                android:layout_width="183dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Family Size"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <EditText
+                android:id="@+id/userFamilySize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="example: 3"
+                android:inputType="number"
+                android:selectAllOnFocus="false"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                tools:layout_editor_absoluteY="31dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
                 android:id="@+id/userEmailPrompt"
                 android:layout_width="183dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Email" />
+                android:text="Email"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <TextView
                 android:id="@+id/userEmail"
@@ -106,7 +144,7 @@
                 android:ems="10"
                 android:inputType="textEmailAddress"
                 android:text="Email"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 tools:layout_editor_absoluteY="103dp" />
 
@@ -122,7 +160,9 @@
                 android:layout_width="183dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Phone number" />
+                android:text="Phone number"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <EditText
                 android:id="@+id/userPhone"
@@ -134,9 +174,37 @@
                 android:ems="10"
                 android:hint="Phone number"
                 android:inputType="phone"
-                android:textSize="24sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 tools:layout_editor_absoluteY="173dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/userAddressPrompt"
+                android:layout_width="183dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Address"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <EditText
+                android:id="@+id/userAddressEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Enter your address"
+                android:inputType="textMultiLine"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
 
         </LinearLayout>
 
@@ -150,7 +218,9 @@
                 android:layout_width="183dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Bio" />
+                android:text="Bio"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <EditText
                 android:id="@+id/userBio"
@@ -161,7 +231,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="Bio"
-                android:inputType="textMultiLine"
+                android:inputType="text"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
 
@@ -175,7 +245,7 @@
         android:layout_marginBottom="17dp"
         android:layout_marginEnd="148dp"
         android:layout_marginStart="148dp"
-        android:layout_marginTop="155dp"
+        android:layout_marginTop="72dp"
         android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
