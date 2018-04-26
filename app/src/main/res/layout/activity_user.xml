@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <ImageView
@@ -21,33 +21,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|start"
-                android:layout_marginStart="5dp"/>
+                android:layout_marginStart="5dp" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                />
+                android:layout_weight="1" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="5dp"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/usertype"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="UserType" />
+                    android:text="UserType"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                 <Button
                     android:id="@+id/user_activity_settings"
-                    android:layout_width= "50dp"
-                    android:layout_height= "0dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="Settings"
-                    android:textSize="5sp"/>
+                    android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -73,25 +75,29 @@
 
                 <ImageView
                     android:id="@+id/userimage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_width="155dp"
+                    android:layout_height="173dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/ic_launcher_background"/>
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/cast_ic_mini_controller_pause"
+                    android:paddingBottom="@dimen/activity_horizontal_margin" />
 
                 <TextView
                     android:id="@+id/statistics"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="Statistics"
-                    android:layout_gravity="center_horizontal"/>
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/com_facebook_button_border_color_focused"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:text="My Info:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="20dp" />
 
                 <ListView
-                    android:layout_width="wrap_content"
                     android:id="@+id/statisticslistview"
+                    android:layout_width="wrap_content"
                     android:layout_height="300dp"
-                    android:layout_gravity="center_horizontal"/>
+                    android:layout_gravity="center_horizontal" />
 
             </LinearLayout>
         </ScrollView>
