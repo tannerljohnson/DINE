@@ -1,8 +1,13 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -10,26 +15,46 @@ import java.sql.Timestamp;
 /**
  * Created by tannerjohnson on 4/6/18.
  */
-
+@Entity(tableName = "orders")
 public class Order implements Parcelable{
 
+    @PrimaryKey
+    @ColumnInfo(name = "id")
+    @NonNull
     private String id;
+    @Ignore
     private Timestamp datePosted;
+    @Ignore
     private Timestamp dateDelivered;
+    @ColumnInfo(name = "recipient_id")
     private String recipientId;
+    @ColumnInfo(name = "recipient_name")
     private String recipientName;
+    @ColumnInfo(name = "recipient_phone")
     private String recipientPhone;
+    @ColumnInfo(name = "dining_id")
     private String diningId;
+    @ColumnInfo(name = "dining_name")
     private String diningName;
+    @ColumnInfo(name = "student_id")
     private String studentId;
+    @ColumnInfo(name = "student_name")
     private String studentName;
+    @ColumnInfo(name = "student_phone")
     private String studentPhone;
+    @ColumnInfo(name = "status")
     private int status; // 0: pending student acceptance, 1: pending student delivery + recipient has accepted, 2:student has reconfirmed, 3: ready, 4: complete
+    @ColumnInfo(name = "pickup_location")
     private String pickupLocation;
+    @ColumnInfo(name = "dropoff_location")
     private String dropoffLocation;
+    @ColumnInfo(name = "allergens")
     private String allergens;
+    @ColumnInfo(name = "date")
     private String date;
+    @ColumnInfo(name = "pickup_time")
     private String pickupTime;
+    @ColumnInfo(name = "delivery_time")
     private String deliveryTime;
 
     public Order() {}

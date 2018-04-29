@@ -1,5 +1,10 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,22 +15,36 @@ import java.util.List;
  * Abstract parent class for all User classes with all getter and setter methods
  * For custom settings, @Override makeSettings method in user subclass
  */
-
+@Entity
 public abstract class UserParent implements IUser, Serializable {
-
+    @Ignore
     protected ArrayList<String> settings;
+
+    @PrimaryKey
+    @ColumnInfo(name = "id")
     protected String id;
+
     protected String name;
+
     protected String type;
+
     protected String email;
+
     protected String phone;
+
     protected String bio;
+
     protected int points;
+
     protected boolean eligibleForReward;
+
     protected List<String> pendingOrders;
+
     protected List<String> orderHistory;
+
     protected int familySize;
     // admin (pickup) and recipient (dropoff) must have address
+
     protected String address;
 //    protected byte[] imageByteArray;
 

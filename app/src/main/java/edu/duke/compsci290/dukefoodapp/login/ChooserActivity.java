@@ -31,35 +31,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import edu.duke.compsci290.dukefoodapp.R;
-import edu.duke.compsci290.dukefoodapp.UserActivities.UserActivity;
 
-public class ChooserActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ChooserActivity extends AppCompatActivity  {
 
     private Button button;
     private static final Class[] CLASSES = new Class[]{
-            GoogleSignInActivity.class,
-//            FacebookLoginActivity.class,
-//            TwitterLoginActivity.class,
-            EmailPasswordActivity.class,
-//            PasswordlessActivity.class,
-//            PhoneAuthActivity.class,
-//            AnonymousAuthActivity.class,
-            FirebaseUIActivity.class
-//            CustomAuthActivity.class
+            GoogleSignInActivity.class
+//            EmailPasswordActivity.class,
+
     };
 
-
-    private static final int[] DESCRIPTION_IDS = new int[] {
-            R.string.desc_google_sign_in,
-//            R.string.desc_facebook_login,
-//            R.string.desc_twitter_login,
-            R.string.desc_emailpassword,
-//            R.string.desc_passwordless,
-//            R.string.desc_phone_auth,
-//            R.string.desc_anonymous_auth,
-            R.string.desc_firebase_ui
-//            R.string.desc_custom_auth,
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,64 +48,18 @@ public class ChooserActivity extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_chooser);
 
         //set up button and onclick
-        button = findViewById(R.id.button2);
+        button = findViewById(R.id.chooseGoogleSignIn);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                toSamplePage();
+                toGoogleSignIn();
             }
         });
 
-        // Set up ListView and Adapter
-        ListView listView = findViewById(R.id.list_view);
-
-        MyArrayAdapter adapter = new MyArrayAdapter(this, android.R.layout.simple_list_item_2, CLASSES);
-        adapter.setDescriptionIds(DESCRIPTION_IDS);
-
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Class clicked = CLASSES[position];
-        startActivity(new Intent(this, clicked));
-    }
-
-    public void toSamplePage(){
-        startActivity(new Intent(this,UserActivity.class));
-    }
-
-    public static class MyArrayAdapter extends ArrayAdapter<Class> {
-
-        private Context mContext;
-        private Class[] mClasses;
-        private int[] mDescriptionIds;
-
-        public MyArrayAdapter(Context context, int resource, Class[] objects) {
-            super(context, resource, objects);
-
-            mContext = context;
-            mClasses = objects;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = convertView;
-
-            if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(android.R.layout.simple_list_item_2, null);
-            }
-
-            ((TextView) view.findViewById(android.R.id.text1)).setText(mClasses[position].getSimpleName());
-            ((TextView) view.findViewById(android.R.id.text2)).setText(mDescriptionIds[position]);
-
-            return view;
-        }
-
-        public void setDescriptionIds(int[] descriptionIds) {
-            mDescriptionIds = descriptionIds;
-        }
+    private void toGoogleSignIn() {
+        startActivity(new Intent(this, GoogleSignInActivity.class));
     }
 }
+

@@ -1,0 +1,123 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "c45c8051f33dee7cca384f3643bc7d0c",
+    "entities": [
+      {
+        "tableName": "orders",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `recipient_id` TEXT, `recipient_name` TEXT, `recipient_phone` TEXT, `dining_id` TEXT, `dining_name` TEXT, `student_id` TEXT, `student_name` TEXT, `student_phone` TEXT, `status` INTEGER NOT NULL, `pickup_location` TEXT, `dropoff_location` TEXT, `allergens` TEXT, `date` TEXT, `pickup_time` TEXT, `delivery_time` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "recipientId",
+            "columnName": "recipient_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "recipientName",
+            "columnName": "recipient_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "recipientPhone",
+            "columnName": "recipient_phone",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "diningId",
+            "columnName": "dining_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "diningName",
+            "columnName": "dining_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "studentId",
+            "columnName": "student_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "studentName",
+            "columnName": "student_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "studentPhone",
+            "columnName": "student_phone",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pickupLocation",
+            "columnName": "pickup_location",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dropoffLocation",
+            "columnName": "dropoff_location",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "allergens",
+            "columnName": "allergens",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pickupTime",
+            "columnName": "pickup_time",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "deliveryTime",
+            "columnName": "delivery_time",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c45c8051f33dee7cca384f3643bc7d0c\")"
+    ]
+  }
+}

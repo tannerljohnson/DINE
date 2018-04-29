@@ -1,9 +1,12 @@
 package edu.duke.compsci290.dukefoodapp.UserActivities;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -32,7 +35,10 @@ import java.util.List;
 
 import edu.duke.compsci290.dukefoodapp.Database.UserDB;
 import edu.duke.compsci290.dukefoodapp.R;
+import edu.duke.compsci290.dukefoodapp.model.DiningUser;
+import edu.duke.compsci290.dukefoodapp.model.RecipientUser;
 import edu.duke.compsci290.dukefoodapp.model.SampleUserFactory;
+import edu.duke.compsci290.dukefoodapp.model.StudentUser;
 import edu.duke.compsci290.dukefoodapp.model.UserMalformedException;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
@@ -50,6 +56,9 @@ public class UserActivity extends AppCompatActivity{
     private byte[] mImageByteArray;
     private Bitmap mImageBitmap;
     private FirebaseStorage mStorage;
+
+
+
 
 
     @Override
@@ -134,7 +143,8 @@ public class UserActivity extends AppCompatActivity{
 
                         try {
                             Class<?> c = Class.forName(activity);
-                            if (!o.equals("My Orders") | user.getOrderHistory() != null){
+//                            if (!o.equals("My Orders") | user.getOrderHistory() != null){
+                            if (!o.equals("My Orders") | user.getPendingOrders() != null){
                                 Intent intent = new Intent(UserActivity.this, c);
                                 intent.putExtra("type",user.getType());
                                 intent.putExtra("user",user);
@@ -174,9 +184,8 @@ public class UserActivity extends AppCompatActivity{
             }
         });
 
-
-
     }
+
 
     // query cloud storage for user's picture
     private void queryAndSetPicture() {
@@ -189,12 +198,13 @@ public class UserActivity extends AppCompatActivity{
                 mImageByteArray = bytes;
                 mImageBitmap = BitmapFactory.decodeByteArray(mImageByteArray, 0, mImageByteArray.length);
                 mUserimage.setImageBitmap(mImageBitmap);
+                mUserimage.setBackgroundColor(80000000);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle any errors
-//                mUserimage.setVisibility(View.INVISIBLE);
+//                mUserimage.setBackgroundResource(#80000000);
             }
         });
     }
