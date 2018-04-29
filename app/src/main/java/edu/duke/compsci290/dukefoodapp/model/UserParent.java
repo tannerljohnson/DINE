@@ -15,13 +15,9 @@ import java.util.List;
  * Abstract parent class for all User classes with all getter and setter methods
  * For custom settings, @Override makeSettings method in user subclass
  */
-@Entity
 public abstract class UserParent implements IUser, Serializable {
-    @Ignore
     protected ArrayList<String> settings;
 
-    @PrimaryKey
-    @ColumnInfo(name = "id")
     protected String id;
 
     protected String name;
@@ -50,6 +46,7 @@ public abstract class UserParent implements IUser, Serializable {
 
     protected void makeSettings() {
         settings = new ArrayList<>();
+        settings.add("Home");
         settings.add("My Account");
         settings.add("My Orders");
         settings.add("Calendar");
@@ -144,4 +141,16 @@ public abstract class UserParent implements IUser, Serializable {
         return this.address;
     }
 
+    public void updateOrderHistory(String id){
+        if (this.orderHistory == null){
+            this.orderHistory = new ArrayList<>();
+        }
+        this.orderHistory.add(id);
+    }
+    public void updatePendingOrders(String id){
+        if (this.pendingOrders == null){
+            this.pendingOrders = new ArrayList<>();
+        }
+        this.pendingOrders.add(id);
+    }
 }

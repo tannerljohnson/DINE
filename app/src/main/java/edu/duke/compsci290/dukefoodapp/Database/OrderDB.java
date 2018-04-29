@@ -49,8 +49,8 @@ public class OrderDB implements IDatabase, Serializable {
     }
 
     @Override
-    public void readFromDatabase() {
-        Query query = mDatabase.child("orders").orderByChild("id").equalTo(mOrder.getId());
+    public void readFromDatabase(String id) {
+        Query query = mDatabase.child("orders").orderByChild("id").equalTo(id);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -61,6 +61,9 @@ public class OrderDB implements IDatabase, Serializable {
                         String userType = map.get("id").toString();
                         Log.d(TAG, "user's type is: " +userType);
                         mOrder = (Order) issue.getValue(Order.class);
+                    }
+                    if(mListener!=null){
+                        mListener.onEvent();
                     }
                 } else { // does not exist
                     Log.d(TAG, "snapshot does NOT exist");

@@ -8,11 +8,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,6 +40,7 @@ import java.util.List;
 
 import edu.duke.compsci290.dukefoodapp.Database.UserDB;
 import edu.duke.compsci290.dukefoodapp.R;
+import edu.duke.compsci290.dukefoodapp.login.GoogleSignInActivity;
 import edu.duke.compsci290.dukefoodapp.model.DiningUser;
 import edu.duke.compsci290.dukefoodapp.model.RecipientUser;
 import edu.duke.compsci290.dukefoodapp.model.SampleUserFactory;
@@ -42,14 +48,14 @@ import edu.duke.compsci290.dukefoodapp.model.StudentUser;
 import edu.duke.compsci290.dukefoodapp.model.UserMalformedException;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
-public class UserActivity extends AppCompatActivity{
+public class UserActivity extends AppCompatActivity {
     private static final String TAG = "UserActivity";
     //create variables
     private ImageView mLogo;
     private TextView mUsertype;
     private TextView mUsername;
     private ImageView mUserimage;
-    private Button mSetting;
+    private Button mRefresh;
     private ArrayList<String> mStatistics;
     private ArrayList<String> mSettings;
     private UserParent user;
@@ -60,14 +66,18 @@ public class UserActivity extends AppCompatActivity{
 
 
 
+    private UserDB uDB;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         // get id from sign in activity intent
         Intent receivedIntent = this.getIntent();
-        user= (UserParent) receivedIntent.getSerializableExtra("user");
+        user = (UserParent) receivedIntent.getSerializableExtra("user");
         if (user != null) {
             Log.d(TAG, "received user name: " + user.getName());
         }
@@ -77,8 +87,59 @@ public class UserActivity extends AppCompatActivity{
         // convert byte array back to bitmap
 //        mImageBitmap = BitmapFactory.decodeByteArray(mImageByteArray, 0, mImageByteArray.length);
 
-
         setContentView(R.layout.activity_user);
+
+        //set navigation
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+        mDrawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //setup clickables to navigation view
+
+        NavigationView nv = (NavigationView) findViewById(R.id.navigation_view);
+        nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                Log.d(TAG, "item selected");
+                Intent intent;
+                switch (menuItem.getItemId()) {
+                    case (R.id.home):
+                        Log.d(TAG, "Home");
+                        intent = new Intent(UserActivity.this, UserActivity.class);
+                        intent.putExtra("type", user.getType());
+                        intent.putExtra("user", user);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    case (R.id.my_orders):
+                        if (user.getOrderHistory() == null) {
+                            CharSequence text = "You Have No Orders!";
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(UserActivity.this, text, duration);
+                            toast.show();
+                            break;
+                        } else {
+                            intent = new Intent(UserActivity.this, MyOrdersActivity.class);
+                            intent.putExtra("type", user.getType());
+                            intent.putExtra("user", user);
+                            startActivity(intent);
+                            finish();
+                            break;
+                        }
+                    case (R.id.calendar):
+                        intent = new Intent(UserActivity.this, CalendarActivity.class);
+                        intent.putExtra("type", user.getType());
+                        intent.putExtra("user", user);
+                        startActivity(intent);
+                        finish();
+                        break;
+                }
+                return true;
+            }
+        });
+
 
         //initialize views
         mLogo = findViewById(R.id.userlogo);
@@ -88,7 +149,6 @@ public class UserActivity extends AppCompatActivity{
 
 
         queryAndSetPicture();
-
 
 
         //assign values to views
@@ -106,84 +166,26 @@ public class UserActivity extends AppCompatActivity{
             mStatistics.add("No Statistics");
         }
         //generate settings if not generated
-        if(user.getSettings() == null){
+        if (user.getSettings() == null) {
             mSettings = new ArrayList<String>();
             mSettings.add("No Settings");
-        }
-        else{
+        } else {
             mSettings = user.getSettings();
         }
 
-        //TODO: create dialog instead of spinner (looks better)
-        mSetting = findViewById(R.id.user_activity_settings);
-        mSetting.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // creates a dialogue
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(UserActivity.this);
-                View mView = getLayoutInflater().inflate(R.layout.user_settings,null);
-                final ListView lv = mView.findViewById(R.id.user_settings_list_view);
-                MyArrayAdapter adapter = new MyArrayAdapter(UserActivity.this, android.R.layout.simple_list_item_1,mSettings);
-                lv.setAdapter(adapter);
-                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-
-                        Object o = lv.getItemAtPosition(position);
-                        String activity;
-                        String prefix =  "edu.duke.compsci290.dukefoodapp.UserActivities.";
-                        if (o.equals("My Account")){
-                            activity = prefix +"UserActivity";
-                            Log.d(TAG,activity);
-                        }
-                        else{
-                            activity = prefix + o.toString().replace(" ","") + "Activity";
-                            Log.d(TAG,activity);
-                        }
-
-                        try {
-                            Class<?> c = Class.forName(activity);
-//                            if (!o.equals("My Orders") | user.getOrderHistory() != null){
-                            if (!o.equals("My Orders") | user.getPendingOrders() != null){
-                                Intent intent = new Intent(UserActivity.this, c);
-                                intent.putExtra("type",user.getType());
-                                intent.putExtra("user",user);
-                                startActivity(intent);
-                            }
-                        } catch (ClassNotFoundException ignored) {
-                        }
-                    }
-                });
-                mBuilder.setView(mView);
-                AlertDialog dialog = mBuilder.create();
-                dialog.show();
-            }
-        });
-
-
-
         // Set up statistics ListView and Adapter
         ListView listView = findViewById(R.id.statisticslistview);
-        MyArrayAdapter adapter = new MyArrayAdapter(this, android.R.layout.simple_list_item_1,mStatistics);
+        MyArrayAdapter adapter = new MyArrayAdapter(this, android.R.layout.simple_list_item_1, mStatistics);
         listView.setAdapter(adapter);
 
-        //dynamically create button for testing purposes
-        LinearLayout ll = findViewById(R.id.user_activity_ll);
-        Button dbTest = new Button(this);
-        dbTest.setText("Database Test");
-        ll.addView(dbTest);
-        dbTest.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                UserDB db = UserDB.getInstance();
-                user.setName("Tevin");
-                db.setObject(user);
-                db.writeToDatabase();
-                db.readFromDatabase();
-                user = (UserParent) db.getObject();
-                Log.d(TAG, user.getName());
+        mRefresh = findViewById(R.id.userActivityRefresh);
+        mRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserActivity.this, GoogleSignInActivity.class);
+                startActivity(intent);
             }
         });
-
     }
 
 
@@ -207,6 +209,7 @@ public class UserActivity extends AppCompatActivity{
 //                mUserimage.setBackgroundResource(#80000000);
             }
         });
+
     }
 
 
@@ -232,5 +235,13 @@ public class UserActivity extends AppCompatActivity{
             ((TextView) view.findViewById(android.R.id.text1)).setText(mstatistics.get(position));
             return view;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -23,7 +23,6 @@
         <activity android:name=".UserActivities.CalendarActivity" />
         <activity android:name=".UserActivities.DayActivity" />
         <activity android:name=".UserActivities.MyOrdersActivity" />
-        <activity android:name=".UserActivities.OrderActivity" />
         <activity android:name=".UserActivities.UserPreferencesActivity" />
 
         <meta-data

@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">DukeFoodApp</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="opena">Open</string>
+    <string name="closea">Close</string>
+
     <string-array name="user_types">
         <item>student</item>
         <item>recipient</item>
@@ -89,4 +94,7 @@
 
     <string name="id_fmt">User ID: %s</string>
     <string name="email_fmt">Email: %s</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

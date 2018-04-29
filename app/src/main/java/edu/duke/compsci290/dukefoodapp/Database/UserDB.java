@@ -43,8 +43,8 @@ public class UserDB implements IDatabase {
     }
 
     @Override
-    public void readFromDatabase() {
-        Query query = mDatabase.child("users").orderByChild("id").equalTo(mUser.getId());
+    public void readFromDatabase(String id) {
+        Query query = mDatabase.child("users").orderByChild("id").equalTo(id);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
