@@ -1,57 +1,144 @@
 package edu.duke.compsci290.dukefoodapp.UserActivities;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.data.model.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.duke.compsci290.dukefoodapp.Database.UserDB;
 import edu.duke.compsci290.dukefoodapp.R;
+import edu.duke.compsci290.dukefoodapp.login.GoogleSignInActivity;
+import edu.duke.compsci290.dukefoodapp.model.DiningUser;
+import edu.duke.compsci290.dukefoodapp.model.RecipientUser;
 import edu.duke.compsci290.dukefoodapp.model.SampleUserFactory;
+import edu.duke.compsci290.dukefoodapp.model.StudentUser;
 import edu.duke.compsci290.dukefoodapp.model.UserMalformedException;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
-public class UserActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class UserActivity extends AppCompatActivity {
     private static final String TAG = "UserActivity";
     //create variables
     private ImageView mLogo;
     private TextView mUsertype;
     private TextView mUsername;
     private ImageView mUserimage;
-    private ListView mStatisticsView;
-    private Button mMyOrders;
-    private Button mCalendar;
+    private Button mRefresh;
     private ArrayList<String> mStatistics;
     private ArrayList<String> mSettings;
     private UserParent user;
+    private byte[] mImageByteArray;
+    private Bitmap mImageBitmap;
+    private FirebaseStorage mStorage;
+
+
+
+
+    private UserDB uDB;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         // get id from sign in activity intent
         Intent receivedIntent = this.getIntent();
         user = (UserParent) receivedIntent.getSerializableExtra("user");
-        Log.d(TAG, "received user name: " + user.getName());
+        if (user != null) {
+            Log.d(TAG, "received user name: " + user.getName());
+        }
+        mStorage = FirebaseStorage.getInstance();
+
+//        mImageByteArray = user.getImageByteArray();
+        // convert byte array back to bitmap
+//        mImageBitmap = BitmapFactory.decodeByteArray(mImageByteArray, 0, mImageByteArray.length);
 
         setContentView(R.layout.activity_user);
-//        SampleUserFactory factory = SampleUserFactory.getInstance();
-//        user = factory.getSampleStudentUser();
+
+        //set navigation
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+        mDrawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //setup clickables to navigation view
+
+        NavigationView nv = (NavigationView) findViewById(R.id.navigation_view);
+        nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                Log.d(TAG, "item selected");
+                Intent intent;
+                switch (menuItem.getItemId()) {
+                    case (R.id.home):
+                        Log.d(TAG, "Home");
+                        intent = new Intent(UserActivity.this, UserActivity.class);
+                        intent.putExtra("type", user.getType());
+                        intent.putExtra("user", user);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    case (R.id.my_orders):
+                        if (user.getOrderHistory() == null) {
+                            CharSequence text = "You Have No Orders!";
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(UserActivity.this, text, duration);
+                            toast.show();
+                            break;
+                        } else {
+                            intent = new Intent(UserActivity.this, MyOrdersActivity.class);
+                            intent.putExtra("type", user.getType());
+                            intent.putExtra("user", user);
+                            startActivity(intent);
+                            finish();
+                            break;
+                        }
+                    case (R.id.calendar):
+                        intent = new Intent(UserActivity.this, CalendarActivity.class);
+                        intent.putExtra("type", user.getType());
+                        intent.putExtra("user", user);
+                        startActivity(intent);
+                        finish();
+                        break;
+                }
+                return true;
+            }
+        });
 
 
         //initialize views
@@ -59,75 +146,74 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
         mUsertype = findViewById(R.id.usertype);
         mUsername = findViewById(R.id.username);
         mUserimage = findViewById(R.id.userimage);
-        mStatisticsView = findViewById(R.id.statisticslistview);
-        mMyOrders = findViewById(R.id.myorders);
-        mCalendar = findViewById(R.id.calendar);
+
+
+        queryAndSetPicture();
+
 
         //assign values to views
         mUsertype.setText(user.getType());
-        mUsername.setText(user.getName());
+        // I don't like how this looks^ -tlj
+        mUsertype.setVisibility(View.GONE);
+        mUsername.setText("Welcome " + user.getName() + "!");
 
-        //make statistics and settings array
+        //generate statistics if not generated
         try {
             mStatistics = user.getStatistics();
         } catch (UserMalformedException e) {
             e.printStackTrace();
+            mStatistics = new ArrayList<String>();
+            mStatistics.add("No Statistics");
         }
-        mSettings = user.getSettings();
+        //generate settings if not generated
+        if (user.getSettings() == null) {
+            mSettings = new ArrayList<String>();
+            mSettings.add("No Settings");
+        } else {
+            mSettings = user.getSettings();
+        }
 
-        //set up spinner
-        Spinner mSpinner = (Spinner) findViewById(R.id.userpagesetting);
-        ArrayAdapter<String> mSettingAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mSettings);
-        mSettingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinner.setAdapter(mSettingAdapter);
-
-        // Set up ListView and Adapter
+        // Set up statistics ListView and Adapter
         ListView listView = findViewById(R.id.statisticslistview);
-        MyArrayAdapter adapter = new MyArrayAdapter(this, android.R.layout.simple_list_item_1,mStatistics);
+        MyArrayAdapter adapter = new MyArrayAdapter(this, android.R.layout.simple_list_item_1, mStatistics);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
 
-        //TODO:Make these work with the spinner and remove buttons
-        //set onclick for calendar
-        Button calendar = findViewById(R.id.calendar);
-        calendar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.d("tag1:", "clicked calendar");
-                toCalendar();
+        mRefresh = findViewById(R.id.userActivityRefresh);
+        mRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserActivity.this, GoogleSignInActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+
+    // query cloud storage for user's picture
+    private void queryAndSetPicture() {
+        StorageReference storageRef = mStorage.getReference().child(user.getId());
+        final long ONE_MEGABYTE = 1024 * 1024;
+        storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Data for "images/island.jpg" is returns, use this as needed
+                mImageByteArray = bytes;
+                mImageBitmap = BitmapFactory.decodeByteArray(mImageByteArray, 0, mImageByteArray.length);
+                mUserimage.setImageBitmap(mImageBitmap);
+                mUserimage.setBackgroundColor(80000000);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+//                mUserimage.setBackgroundResource(#80000000);
             }
         });
 
-        //set onclick for MyOrders
-        Button myOrders = findViewById(R.id.myorders);
-        myOrders.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.d("tag1:", "clicked calendar");
-                toMyOrders(user);
-            }
-        });
-
-
     }
 
-    private void toMyOrders(UserParent user) {
-        Intent intent = new Intent(this, MyOrdersActivity.class);
-        intent.putExtra("type",user.getType());
-        intent.putExtra("user",user);
-        startActivity(intent);
-    }
 
-    public void toCalendar(){
-        Intent intent = new Intent(this, CalendarActivity.class);
-        intent.putExtra("type",user.getType());
-        intent.putExtra("user",user);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-    }
+    //ArrayAdapter used for settings and statistics
     public static class MyArrayAdapter extends ArrayAdapter<String> {
 
         private Context mContext;
@@ -137,20 +223,25 @@ public class UserActivity extends AppCompatActivity implements AdapterView.OnIte
             super(context, resource,statistics);
             mContext = context;
             mstatistics = statistics;
-
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
-
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(android.R.layout.simple_list_item_1, null);
             }
-
             ((TextView) view.findViewById(android.R.id.text1)).setText(mstatistics.get(position));
             return view;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

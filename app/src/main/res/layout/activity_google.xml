@@ -15,12 +15,12 @@
         android:orientation="vertical">
 
         <ImageView
-            style="@style/ThemeOverlay.FirebaseIcon"
             android:id="@+id/google_icon"
+            style="@style/ThemeOverlay.FirebaseIcon"
+            android:layout_width="204dp"
+            android:layout_height="192dp"
             android:contentDescription="@string/desc_firebase_lockup"
-            android:src="@drawable/firebase_lockup_400"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:src="@drawable/dinelogo" />
 
         <TextView
             android:id="@+id/title_text"
