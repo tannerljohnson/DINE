@@ -22,14 +22,25 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.firebase.ui.auth.data.model.User;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 import edu.duke.compsci290.dukefoodapp.Database.UserDB;
 import edu.duke.compsci290.dukefoodapp.R;
+import edu.duke.compsci290.dukefoodapp.login.ChooserActivity;
 import edu.duke.compsci290.dukefoodapp.login.GoogleSignInActivity;
 import edu.duke.compsci290.dukefoodapp.model.DiningUser;
 import edu.duke.compsci290.dukefoodapp.model.RecipientUser;
@@ -57,6 +68,9 @@ public class UserActivity extends AppCompatActivity {
     private Bitmap mImageBitmap;
     private FirebaseStorage mStorage;
 
+    // for sign out
+    private FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
 
 
 
@@ -67,6 +81,8 @@ public class UserActivity extends AppCompatActivity {
 
         // get id from sign in activity intent
         Intent receivedIntent = this.getIntent();
+
+        // check intent for log out
         user = (UserParent) receivedIntent.getSerializableExtra("user");
         if (user != null) {
             Log.d(TAG, "received user name: " + user.getName());
@@ -104,6 +120,13 @@ public class UserActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                         break;
+                    case (R.id.logout):
+                        Log.d(TAG, "Log Out");
+                        signOut();
+                        intent = new Intent(UserActivity.this, ChooserActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
                     case (R.id.my_orders):
                         if (user.getOrderHistory() == null) {
                             CharSequence text = "You Have No Orders!";
@@ -134,18 +157,13 @@ public class UserActivity extends AppCompatActivity {
 
         //initialize views
         mLogo = findViewById(R.id.userlogo);
-        mUsertype = findViewById(R.id.usertype);
+//        mUsertype = findViewById(R.id.usertype);
         mUsername = findViewById(R.id.username);
         mUserimage = findViewById(R.id.userimage);
 
 
         queryAndSetPicture();
 
-
-        //assign values to views
-        mUsertype.setText(user.getType());
-        // I don't like how this looks^ -tlj
-        mUsertype.setVisibility(View.GONE);
         mUsername.setText("Welcome " + user.getName() + "!");
 
         //generate statistics if not generated
@@ -201,6 +219,22 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void signOut() {
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mAuth = FirebaseAuth.getInstance();
+        // Firebase sign out
+        mAuth.signOut();
+
+        // Google sign out
+        mGoogleSignInClient.signOut();
     }
 
 

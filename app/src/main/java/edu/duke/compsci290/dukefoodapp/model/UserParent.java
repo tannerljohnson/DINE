@@ -47,6 +47,7 @@ public abstract class UserParent implements IUser, Serializable {
         settings.add("My Account");
         settings.add("My Orders");
         settings.add("Calendar");
+        settings.add("Log out");
     }
 
     // getters and setters -- must be in accordance with Realtime Database data structure

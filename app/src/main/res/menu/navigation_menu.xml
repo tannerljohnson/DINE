@@ -10,5 +10,8 @@
     <item android:id="@+id/calendar"
         android:title="Calendar"/>
 
+    <item android:id="@+id/logout"
+        android:title="Log Out"/>
+
 
 </menu>

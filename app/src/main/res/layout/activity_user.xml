@@ -26,14 +26,6 @@
                 android:layout_gravity="center_vertical|start"
                 android:layout_marginStart="5dp" />
 
-            <Button
-                android:id="@+id/userActivityRefresh"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/cast_ic_notification_forward"
-                android:backgroundTint="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"
-                android:paddingRight="@dimen/activity_horizontal_margin" />
-
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -46,15 +38,16 @@
                 android:layout_marginEnd="5dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/usertype"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="UserType"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/userActivityRefresh"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/cast_ic_notification_forward"
+                android:backgroundTint="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"
+                android:paddingRight="@dimen/activity_horizontal_margin" />
         </LinearLayout>
 
         <ScrollView
@@ -80,8 +73,8 @@
 
                 <ImageView
                     android:id="@+id/userimage"
-                    android:layout_width="173dp"
-                    android:layout_height="173dp"
+                    android:layout_width="182dp"
+                    android:layout_height="176dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="2dp"
                     android:background="@drawable/dinelogo"
