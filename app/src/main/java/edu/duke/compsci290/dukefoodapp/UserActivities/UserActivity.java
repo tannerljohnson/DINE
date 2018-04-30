@@ -2,9 +2,15 @@ package edu.duke.compsci290.dukefoodapp.UserActivities;
 
 import android.content.Context;
 import android.content.Intent;
+<<<<<<< HEAD
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+=======
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
+>>>>>>> master
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +30,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.data.model.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +58,11 @@ public class UserActivity extends AppCompatActivity {
     private UserDB uDB;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
+    private byte[] mImageByteArray;
+    private Bitmap mImageBitmap;
+    private FirebaseStorage mStorage;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +76,13 @@ public class UserActivity extends AppCompatActivity {
         if (user != null) {
             Log.d(TAG, "received user name: " + user.getName());
         }
+        mStorage = FirebaseStorage.getInstance();
 
+//        mImageByteArray = user.getImageByteArray();
+        // convert byte array back to bitmap
+//        mImageBitmap = BitmapFactory.decodeByteArray(mImageByteArray, 0, mImageByteArray.length);
 
+<<<<<<< HEAD
         setContentView(R.layout.activity_user);
 
         //set navigation
@@ -116,7 +136,10 @@ public class UserActivity extends AppCompatActivity {
                 return true;
             }
         });
+=======
+>>>>>>> master
 
+        setContentView(R.layout.activity_user);
 
         //initialize views
         mLogo = findViewById(R.id.userlogo);
@@ -125,9 +148,15 @@ public class UserActivity extends AppCompatActivity {
         mUserimage = findViewById(R.id.userimage);
 
 
+        queryAndSetPicture();
+
+
+
         //assign values to views
         mUsertype.setText(user.getType());
-        mUsername.setText(user.getName());
+        // I don't like how this looks^ -tlj
+        mUsertype.setVisibility(View.GONE);
+        mUsername.setText("Welcome " + user.getName() + "!");
 
         //generate statistics if not generated
         try {
@@ -151,6 +180,27 @@ public class UserActivity extends AppCompatActivity {
         MyArrayAdapter adapter = new MyArrayAdapter(this, android.R.layout.simple_list_item_1,mStatistics);
         listView.setAdapter(adapter);
 
+    }
+
+    // query cloud storage for user's picture
+    private void queryAndSetPicture() {
+        StorageReference storageRef = mStorage.getReference().child(user.getId());
+        final long ONE_MEGABYTE = 1024 * 1024;
+        storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Data for "images/island.jpg" is returns, use this as needed
+                mImageByteArray = bytes;
+                mImageBitmap = BitmapFactory.decodeByteArray(mImageByteArray, 0, mImageByteArray.length);
+                mUserimage.setImageBitmap(mImageBitmap);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+//                mUserimage.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
 

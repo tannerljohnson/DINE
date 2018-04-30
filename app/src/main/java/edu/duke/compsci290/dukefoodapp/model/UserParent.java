@@ -27,6 +27,7 @@ public abstract class UserParent implements IUser, Serializable {
     protected int familySize;
     // admin (pickup) and recipient (dropoff) must have address
     protected String address;
+//    protected byte[] imageByteArray;
 
     protected void makeSettings() {
         settings = new ArrayList<>();
@@ -125,6 +126,7 @@ public abstract class UserParent implements IUser, Serializable {
         return this.address;
     }
 
+
     public void updateOrderHistory(String id){
         if (this.orderHistory == null){
             this.orderHistory = new ArrayList<>();
@@ -137,4 +139,5 @@ public abstract class UserParent implements IUser, Serializable {
         }
         this.pendingOrders.add(id);
     }
+
 }

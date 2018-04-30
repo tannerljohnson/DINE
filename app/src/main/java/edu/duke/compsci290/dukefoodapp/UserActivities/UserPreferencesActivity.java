@@ -1,7 +1,11 @@
 package edu.duke.compsci290.dukefoodapp.UserActivities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,8 +18,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 
 import edu.duke.compsci290.dukefoodapp.R;
 import edu.duke.compsci290.dukefoodapp.model.DiningUser;
@@ -35,7 +46,10 @@ public class UserPreferencesActivity extends AppCompatActivity {
     private static final String TAG = "UserPreferencesActivity";
     private String[] mTypes;
     private DatabaseReference mDatabase;
+    private FirebaseStorage mStorage;
+
     private Button mSubmitButton;
+    private Button mPhotoButton;
     private TextView mUserEmailTextView;
     private EditText mNameText;
     private EditText mPhoneText;
@@ -50,11 +64,16 @@ public class UserPreferencesActivity extends AppCompatActivity {
     private String userType;
     private String mAddress;
     private int mAddressLength;
+    private Bitmap mImageBitmap;
+    private byte[] mImageByteArray;
 
     private TextView mFamilySizeTextView;
     private EditText mFamilySizeEditText;
     private TextView mAddressTextView;
     private EditText mAddressEditText;
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
 
 
 
@@ -147,9 +166,19 @@ public class UserPreferencesActivity extends AppCompatActivity {
             }
         });
 
+        // set up photo button
+        mPhotoButton = findViewById(R.id.takePictureUserPrefButton);
+        mPhotoButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d(TAG, "clicked photo button");
+                dispatchTakePictureIntent();
+            }
+        });
+
         // set up database
         mDatabase  = FirebaseDatabase.getInstance().getReference();
-
+        // set up cloud storage
+        mStorage = FirebaseStorage.getInstance();
 
     }
 
@@ -157,6 +186,53 @@ public class UserPreferencesActivity extends AppCompatActivity {
     protected void onStart() {
        super.onStart();
        // get info from shared pref or Firebase and populate
+    }
+
+    // launch intent to take picture
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            mImageBitmap = (Bitmap) extras.get("data");
+            //Convert to byte array
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            mImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            mImageByteArray = stream.toByteArray();
+            // save to room
+            upLoadImageToFirestore();
+
+            // hide button
+            mPhotoButton.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void upLoadImageToFirestore() {
+        if (mImageByteArray != null) {
+            StorageReference storageRef = mStorage.getReference().child(uId);
+            UploadTask uploadTask = storageRef.putBytes(mImageByteArray);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                    Toast.makeText(UserPreferencesActivity.this, "photo upload failed", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    Toast.makeText(UserPreferencesActivity.this, "photo uploaded successfully!", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        }
     }
 
     // make sure everything is filled out
@@ -190,10 +266,12 @@ public class UserPreferencesActivity extends AppCompatActivity {
             newUser.setPendingOrders(null);
             newUser.setEligibleForReward(false);
             newUser.setPoints(0);
-            Toast.makeText(this, "Creating User and sending as intent", Toast.LENGTH_SHORT).show();
+//            newUser.setImageByteArray(null);
+//            Toast.makeText(this, "Creating User and sending as intent", Toast.LENGTH_SHORT).show();
             writeToFirebase(newUser);
             Intent intent = new Intent(UserPreferencesActivity.this, UserActivity.class);
             intent.putExtra("user", newUser);
+//            intent.putExtra("picture", mImageByteArray);
             startActivity(intent);
         }
     }
