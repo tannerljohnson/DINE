@@ -28,7 +28,11 @@
         <meta-data
             android:name="com.google.android.gms.API_KEY"
             android:value="AIzaSyAkggKlw3iz_4c7WHor-ES4SgI0CcI4xNg" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAkggKlw3iz_4c7WHor-ES4SgI0CcI4xNg" />
 
+        <activity android:name=".UserActivities.StreetViewActivity"></activity>
     </application>
 
 </manifest>

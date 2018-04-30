@@ -1,9 +1,8 @@
 package edu.duke.compsci290.dukefoodapp.UserActivities;
 
+
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -14,27 +13,18 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import edu.duke.compsci290.dukefoodapp.Database.IOnDatabaseRead;
 import edu.duke.compsci290.dukefoodapp.Database.OrderDB;
 import edu.duke.compsci290.dukefoodapp.R;
-import edu.duke.compsci290.dukefoodapp.model.IUser;
 import edu.duke.compsci290.dukefoodapp.model.Order;
-import edu.duke.compsci290.dukefoodapp.model.SampleOrderFactory;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
 public class MyOrdersActivity extends AppCompatActivity {
@@ -42,6 +32,7 @@ public class MyOrdersActivity extends AppCompatActivity {
     //maybe save the specific users order in SQLite, and update the orders the user already has.
     //helps with the no connection problems
     public RecyclerView rv;
+
     public UserParent user;
     public List<String> orderHistory;
     private DrawerLayout mDrawerLayout;
@@ -112,7 +103,7 @@ public class MyOrdersActivity extends AppCompatActivity {
         orderHistory = user.getOrderHistory();
 
         // check some intent data
-        Log.d("tag1", user.getName().toString());
+        Log.d(TAG, user.getName().toString());
 
 
         //set up recycler view
@@ -120,8 +111,11 @@ public class MyOrdersActivity extends AppCompatActivity {
         rv.setAdapter(new OrderAdapter(this, orderHistory));
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-
+//        getUserOrdersFromFirebase();
     }
+
+
+
 
     public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
         private Context mContext;
@@ -150,7 +144,7 @@ public class MyOrdersActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount(){
-            return orderhistory.size();
+            return orderHistory.size();
         }
 
         @Override
@@ -167,6 +161,7 @@ public class MyOrdersActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
+
             oDB.readFromDatabase(orderhistory.get(position));
             oDB.setCustomEventListener(new IOnDatabaseRead() {
                 @Override
@@ -237,11 +232,29 @@ public class MyOrdersActivity extends AppCompatActivity {
             deliveryTime.setText("Delivery Time: "+mOrder.getDeliveryTime());
             Button pickupOrder = mView.findViewById(R.id.pickup_order);
             Button dropoffOrder = mView.findViewById(R.id.dropoff_order);
+            Button streetview = mView.findViewById(R.id.streetview);
             pickupOrder.setText("Pickup Order");
             dropoffOrder.setText("Dropoff Order");
+            streetview.setText("Street View");
             mBuilder.setView(mView);
             final AlertDialog dialog = mBuilder.create();
             dialog.show();
+            streetview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mOrder.getDropoffLocation() != null){
+                        Intent intent = new Intent(MyOrdersActivity.this,StreetViewActivity.class);
+                        intent.putExtra("address",mOrder.getDropoffLocation());
+                        startActivity(intent);
+                    }
+                    else{
+                        CharSequence text = "Order Not Ready!";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(MyOrdersActivity.this, text, duration);
+                        toast.show();
+                    }
+                }
+            });
             if(mOrder.getStatus() != 4){
                 pickupOrder.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -298,6 +311,7 @@ public class MyOrdersActivity extends AppCompatActivity {
                     }
                 });
             }
+
 
         }
 

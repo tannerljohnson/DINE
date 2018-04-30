@@ -26,6 +26,14 @@
                 android:layout_gravity="center_vertical|start"
                 android:layout_marginStart="5dp" />
 
+            <Button
+                android:id="@+id/userActivityRefresh"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/cast_ic_notification_forward"
+                android:backgroundTint="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"
+                android:paddingRight="@dimen/activity_horizontal_margin" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -64,18 +72,19 @@
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="10dp"
-                    android:textSize="20sp"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"
                     android:text="Username"
-                    android:layout_gravity="center"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
                 <ImageView
                     android:id="@+id/userimage"
-                    android:layout_width="155dp"
+                    android:layout_width="173dp"
                     android:layout_height="173dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="2dp"
-                    android:background="@drawable/cast_ic_mini_controller_pause"
+                    android:background="@drawable/dinelogo"
                     android:paddingBottom="@dimen/activity_horizontal_margin" />
 
                 <TextView

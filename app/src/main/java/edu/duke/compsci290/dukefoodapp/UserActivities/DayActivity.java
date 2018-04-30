@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +41,7 @@ import java.util.UUID;
 
 import edu.duke.compsci290.dukefoodapp.Database.IOnDatabaseRead;
 import edu.duke.compsci290.dukefoodapp.Database.OrderDB;
+import edu.duke.compsci290.dukefoodapp.Database.UserDB;
 import edu.duke.compsci290.dukefoodapp.R;
 import edu.duke.compsci290.dukefoodapp.model.IDay;
 import edu.duke.compsci290.dukefoodapp.model.IUser;
@@ -60,6 +62,7 @@ public class DayActivity extends AppCompatActivity {
     private LinearLayout orderListLL;
     private RelativeLayout dynamicRL;
     private OrderDB oDB;
+    private UserDB uDB;
     public static final String mTAG = "DAY";
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
@@ -72,6 +75,9 @@ public class DayActivity extends AppCompatActivity {
         final Intent receivedIntent = this.getIntent();
         user = (UserParent) receivedIntent.getSerializableExtra("user");
         date = receivedIntent.getStringExtra("date");
+        uDB = UserDB.getInstance();
+
+
 
         //set navigation
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -177,8 +183,13 @@ public class DayActivity extends AppCompatActivity {
                             //create unique order id
                             String id = UUID.randomUUID().toString();
                             order.setId(id);
+                            order.setStatus(0);
                             oDB.setObject(order);
                             oDB.writeToDatabase();
+                            user.updatePendingOrders(order.getId());
+                            user.updateOrderHistory(order.getId());
+                            uDB.setObject(user);
+                            uDB.writeToDatabase();
                             //toast order sumbitted
                             Log.d(mTAG,"order submitted");
                             dialog.dismiss();

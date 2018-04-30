@@ -1,5 +1,6 @@
 package edu.duke.compsci290.dukefoodapp.UserActivities;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
@@ -29,6 +30,12 @@ import java.util.ArrayList;
 import java.util.List;
 import edu.duke.compsci290.dukefoodapp.Database.UserDB;
 import edu.duke.compsci290.dukefoodapp.R;
+import edu.duke.compsci290.dukefoodapp.login.GoogleSignInActivity;
+import edu.duke.compsci290.dukefoodapp.model.DiningUser;
+import edu.duke.compsci290.dukefoodapp.model.RecipientUser;
+import edu.duke.compsci290.dukefoodapp.model.SampleUserFactory;
+import edu.duke.compsci290.dukefoodapp.model.StudentUser;
+
 import edu.duke.compsci290.dukefoodapp.model.UserMalformedException;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
@@ -39,7 +46,7 @@ public class UserActivity extends AppCompatActivity {
     private TextView mUsertype;
     private TextView mUsername;
     private ImageView mUserimage;
-    private Button mSetting;
+    private Button mRefresh;
     private ArrayList<String> mStatistics;
     private ArrayList<String> mSettings;
     private UserParent user;
@@ -52,15 +59,15 @@ public class UserActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
-
         // get id from sign in activity intent
         Intent receivedIntent = this.getIntent();
-        user= (UserParent) receivedIntent.getSerializableExtra("user");
+        user = (UserParent) receivedIntent.getSerializableExtra("user");
         if (user != null) {
             Log.d(TAG, "received user name: " + user.getName());
         }
@@ -75,48 +82,47 @@ public class UserActivity extends AppCompatActivity {
 
         //set navigation
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        mToggle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //setup clickables to navigation view
 
-        NavigationView nv = (NavigationView)findViewById(R.id.navigation_view);
+        NavigationView nv = (NavigationView) findViewById(R.id.navigation_view);
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                Log.d(TAG,"item selected");
+                Log.d(TAG, "item selected");
                 Intent intent;
                 switch (menuItem.getItemId()) {
-                    case(R.id.home):
-                        Log.d(TAG,"Home");
+                    case (R.id.home):
+                        Log.d(TAG, "Home");
                         intent = new Intent(UserActivity.this, UserActivity.class);
-                        intent.putExtra("type",user.getType());
-                        intent.putExtra("user",user);
+                        intent.putExtra("type", user.getType());
+                        intent.putExtra("user", user);
                         startActivity(intent);
                         finish();
                         break;
-                    case(R.id.my_orders):
-                        if (user.getOrderHistory() == null){
+                    case (R.id.my_orders):
+                        if (user.getOrderHistory() == null) {
                             CharSequence text = "You Have No Orders!";
                             int duration = Toast.LENGTH_SHORT;
                             Toast toast = Toast.makeText(UserActivity.this, text, duration);
                             toast.show();
                             break;
-                        }
-                        else{
+                        } else {
                             intent = new Intent(UserActivity.this, MyOrdersActivity.class);
-                            intent.putExtra("type",user.getType());
-                            intent.putExtra("user",user);
+                            intent.putExtra("type", user.getType());
+                            intent.putExtra("user", user);
                             startActivity(intent);
                             finish();
                             break;
                         }
-                    case(R.id.calendar):
+                    case (R.id.calendar):
                         intent = new Intent(UserActivity.this, CalendarActivity.class);
-                        intent.putExtra("type",user.getType());
-                        intent.putExtra("user",user);
+                        intent.putExtra("type", user.getType());
+                        intent.putExtra("user", user);
                         startActivity(intent);
                         finish();
                         break;
@@ -125,7 +131,6 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
-        setContentView(R.layout.activity_user);
 
         //initialize views
         mLogo = findViewById(R.id.userlogo);
@@ -135,7 +140,6 @@ public class UserActivity extends AppCompatActivity {
 
 
         queryAndSetPicture();
-
 
 
         //assign values to views
@@ -153,20 +157,28 @@ public class UserActivity extends AppCompatActivity {
             mStatistics.add("No Statistics");
         }
         //generate settings if not generated
-        if(user.getSettings() == null){
+        if (user.getSettings() == null) {
             mSettings = new ArrayList<String>();
             mSettings.add("No Settings");
-        }
-        else{
+        } else {
             mSettings = user.getSettings();
         }
 
         // Set up statistics ListView and Adapter
         ListView listView = findViewById(R.id.statisticslistview);
-        MyArrayAdapter adapter = new MyArrayAdapter(this, android.R.layout.simple_list_item_1,mStatistics);
+        MyArrayAdapter adapter = new MyArrayAdapter(this, android.R.layout.simple_list_item_1, mStatistics);
         listView.setAdapter(adapter);
 
+        mRefresh = findViewById(R.id.userActivityRefresh);
+        mRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserActivity.this, GoogleSignInActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
 
     // query cloud storage for user's picture
     private void queryAndSetPicture() {
@@ -179,14 +191,16 @@ public class UserActivity extends AppCompatActivity {
                 mImageByteArray = bytes;
                 mImageBitmap = BitmapFactory.decodeByteArray(mImageByteArray, 0, mImageByteArray.length);
                 mUserimage.setImageBitmap(mImageBitmap);
+                mUserimage.setBackgroundColor(80000000);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle any errors
-//                mUserimage.setVisibility(View.INVISIBLE);
+//                mUserimage.setBackgroundResource(#80000000);
             }
         });
+
     }
 
 
