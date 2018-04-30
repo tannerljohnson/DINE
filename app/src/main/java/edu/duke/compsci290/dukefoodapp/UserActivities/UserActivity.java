@@ -2,16 +2,12 @@ package edu.duke.compsci290.dukefoodapp.UserActivities;
 
 import android.content.Context;
 import android.content.Intent;
-<<<<<<< HEAD
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-=======
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
->>>>>>> master
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,28 +15,20 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import edu.duke.compsci290.dukefoodapp.Database.UserDB;
 import edu.duke.compsci290.dukefoodapp.R;
-import edu.duke.compsci290.dukefoodapp.model.SampleUserFactory;
 import edu.duke.compsci290.dukefoodapp.model.UserMalformedException;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
@@ -82,7 +70,7 @@ public class UserActivity extends AppCompatActivity {
         // convert byte array back to bitmap
 //        mImageBitmap = BitmapFactory.decodeByteArray(mImageByteArray, 0, mImageByteArray.length);
 
-<<<<<<< HEAD
+
         setContentView(R.layout.activity_user);
 
         //set navigation
@@ -136,8 +124,6 @@ public class UserActivity extends AppCompatActivity {
                 return true;
             }
         });
-=======
->>>>>>> master
 
         setContentView(R.layout.activity_user);
 
