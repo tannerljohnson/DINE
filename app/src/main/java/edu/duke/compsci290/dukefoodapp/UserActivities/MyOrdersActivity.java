@@ -23,6 +23,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +43,7 @@ import java.util.Map;
 import edu.duke.compsci290.dukefoodapp.Database.IOnDatabaseRead;
 import edu.duke.compsci290.dukefoodapp.Database.OrderDB;
 import edu.duke.compsci290.dukefoodapp.R;
+import edu.duke.compsci290.dukefoodapp.login.ChooserActivity;
 import edu.duke.compsci290.dukefoodapp.model.IUser;
 import edu.duke.compsci290.dukefoodapp.model.Order;
 import edu.duke.compsci290.dukefoodapp.model.SampleOrderFactory;
@@ -55,6 +60,10 @@ public class MyOrdersActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private final String TAG = "My Orders Activity";
+
+    // for sign out
+    private FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
 
 
     @Override
@@ -83,6 +92,13 @@ public class MyOrdersActivity extends AppCompatActivity {
                         intent = new Intent(MyOrdersActivity.this, UserActivity.class);
                         intent.putExtra("type",user.getType());
                         intent.putExtra("user",user);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    case (R.id.logout):
+                        Log.d(TAG, "Log Out");
+                        signOut();
+                        intent = new Intent(MyOrdersActivity.this, ChooserActivity.class);
                         startActivity(intent);
                         finish();
                         break;
@@ -131,7 +147,21 @@ public class MyOrdersActivity extends AppCompatActivity {
 //        getUserOrdersFromFirebase();
     }
 
+    private void signOut() {
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
 
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mAuth = FirebaseAuth.getInstance();
+        // Firebase sign out
+        mAuth.signOut();
+
+        // Google sign out
+        mGoogleSignInClient.signOut();
+    }
 
 
     public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {

@@ -74,7 +74,6 @@ public class UserActivity extends AppCompatActivity {
 
     // for sign out
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private GoogleSignInClient mGoogleSignInClient;
 
 
