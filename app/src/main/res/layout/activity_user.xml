@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.duke.compsci290.dukefoodapp.UserActivities.UserActivity">
+    tools:context="edu.duke.compsci290.dukefoodapp.UserActivities.UserActivity"
+    android:id="@+id/drawerLayout">
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,22 +38,16 @@
                 android:layout_marginEnd="5dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/usertype"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="UserType"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-                <Button
-                    android:id="@+id/user_activity_settings"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="Settings"
-                    android:textSize="15sp" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/userActivityRefresh"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/cast_ic_notification_forward"
+                android:backgroundTint="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"
+                android:paddingRight="@dimen/activity_horizontal_margin" />
         </LinearLayout>
 
         <ScrollView
@@ -68,18 +65,19 @@
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="10dp"
-                    android:textSize="20sp"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"
                     android:text="Username"
-                    android:layout_gravity="center"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
                 <ImageView
                     android:id="@+id/userimage"
-                    android:layout_width="155dp"
-                    android:layout_height="173dp"
+                    android:layout_width="182dp"
+                    android:layout_height="176dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="2dp"
-                    android:background="@drawable/cast_ic_mini_controller_pause"
+                    android:background="@drawable/dinelogo"
                     android:paddingBottom="@dimen/activity_horizontal_margin" />
 
                 <TextView
@@ -104,5 +102,13 @@
     </LinearLayout>
 
 
+    <android.support.design.widget.NavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/navigation_menu"
+        android:layout_gravity="start"
+        android:id="@+id/navigation_view">
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>

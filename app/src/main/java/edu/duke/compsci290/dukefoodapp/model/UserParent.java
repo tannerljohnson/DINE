@@ -1,5 +1,7 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
+
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,30 +12,42 @@ import java.util.List;
  * Abstract parent class for all User classes with all getter and setter methods
  * For custom settings, @Override makeSettings method in user subclass
  */
-
 public abstract class UserParent implements IUser, Serializable {
-
     protected ArrayList<String> settings;
+
     protected String id;
+
     protected String name;
+
     protected String type;
+
     protected String email;
+
     protected String phone;
+
     protected String bio;
+
     protected int points;
+
     protected boolean eligibleForReward;
+
     protected List<String> pendingOrders;
+
     protected List<String> orderHistory;
+
     protected int familySize;
     // admin (pickup) and recipient (dropoff) must have address
+
     protected String address;
 //    protected byte[] imageByteArray;
 
     protected void makeSettings() {
         settings = new ArrayList<>();
+        settings.add("Home");
         settings.add("My Account");
         settings.add("My Orders");
         settings.add("Calendar");
+        settings.add("Log out");
     }
 
     // getters and setters -- must be in accordance with Realtime Database data structure
@@ -123,6 +137,20 @@ public abstract class UserParent implements IUser, Serializable {
 
     public String getAddress() {
         return this.address;
+    }
+
+
+    public void updateOrderHistory(String id){
+        if (this.orderHistory == null){
+            this.orderHistory = new ArrayList<>();
+        }
+        this.orderHistory.add(id);
+    }
+    public void updatePendingOrders(String id){
+        if (this.pendingOrders == null){
+            this.pendingOrders = new ArrayList<>();
+        }
+        this.pendingOrders.add(id);
     }
 
 }

@@ -1,8 +1,13 @@
 package edu.duke.compsci290.dukefoodapp.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -10,8 +15,8 @@ import java.sql.Timestamp;
 /**
  * Created by tannerjohnson on 4/6/18.
  */
-
 public class Order implements Parcelable{
+
 
     private String id;
     private Timestamp datePosted;
@@ -24,7 +29,7 @@ public class Order implements Parcelable{
     private String studentId;
     private String studentName;
     private String studentPhone;
-    private int status; // 0: pending student acceptance, 1: pending student delivery + recipient has accepted, 2:student has reconfirmed, 3: ready, 4: complete
+    private int status; // 0: pending student acceptance, 1: pending recipient acceptance, 2: order started, 3: student on the way, 4: complete
     private String pickupLocation;
     private String dropoffLocation;
     private String allergens;

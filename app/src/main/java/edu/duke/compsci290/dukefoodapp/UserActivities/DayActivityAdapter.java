@@ -1,23 +1,33 @@
 package edu.duke.compsci290.dukefoodapp.UserActivities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Parcelable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.firebase.ui.auth.data.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.duke.compsci290.dukefoodapp.Database.OrderDB;
+import edu.duke.compsci290.dukefoodapp.Database.UserDB;
 import edu.duke.compsci290.dukefoodapp.R;
 import edu.duke.compsci290.dukefoodapp.model.IDay;
 import edu.duke.compsci290.dukefoodapp.model.Order;
+import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
 /**
  * Created by tannerjohnson on 4/13/18.
@@ -28,13 +38,21 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
     public Context mContext;
     public String mUserType;
     public ArrayList<Order> mOrders;
+    public UserParent mUser;
+    public String date;
+    public OrderDB oDB;
+    public UserDB uDB;
     public static final String sTAG = "DayActivityAdapter";
 
     // constructor
-    public DayActivityAdapter(final Context context, ArrayList<Order> orders, String type) {
+    public DayActivityAdapter(final Context context, ArrayList<Order> orders, UserParent user,String date, OrderDB oDB) {
         this.mContext = context;
         this.mOrders = orders;
-        this.mUserType = type;
+        this.mUser = user;
+        this.mUserType = user.getType();
+        this.date = date;
+        this.oDB = oDB;
+        this.uDB = UserDB.getInstance();
         Log.d(sTAG,"# of orders(38): "+Integer.toString(mOrders.size()));
         Log.d(sTAG, "setting up DayActivityAdapter");
     }
@@ -65,21 +83,101 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
             @Override
             public void onClick(View view) {
                 if(mUserType == "recipient"){
-                    if (order.getRecipientId() != null){
-                        //toast
+                    if (order.getStatus()==2){
+                        CharSequence text = "Order Already Taken!";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(mContext, text, duration);
+                        toast.show();
 
                     }
                     else{
                         // open dialogue for the user
+                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(mContext);
+                        LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View mView = mInflater.inflate(R.layout.recipient_edit_order,null);
+                        TextView dining = mView.findViewById(R.id.recipient_dining_name);
+                        dining.setText("Dining Name: " + order.getDiningName());
+                        TextView allergens = mView.findViewById(R.id.recipient_allergens);
+                        allergens.setText("Allergens: " + order.getAllergens());
+                        final EditText recipientName = mView.findViewById(R.id.recipient_name);
+                        final EditText recipientAddress = mView.findViewById(R.id.recipient_address);
+                        final EditText recipientPickupTime = mView.findViewById(R.id.recipient_pickup_time);
+                        Button button = mView.findViewById(R.id.recipient_accept);
+                        mBuilder.setView(mView);
+                        final AlertDialog dialog = mBuilder.create();
+                        dialog.show();
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                String rname = recipientName.getText().toString();
+                                String raddress = recipientAddress.getText().toString();
+                                String deliver = recipientPickupTime.getText().toString();
+                                order.setDropoffLocation(raddress);
+                                order.setRecipientName(rname);
+                                order.setDeliveryTime(deliver);
+                                order.setRecipientId(mUser.getId());
+                                order.setRecipientPhone(mUser.getPhone());
+                                order.setStatus(2);
+                                oDB.setObject(order);
+                                oDB.writeToDatabase();
+                                mUser.updatePendingOrders(order.getId());
+                                mUser.updateOrderHistory(order.getId());
+                                uDB.setObject(mUser);
+                                uDB.writeToDatabase();
+                                dialog.dismiss();
+                                Intent intent = new Intent(mContext, DayActivity.class);
+                                intent.putExtra("user" ,mUser);
+                                intent.putExtra("date", date);
+                                mContext.startActivity(intent);
+                            }
+                        });
                     }
                 }
                 if(mUserType.equals("student")){
-                    if (order.getStudentId() != null){
-                        //toast
-
+                    if (order.getStatus() == 1){
+                        CharSequence text = "Order Already Taken!";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(mContext, text, duration);
+                        toast.show();
                     }
                     else{
                         // open dialogue for the user
+                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(mContext);
+                        LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View mView = mInflater.inflate(R.layout.student_edit_order,null);
+                        TextView dining = mView.findViewById(R.id.student_edit_dn);
+                        dining.setText("Dining Name: " + order.getDiningName());
+                        TextView allergens = mView.findViewById(R.id.student_edit_allergens);
+                        allergens.setText("Allergens: " + order.getAllergens());
+                        TextView diningPickupLocation = mView.findViewById(R.id.student_edit_dining_location);
+                        diningPickupLocation.setText("Pickup Time: " + order.getPickupLocation());
+                        TextView diningPickupTime = mView.findViewById(R.id.student_edit_dining_pt);
+                        diningPickupTime.setText("Pickup Time: " + order.getPickupTime());
+                        Button button = mView.findViewById(R.id.student_accept);
+                        mBuilder.setView(mView);
+                        final AlertDialog dialog = mBuilder.create();
+                        dialog.show();
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                order.setStudentId(mUser.getId());
+                                order.setStudentPhone(mUser.getPhone());
+                                order.setStudentName(mUser.getName());
+                                order.setStatus(1);
+                                mUser.updatePendingOrders(order.getId());
+                                mUser.updateOrderHistory(order.getId());
+                                oDB.setObject(order);
+                                oDB.writeToDatabase();
+                                uDB.setObject(mUser);
+                                uDB.writeToDatabase();
+                                Log.d(sTAG,order.getId());
+                                dialog.dismiss();
+                                Intent intent = new Intent(mContext, DayActivity.class);
+                                intent.putExtra("user" ,mUser);
+                                intent.putExtra("date", date);
+                                mContext.startActivity(intent);
+                            }
+                        });
                     }
                 }
             }

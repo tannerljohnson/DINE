@@ -6,7 +6,7 @@ package edu.duke.compsci290.dukefoodapp.Database;
 
 public interface IDatabase {
     void writeToDatabase();
-    void readFromDatabase();
+    void readFromDatabase(String id);
     void setObject(Object object);
     Object getObject();
 }

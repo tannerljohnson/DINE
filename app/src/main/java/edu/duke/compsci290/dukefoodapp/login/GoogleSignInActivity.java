@@ -23,7 +23,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -50,11 +49,9 @@ import edu.duke.compsci290.dukefoodapp.R;
 import edu.duke.compsci290.dukefoodapp.UserActivities.UserActivity;
 import edu.duke.compsci290.dukefoodapp.UserActivities.UserPreferencesActivity;
 import edu.duke.compsci290.dukefoodapp.model.DiningUser;
-import edu.duke.compsci290.dukefoodapp.model.IUser;
 import edu.duke.compsci290.dukefoodapp.model.RecipientUser;
 import edu.duke.compsci290.dukefoodapp.model.SampleUserFactory;
 import edu.duke.compsci290.dukefoodapp.model.StudentUser;
-import edu.duke.compsci290.dukefoodapp.model.UserMalformedException;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
 /**
@@ -71,6 +68,7 @@ public class GoogleSignInActivity extends BaseActivity implements
     // [END declare_auth]
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private String mUserId;
+    private String mUserEmail;
 
     private GoogleSignInClient mGoogleSignInClient;
     private TextView mStatusTextView;
@@ -154,7 +152,12 @@ public class GoogleSignInActivity extends BaseActivity implements
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            // update global id and email
+                            mUserId = user.getUid();
+                            mUserEmail = user.getEmail();
+                            verifyId();
+//                            showProgressDialog();
+//                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -167,6 +170,9 @@ public class GoogleSignInActivity extends BaseActivity implements
                         // [END_EXCLUDE]
                     }
                 });
+
+        // FINISHED SIGN IN
+//        verifyId(mUserId, mUserEmail);
     }
     // [END auth_with_google]
 
@@ -174,6 +180,8 @@ public class GoogleSignInActivity extends BaseActivity implements
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+//        verifyId(mUserId, mUserEmail);
+//        showProgressDialog();
     }
     // [END signin]
 
@@ -210,17 +218,16 @@ public class GoogleSignInActivity extends BaseActivity implements
         if (user != null) {
 //            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
 //            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-//
 //            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
 //            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
 //            Log.d(TAG, "successfully signed in with Google account!\n Sending sample data to Realtime db...");
             // start UserPreferencesActivity
             String userId = user.getUid();
             mUserId = userId;
-            String userEmail = user.getEmail();
+            mUserEmail = user.getEmail();
             Log.d(TAG, "user has firebase auth id: " + userId);
-            Log.d(TAG, "user has firebase email: " + userEmail);
-            verifyId(userId, userEmail);
+            Log.d(TAG, "user has firebase email: " + mUserEmail);
+            verifyId();
             showProgressDialog();
 //            Intent intent = new Intent(GoogleSignInActivity.this, UserPreferencesActivity.class);
 //            startActivity(intent);
@@ -237,8 +244,9 @@ public class GoogleSignInActivity extends BaseActivity implements
         }
     }
 
-    private void verifyId(final String userId, final String userEmail) {
-        Query query = mDatabase.child("users").orderByChild("id").equalTo(userId);
+    private void verifyId() {
+        Query query = mDatabase.child("users").orderByChild("id").equalTo(mUserId);
+        Log.d(TAG, "querying db for snapshot: " + mUserId + ":" + mUserEmail);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -274,7 +282,7 @@ public class GoogleSignInActivity extends BaseActivity implements
                     Log.d(TAG, "snapshot does NOT exist");
                     intent = new Intent(GoogleSignInActivity.this, UserPreferencesActivity.class);
                     intent.putExtra("id", mUserId);
-                    intent.putExtra("email", userEmail);
+                    intent.putExtra("email", mUserEmail);
                     startActivity(intent);
                 }
             }
