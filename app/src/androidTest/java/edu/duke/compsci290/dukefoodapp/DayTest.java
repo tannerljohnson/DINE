@@ -5,7 +5,6 @@ package edu.duke.compsci290.dukefoodapp;
  */
 
 import android.os.Parcel;
-import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
