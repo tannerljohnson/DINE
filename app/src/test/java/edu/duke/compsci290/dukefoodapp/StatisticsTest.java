@@ -23,15 +23,15 @@ public class StatisticsTest {
         x.add("pendingOrder");
         y.add("orderHistory");
         ArrayList<String> allstats = new ArrayList<String>();
-        allstats.add("Orders: 1");
-        allstats.add("Pending Order: true");
+        allstats.add("Orders completed: 1");
+        allstats.add("Pending Order(s): true");
         allstats.add("Points: 2");
         allstats.add("Reward Eligibility: true");
         DiningUser dUser = new DiningUser("id", "name", "type", "email", "phone", "bio", 2, true, x, y);
         Statistics stats = new Statistics(dUser);
-        assertEquals("Orders: 1", stats.getOrdersDone());
+        assertEquals("Orders completed: 1", stats.getOrdersDone());
         assertEquals("Reward Eligibility: true", stats.getRewardEligibility());
-        assertEquals("Pending Order: true", stats.getPendingOrderBoolean());
+        assertEquals("Pending Order(s): true", stats.getPendingOrderBoolean());
         assertEquals("Points: 2", stats.getPointTotal());
         assertEquals(allstats, stats.getAllStats());
 
