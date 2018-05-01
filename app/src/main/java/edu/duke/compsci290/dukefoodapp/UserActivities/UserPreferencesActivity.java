@@ -109,6 +109,10 @@ public class UserPreferencesActivity extends AppCompatActivity {
         mAddressTextView = findViewById(R.id.userAddressPrompt);
         mAddressEditText = findViewById(R.id.userAddressEdit);
 
+        // set up input text fields
+        mNameText = findViewById(R.id.userName);
+        mPhoneText = findViewById(R.id.userPhone);
+        mBioText = findViewById(R.id.userBio);
 
         //set up spinner
         mTypes = this.getResources().getStringArray(R.array.user_types);
@@ -131,6 +135,8 @@ public class UserPreferencesActivity extends AppCompatActivity {
                     // set address visible
                     mAddressEditText.setVisibility(View.VISIBLE);
                     mAddressTextView.setVisibility(View.VISIBLE);
+                    // change name hint
+                    mNameText.setHint("Firstname Lastname");
                 } else if (selectedItem.equals("admin")) {
                     // set address visible
                     mAddressEditText.setVisibility(View.VISIBLE);
@@ -138,6 +144,8 @@ public class UserPreferencesActivity extends AppCompatActivity {
                     // set family size invisible
                     mFamilySizeTextView.setVisibility(View.GONE);
                     mFamilySizeEditText.setVisibility(View.GONE);
+                    // change name hint
+                    mNameText.setHint("Eatery Name");
                 } else { // student
                     // set family size invisible
                     mFamilySizeTextView.setVisibility(View.GONE);
@@ -145,6 +153,8 @@ public class UserPreferencesActivity extends AppCompatActivity {
                     // set address invisible
                     mAddressEditText.setVisibility(View.GONE);
                     mAddressTextView.setVisibility(View.GONE);
+                    // change name hint
+                    mNameText.setHint("Firstname Lastname");
                 }
             } // to close the onItemSelected
             public void onNothingSelected(AdapterView<?> parent)
@@ -157,10 +167,7 @@ public class UserPreferencesActivity extends AppCompatActivity {
         mUserEmailTextView = findViewById(R.id.userEmail);
         mUserEmailTextView.setText(mUserEmail);
 
-        // set up input text fields
-        mNameText = findViewById(R.id.userName);
-        mPhoneText = findViewById(R.id.userPhone);
-        mBioText = findViewById(R.id.userBio);
+
 
         // set up submit button
         mSubmitButton = findViewById(R.id.userPrefsSubmitButton);
