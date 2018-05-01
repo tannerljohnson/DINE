@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="10:00" />
+        android:hint="7:00pm" />
 
     <Button
         android:id="@+id/recipient_accept"
