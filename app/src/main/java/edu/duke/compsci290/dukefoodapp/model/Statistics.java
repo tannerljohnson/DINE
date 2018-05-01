@@ -14,6 +14,7 @@ public class Statistics implements IStats {
     private String mRewardEligibility;
     private String mPendingOrderBoolean;
     private String mPointTotal;
+    private String mBio;
     private ArrayList<String> mAllStats;
 
     public Statistics(IUser user) {
@@ -35,6 +36,7 @@ public class Statistics implements IStats {
 
         mOrdersDone = "Orders completed: " + Integer.toString(totalOrdersToDate);
         mRewardEligibility = "Reward Eligibility: " + String.valueOf(user.getEligibleForReward());
+        mBio = "Bio: " + user.getBio();
         boolean pendingOrder = true;
         if (user.getPendingOrders() == null) {
             pendingOrder = false;
@@ -48,6 +50,7 @@ public class Statistics implements IStats {
         mAllStats.add(mPendingOrderBoolean);
         mAllStats.add(mPointTotal);
         mAllStats.add(mRewardEligibility);
+        mAllStats.add(mBio);
     }
 
     public String getOrdersDone(){
