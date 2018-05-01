@@ -19,7 +19,7 @@ Overall, each user has the same basic activities.
 
 At all times, there is a drop down menu at the top left that contains the buttons to Home, Calendar, My Orders, and Log Out. 
 
-The home screen has some of the users account information on it, such as the optional profile picture, number of points, whether or not they have pending orders,  
+The home screen has some of the users account information on it, such as the optional profile picture, number of points, and whether or not they have pending orders.  
 
 The Calendar Page is accessible to all users and shows a basic view of a calendar.  When a user clicks on a day, the orders that currently exist on that day appear.  The user can then view the information and sign up for that order. 
 
