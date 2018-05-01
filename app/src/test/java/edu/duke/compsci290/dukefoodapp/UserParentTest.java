@@ -26,8 +26,8 @@ public class UserParentTest {
         y.add("orderHistory");
         DiningUser dser = new DiningUser("id", "name", "type", "email", "phone", "bio", 2, true, x, y);
         ArrayList<String> allstats = new ArrayList<String>();
-        allstats.add("Orders: 1");
-        allstats.add("Pending Order: true");
+        allstats.add("Orders completed: 1");
+        allstats.add("Pending Order(s): true");
         allstats.add("Points: 2");
         allstats.add("Reward Eligibility: true");
         try {
