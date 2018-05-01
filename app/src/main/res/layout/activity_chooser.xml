@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <ScrollView
+        android:id="@+id/chooserScrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/linearLayout"
@@ -40,6 +45,7 @@
 
 
     </LinearLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/chooseGoogleSignIn"
@@ -48,11 +54,10 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="107dp"
         android:layout_marginStart="108dp"
-        android:layout_marginTop="7dp"
         android:text="Sign In with Google"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>

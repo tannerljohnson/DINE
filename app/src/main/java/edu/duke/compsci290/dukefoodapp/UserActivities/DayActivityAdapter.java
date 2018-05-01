@@ -84,7 +84,7 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
             @Override
             public void onClick(View view) {
                 if(mUserType == "recipient"){
-                    if (order.getStatus()==2){
+                    if (order.getStatus()>=2){
                         CharSequence text = "Order Already Taken!";
                         int duration = Toast.LENGTH_SHORT;
                         Toast toast = Toast.makeText(mContext, text, duration);
