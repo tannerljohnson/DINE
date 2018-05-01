@@ -24,6 +24,8 @@ public class UserDB implements IDatabase {
     private UserParent mUser;
     private DatabaseReference mDatabase;
     private final String Tag = "UserDB";
+    private IOnDatabaseRead mListener;
+
 
 
     public static UserDB getInstance() {
@@ -31,6 +33,10 @@ public class UserDB implements IDatabase {
             mInstance = new UserDB();
         }
         return mInstance;
+    }
+
+    public void setCustomEventListener(IOnDatabaseRead eventListener) {
+        this.mListener=eventListener;
     }
 
     public  UserDB(){
@@ -63,6 +69,9 @@ public class UserDB implements IDatabase {
                         } else {
                             Log.d(Tag, "user does not have valid type field!");
                         }
+                    }
+                    if(mListener!=null){
+                        mListener.onEvent();
                     }
                 } else { // does not exist
                     Log.d(Tag, "snapshot does NOT exist");

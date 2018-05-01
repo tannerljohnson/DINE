@@ -74,8 +74,8 @@ public class CalendarActivity extends AppCompatActivity {
                         finish();
                         break;
                     case(R.id.my_orders):
-                        if (user.getOrderHistory() == null){
-                            CharSequence text = "You Have No Orders!";
+                        if (user.getPendingOrders() == null){
+                            CharSequence text = "You Have No Pending Orders!";
                             int duration = Toast.LENGTH_SHORT;
                             Toast toast = Toast.makeText(CalendarActivity.this, text, duration);
                             toast.show();

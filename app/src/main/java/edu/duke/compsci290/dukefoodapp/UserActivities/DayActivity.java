@@ -74,6 +74,10 @@ public class DayActivity extends AppCompatActivity {
         //Grab Intent information passed from CalendarActivity
         final Intent receivedIntent = this.getIntent();
         user = (UserParent) receivedIntent.getSerializableExtra("user");
+
+        // could be getting old data (bug) so must query for user again...
+
+
         date = receivedIntent.getStringExtra("date");
         uDB = UserDB.getInstance();
 
@@ -104,8 +108,8 @@ public class DayActivity extends AppCompatActivity {
                         finish();
                         break;
                     case(R.id.my_orders):
-                        if (user.getOrderHistory() == null){
-                            CharSequence text = "You Have No Orders!";
+                        if (user.getPendingOrders() == null){
+                            CharSequence text = "You Have No Pending Orders!";
                             int duration = Toast.LENGTH_SHORT;
                             Toast toast = Toast.makeText(DayActivity.this, text, duration);
                             toast.show();

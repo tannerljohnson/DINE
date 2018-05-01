@@ -26,6 +26,13 @@
                 android:layout_gravity="center_vertical|start"
                 android:layout_marginStart="5dp" />
 
+            <TextView
+                android:id="@+id/userTypeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="User Type" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"

@@ -14,30 +14,19 @@ import java.util.List;
  */
 public abstract class UserParent implements IUser, Serializable {
     protected ArrayList<String> settings;
-
+    protected ArrayList<String> statistics;
     protected String id;
-
     protected String name;
-
     protected String type;
-
     protected String email;
-
     protected String phone;
-
     protected String bio;
-
     protected int points;
-
     protected boolean eligibleForReward;
-
     protected List<String> pendingOrders;
-
     protected List<String> orderHistory;
-
     protected int familySize;
     // admin (pickup) and recipient (dropoff) must have address
-
     protected String address;
 //    protected byte[] imageByteArray;
 
@@ -90,6 +79,9 @@ public abstract class UserParent implements IUser, Serializable {
     public void setBio(String bio) { this.bio = bio; }
 
     public List<String> getPendingOrders() {
+        if (this.pendingOrders == null) {
+            this.pendingOrders = new ArrayList<>();
+        }
         return this.pendingOrders;
     }
 
@@ -118,7 +110,12 @@ public abstract class UserParent implements IUser, Serializable {
             throw new UserMalformedException("Must initialize user before creating statistics!");
         }
         Statistics stats = new Statistics(this);
+        this.statistics = stats.getAllStats();
         return stats.getAllStats();
+    }
+
+    public void setStatistics(ArrayList<String> stats) {
+        this.statistics = stats;
     }
 
     public ArrayList<String> getSettings() { return this.settings; }
@@ -129,6 +126,21 @@ public abstract class UserParent implements IUser, Serializable {
 
     public int getFamilySize() {
         return this.familySize;
+    }
+
+    public void addPoints(int points) {
+        this.points += points;
+        if (this.points >= 500) {
+            setEligibleForReward(true);
+        }
+    }
+
+    public void removePendingOrder(String orderId) {
+        for (int i=0; i<this.pendingOrders.size(); i++) {
+            if (this.pendingOrders.get(i).equals(orderId)) {
+                this.pendingOrders.remove(i);
+            }
+        }
     }
 
     public void setAddress(String address) {
