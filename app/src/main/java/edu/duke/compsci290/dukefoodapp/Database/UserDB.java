@@ -17,6 +17,8 @@ import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
 /**
  * Created by tevin on 4/22/2018.
+ *
+ * Singleton class to perform reads/writes on user objects in firebase realtime db
  */
 
 public class UserDB implements IDatabase {

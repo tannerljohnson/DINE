@@ -83,7 +83,7 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
         holder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mUserType == "recipient"){
+                if(mUserType.equals("recipient")){
                     if (order.getStatus()>=2){
                         CharSequence text = "Order Already Taken!";
                         int duration = Toast.LENGTH_SHORT;
@@ -101,7 +101,9 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
                         TextView allergens = mView.findViewById(R.id.recipient_allergens);
                         allergens.setText("Allergens: " + order.getAllergens());
                         final EditText recipientName = mView.findViewById(R.id.recipient_name);
+                        recipientName.setText(mUser.getName());
                         final EditText recipientAddress = mView.findViewById(R.id.recipient_address);
+                        recipientAddress.setText(mUser.getAddress());
                         final EditText recipientPickupTime = mView.findViewById(R.id.recipient_pickup_time);
                         Button button = mView.findViewById(R.id.recipient_accept);
                         mBuilder.setView(mView);
@@ -122,7 +124,7 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
                                 oDB.setObject(order);
                                 oDB.writeToDatabase();
                                 mUser.updatePendingOrders(order.getId());
-                                mUser.updateOrderHistory(order.getId());
+//                                mUser.updateOrderHistory(order.getId());
                                 uDB.setObject(mUser);
                                 uDB.writeToDatabase();
                                 dialog.dismiss();
@@ -138,7 +140,7 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
                     }
                 }
                 if(mUserType.equals("student")){
-                    if (order.getStatus() == 1){
+                    if (order.getStatus() >= 1){
                         CharSequence text = "Order Already Taken!";
                         int duration = Toast.LENGTH_SHORT;
                         Toast toast = Toast.makeText(mContext, text, duration);
@@ -169,7 +171,7 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
                                 order.setStudentName(mUser.getName());
                                 order.setStatus(1);
                                 mUser.updatePendingOrders(order.getId());
-                                mUser.updateOrderHistory(order.getId());
+//                                mUser.updateOrderHistory(order.getId());
                                 oDB.setObject(order);
                                 oDB.writeToDatabase();
                                 uDB.setObject(mUser);

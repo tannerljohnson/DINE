@@ -8,6 +8,8 @@ import java.util.List;
 
 /**
  * Created by tannerjohnson on 4/5/18.
+ *
+ * Singleton instance of Order object used for testing.
  */
 
 public class SampleOrderFactory {

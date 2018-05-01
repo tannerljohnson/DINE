@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * Created by tannerjohnson on 4/5/18.
+ *
+ * Test class to view day fields in console
  */
 
 // FOR TESTING ONLY

@@ -1,5 +1,10 @@
 package edu.duke.compsci290.dukefoodapp.UserActivities;
 
+/**
+ * User home activity. Dynamically created based on user's type.
+ * From here, user visualizes their info (statistics) and profile picture (if applicable)
+ * They may also use the navigation bar to traverse other activities (my orders, calendar, home) or logout.
+ */
 
 import android.content.Context;
 import android.content.Intent;
@@ -61,7 +66,6 @@ public class UserActivity extends AppCompatActivity {
     private ArrayList<String> mStatistics;
     private ArrayList<String> mSettings;
     private UserParent user;
-    private UserDB uDB;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private byte[] mImageByteArray;
@@ -78,22 +82,19 @@ public class UserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         // get id from sign in activity intent
         Intent receivedIntent = this.getIntent();
 
         // check intent for log out
         user = (UserParent) receivedIntent.getSerializableExtra("user");
+        // check if received valid user
         if (user != null) {
             Log.d(TAG, "received user name: " + user.getName());
         }
+        // initialize firebase storage
         mStorage = FirebaseStorage.getInstance();
 
-//        mImageByteArray = user.getImageByteArray();
-        // convert byte array back to bitmap
-//        mImageBitmap = BitmapFactory.decodeByteArray(mImageByteArray, 0, mImageByteArray.length);
-
-
+        // set content view
         setContentView(R.layout.activity_user);
 
         //set navigation
@@ -104,7 +105,6 @@ public class UserActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //setup clickables to navigation view
-
         NavigationView nv = (NavigationView) findViewById(R.id.navigation_view);
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -163,16 +163,15 @@ public class UserActivity extends AppCompatActivity {
 
         //initialize views
         mLogo = findViewById(R.id.userlogo);
-//        mUsertype = findViewById(R.id.usertype);
         mUsername = findViewById(R.id.username);
+        mUsername.setText("Welcome " + user.getName() + "!");
         mUsertype = findViewById(R.id.userTypeTV);
         mUsertype.setText("Type: " + user.getType());
+
+        // set up image
         mUserimage = findViewById(R.id.userimage);
-
-
         queryAndSetPicture();
 
-        mUsername.setText("Welcome " + user.getName() + "!");
 
         //generate statistics if not generated
         try {
@@ -224,7 +223,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle any errors
-//                mUserimage.setBackgroundResource(#80000000);
+//                 mUserimage.setBackgroundColor(80000000);
             }
         });
 

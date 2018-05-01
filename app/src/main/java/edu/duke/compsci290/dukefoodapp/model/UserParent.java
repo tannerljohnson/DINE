@@ -28,8 +28,8 @@ public abstract class UserParent implements IUser, Serializable {
     protected int familySize;
     // admin (pickup) and recipient (dropoff) must have address
     protected String address;
-//    protected byte[] imageByteArray;
 
+    // override this to customize user settings
     protected void makeSettings() {
         settings = new ArrayList<>();
         settings.add("Home");
@@ -39,7 +39,7 @@ public abstract class UserParent implements IUser, Serializable {
         settings.add("Log out");
     }
 
-    // getters and setters -- must be in accordance with Realtime Database data structure
+    // getters and setters -- must be named in accordance with Realtime Database data structure
     public String getId() { return this.id; }
 
     public void setId(String id) { this.id = id; }
@@ -114,6 +114,7 @@ public abstract class UserParent implements IUser, Serializable {
         return stats.getAllStats();
     }
 
+    // setter for database reads from Realtime DB
     public void setStatistics(ArrayList<String> stats) {
         this.statistics = stats;
     }

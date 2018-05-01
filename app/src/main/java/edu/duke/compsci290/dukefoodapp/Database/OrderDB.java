@@ -16,6 +16,8 @@ import edu.duke.compsci290.dukefoodapp.model.Order;
 
 /**
  * Created by tevin on 4/22/2018.
+ *
+ * Singleton class to perform reads/writes on order objects in firebase realtime db
  */
 
 public class OrderDB implements IDatabase, Serializable {
@@ -31,6 +33,7 @@ public class OrderDB implements IDatabase, Serializable {
         this.mListener=eventListener;
     }
 
+    // create singleton instance
     public static OrderDB getInstance() {
         if (mInstance == null) {
             mInstance = new OrderDB();
