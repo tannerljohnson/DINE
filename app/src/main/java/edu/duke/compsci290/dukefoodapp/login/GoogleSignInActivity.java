@@ -156,8 +156,7 @@ public class GoogleSignInActivity extends BaseActivity implements
                             mUserId = user.getUid();
                             mUserEmail = user.getEmail();
                             verifyId();
-//                            showProgressDialog();
-//                            updateUI(user);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -172,7 +171,6 @@ public class GoogleSignInActivity extends BaseActivity implements
                 });
 
         // FINISHED SIGN IN
-//        verifyId(mUserId, mUserEmail);
     }
     // [END auth_with_google]
 
@@ -180,8 +178,6 @@ public class GoogleSignInActivity extends BaseActivity implements
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-//        verifyId(mUserId, mUserEmail);
-//        showProgressDialog();
     }
     // [END signin]
 
@@ -216,11 +212,6 @@ public class GoogleSignInActivity extends BaseActivity implements
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-//            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
-//            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-//            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-//            Log.d(TAG, "successfully signed in with Google account!\n Sending sample data to Realtime db...");
             // start UserPreferencesActivity
             String userId = user.getUid();
             mUserId = userId;
@@ -229,12 +220,7 @@ public class GoogleSignInActivity extends BaseActivity implements
             Log.d(TAG, "user has firebase email: " + mUserEmail);
             verifyId();
             showProgressDialog();
-//            Intent intent = new Intent(GoogleSignInActivity.this, UserPreferencesActivity.class);
-//            startActivity(intent);
 
-            // TODO: put this in User Preferences Activity (i.e., this is for testing purposes only!!
-//            writeSampleData();
-//            updateSampleData();
         } else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);
@@ -244,6 +230,7 @@ public class GoogleSignInActivity extends BaseActivity implements
         }
     }
 
+    // method that queries realtime db to see if user already registered. if no, send to user preferences. if yes, load user data.
     private void verifyId() {
         Query query = mDatabase.child("users").orderByChild("id").equalTo(mUserId);
         Log.d(TAG, "querying db for snapshot: " + mUserId + ":" + mUserEmail);
@@ -252,8 +239,7 @@ public class GoogleSignInActivity extends BaseActivity implements
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Intent intent;
                 if (dataSnapshot.exists()) {
-//                    String test = dataSnapshot.getValue(String.class);
-//                    Log.d(TAG, "verfied ID in db: " + test);
+
                     Log.d(TAG, "snapshot does exist");
                     for (DataSnapshot issue : dataSnapshot.getChildren()) {
                         // look up child("type") and create user based on that
@@ -310,6 +296,7 @@ public class GoogleSignInActivity extends BaseActivity implements
         }
     }
 
+    // TESTING ONLY
     private void writeSampleData() {
         SampleUserFactory factory = SampleUserFactory.getInstance();
         StudentUser studentUser = factory.getSampleStudentUser();
@@ -318,6 +305,7 @@ public class GoogleSignInActivity extends BaseActivity implements
         mDatabase.child("users").child(studentUser.getId()).child("name").setValue("Jared Keyes");
     }
 
+    // TESTING ONLY
     private void updateSampleData() {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
