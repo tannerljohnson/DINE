@@ -30,11 +30,15 @@ public class Statistics implements IStats {
             totalOrdersToDate = user.getOrderHistory().size();
         }
 
-        mOrdersDone = "Orders: " + Integer.toString(totalOrdersToDate);
+        mOrdersDone = "Orders completed: " + Integer.toString(totalOrdersToDate);
         mRewardEligibility = "Reward Eligibility: " + String.valueOf(user.getEligibleForReward());
         boolean pendingOrder = true;
-        if (user.getPendingOrders() == null) pendingOrder = false;
-        mPendingOrderBoolean = "Pending Order: " + String.valueOf(pendingOrder);
+        if (user.getPendingOrders() == null) {
+            pendingOrder = false;
+        } else if (user.getPendingOrders().size() == 0) {
+            pendingOrder = false;
+        }
+        mPendingOrderBoolean = "Pending Order(s): " + String.valueOf(pendingOrder);
         mPointTotal = "Points: " + Integer.toString(user.getPoints());
         mAllStats = new ArrayList<>();
         mAllStats.add(mOrdersDone);

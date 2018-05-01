@@ -25,6 +25,7 @@ import java.util.List;
 import edu.duke.compsci290.dukefoodapp.Database.OrderDB;
 import edu.duke.compsci290.dukefoodapp.Database.UserDB;
 import edu.duke.compsci290.dukefoodapp.R;
+import edu.duke.compsci290.dukefoodapp.login.GoogleSignInActivity;
 import edu.duke.compsci290.dukefoodapp.model.IDay;
 import edu.duke.compsci290.dukefoodapp.model.Order;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
@@ -125,9 +126,12 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
                                 uDB.setObject(mUser);
                                 uDB.writeToDatabase();
                                 dialog.dismiss();
-                                Intent intent = new Intent(mContext, DayActivity.class);
-                                intent.putExtra("user" ,mUser);
-                                intent.putExtra("date", date);
+//                                Intent intent = new Intent(mContext, DayActivity.class);
+//                                intent.putExtra("user" ,mUser);
+//                                intent.putExtra("date", date);
+
+                                // ALWAYS GO BACK HOME SO WE CAN REFRESH DATA
+                                Intent intent = new Intent(mContext, GoogleSignInActivity.class);
                                 mContext.startActivity(intent);
                             }
                         });
@@ -150,7 +154,7 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
                         TextView allergens = mView.findViewById(R.id.student_edit_allergens);
                         allergens.setText("Allergens: " + order.getAllergens());
                         TextView diningPickupLocation = mView.findViewById(R.id.student_edit_dining_location);
-                        diningPickupLocation.setText("Pickup Time: " + order.getPickupLocation());
+                        diningPickupLocation.setText("Pickup Location: " + order.getPickupLocation());
                         TextView diningPickupTime = mView.findViewById(R.id.student_edit_dining_pt);
                         diningPickupTime.setText("Pickup Time: " + order.getPickupTime());
                         Button button = mView.findViewById(R.id.student_accept);
@@ -172,9 +176,11 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
                                 uDB.writeToDatabase();
                                 Log.d(sTAG,order.getId());
                                 dialog.dismiss();
-                                Intent intent = new Intent(mContext, DayActivity.class);
-                                intent.putExtra("user" ,mUser);
-                                intent.putExtra("date", date);
+//                                Intent intent = new Intent(mContext, DayActivity.class);
+//                                intent.putExtra("user" ,mUser);
+//                                intent.putExtra("date", date);
+                                // ALWAYS GO BACK HOME SO WE CAN REFRESH DATA
+                                Intent intent = new Intent(mContext, GoogleSignInActivity.class);
                                 mContext.startActivity(intent);
                             }
                         });

@@ -26,24 +26,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import edu.duke.compsci290.dukefoodapp.Database.IOnDatabaseRead;
 import edu.duke.compsci290.dukefoodapp.Database.OrderDB;
+import edu.duke.compsci290.dukefoodapp.Database.UserDB;
 import edu.duke.compsci290.dukefoodapp.R;
 
 import edu.duke.compsci290.dukefoodapp.login.ChooserActivity;
-import edu.duke.compsci290.dukefoodapp.model.IUser;
 import edu.duke.compsci290.dukefoodapp.model.Order;
+import edu.duke.compsci290.dukefoodapp.model.RecipientUser;
+import edu.duke.compsci290.dukefoodapp.model.StudentUser;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
 public class MyOrdersActivity extends AppCompatActivity {
@@ -53,7 +46,7 @@ public class MyOrdersActivity extends AppCompatActivity {
     public RecyclerView rv;
 
     public UserParent user;
-    public List<String> orderHistory;
+    public List<String> pendingOrders;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private final String TAG = "My Orders Activity";
@@ -100,8 +93,8 @@ public class MyOrdersActivity extends AppCompatActivity {
                         finish();
                         break;
                     case(R.id.my_orders):
-                        if (user.getOrderHistory() == null){
-                            CharSequence text = "You Have No Orders!";
+                        if (user.getPendingOrders() == null){
+                            CharSequence text = "You Have No Pending Orders!";
                             int duration = Toast.LENGTH_SHORT;
                             Toast toast = Toast.makeText(MyOrdersActivity.this, text, duration);
                             toast.show();
@@ -130,7 +123,7 @@ public class MyOrdersActivity extends AppCompatActivity {
         //Grab Intent information
         Intent receivedIntent = this.getIntent();
         user = (UserParent) receivedIntent.getSerializableExtra("user");
-        orderHistory = user.getOrderHistory();
+        pendingOrders = user.getPendingOrders();
 
         // check some intent data
         Log.d(TAG, user.getName().toString());
@@ -138,7 +131,7 @@ public class MyOrdersActivity extends AppCompatActivity {
 
         //set up recycler view
         rv = findViewById(R.id.my_orders_recycler_view);
-        rv.setAdapter(new OrderAdapter(this, orderHistory));
+        rv.setAdapter(new OrderAdapter(this, pendingOrders));
         rv.setLayoutManager(new LinearLayoutManager(this));
 
 //        getUserOrdersFromFirebase();
@@ -163,8 +156,10 @@ public class MyOrdersActivity extends AppCompatActivity {
 
     public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
         private Context mContext;
-        private List<String> orderhistory;
+        private List<String> pendingorders;
         private OrderDB oDB;
+        private UserDB uDB;
+        private UserParent mStudentUser;
         private Order mOrder;
 
 
@@ -177,10 +172,12 @@ public class MyOrdersActivity extends AppCompatActivity {
             }
         }
 
-        public OrderAdapter(Context context, List<String> orderhistory) {
+        public OrderAdapter(Context context, List<String> pendingorders) {
             this.mContext = context;
-            this.orderhistory = orderhistory;
+            this.pendingorders = pendingorders;
             this.oDB = OrderDB.getInstance();
+            this.uDB = UserDB.getInstance();
+//            this.mStudentUser = new StudentUser();
             this.mOrder = new Order();
         }
 
@@ -188,7 +185,7 @@ public class MyOrdersActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount(){
-            return orderHistory.size();
+            return pendingOrders.size();
         }
 
         @Override
@@ -206,7 +203,7 @@ public class MyOrdersActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-            oDB.readFromDatabase(orderhistory.get(position));
+            oDB.readFromDatabase(pendingorders.get(position));
             oDB.setCustomEventListener(new IOnDatabaseRead() {
                 @Override
                 public void onEvent() {
@@ -215,7 +212,7 @@ public class MyOrdersActivity extends AppCompatActivity {
                     holder.orderid.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //TODO: create different dialogues for each person
+                            // create different dialogues for each person
                             if (user.getType().equals("admin")){
                                 adminDialogue();
                             }
@@ -223,6 +220,7 @@ public class MyOrdersActivity extends AppCompatActivity {
                                 studentDialogue();
                             }
                             if (user.getType().equals("recipient")){
+                                readStudentUserFromDB();
                                 recipientDialogue();
                             }
                         }
@@ -230,7 +228,19 @@ public class MyOrdersActivity extends AppCompatActivity {
                 }
             });
 
+        }
 
+        private void readStudentUserFromDB() {
+            uDB.readFromDatabase(mOrder.getStudentId());
+//            uDB.setCustomEventListener(new IOnDatabaseRead() {
+//                @Override
+//                public void onEvent() {
+//                    mStudentUser = (StudentUser) uDB.getObject();
+//                    Log.d(TAG, "Read from uDB: " + mStudentUser.getName() + " with points: " + mStudentUser.getPoints());
+//                }
+//            });
+//            mStudentUser = (StudentUser) uDB.getObject();
+//            Log.d(TAG, "Read from uDB: " + mStudentUser.getName() + " with points: " + mStudentUser.getPoints());
         }
 
         private void recipientDialogue() {
@@ -255,7 +265,40 @@ public class MyOrdersActivity extends AppCompatActivity {
                     mOrder.setStatus(4);
                     oDB.setObject(mOrder);
                     oDB.writeToDatabase();
+                    // get student user
+                    mStudentUser = (StudentUser) uDB.getObject();
+                    Log.d(TAG, "Read from uDB: " + mStudentUser.getName() + " with points: " + mStudentUser.getPoints());
+                    mStudentUser.addPoints(100);
+                    mStudentUser.removePendingOrder(mOrder.getId());
+                    mStudentUser.updateOrderHistory(mOrder.getId());
+                    // write new user to uDB
+                    uDB.setObject(mStudentUser);
+                    uDB.writeToDatabase();
+                    // update recipient user's history/pending
+                    updateRecipientUserInfo();
+                    // update User
                     dialog.dismiss();
+                    Toast.makeText(MyOrdersActivity.this, "Thank you. Enjoy!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MyOrdersActivity.this, UserActivity.class);
+                    intent.putExtra("user", user);
+                    startActivity(intent);
+                }
+            });
+
+        }
+
+        private void updateRecipientUserInfo() {
+            uDB.setObject(null);
+            uDB.readFromDatabase(mOrder.getRecipientId());
+            uDB.setCustomEventListener(new IOnDatabaseRead() {
+                @Override
+                public void onEvent() {
+                    RecipientUser recipientUser = (RecipientUser) uDB.getObject();
+                    Log.d(TAG, "recipient user is: " + recipientUser.getName());
+                    recipientUser.removePendingOrder(mOrder.getId());
+                    recipientUser.updateOrderHistory(mOrder.getId());
+                    uDB.setObject(recipientUser);
+                    uDB.writeToDatabase();
                 }
             });
 
@@ -316,6 +359,7 @@ public class MyOrdersActivity extends AppCompatActivity {
                             }
                             else{
                                 Log.d(TAG, "map not accessible");
+                                Toast.makeText(MyOrdersActivity.this, "Map not accessible", Toast.LENGTH_SHORT).show();
                             }
                         }
                         else{

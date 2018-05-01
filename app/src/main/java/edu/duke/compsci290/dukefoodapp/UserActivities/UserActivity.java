@@ -128,8 +128,14 @@ public class UserActivity extends AppCompatActivity {
                         finish();
                         break;
                     case (R.id.my_orders):
-                        if (user.getOrderHistory() == null) {
-                            CharSequence text = "You Have No Orders!";
+                        if (user.getPendingOrders() == null) {
+                            CharSequence text = "You Have No Pending Orders!";
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(UserActivity.this, text, duration);
+                            toast.show();
+                            break;
+                        } else if (user.getPendingOrders().size() == 0) {
+                            CharSequence text = "You Have No Pending Orders!";
                             int duration = Toast.LENGTH_SHORT;
                             Toast toast = Toast.makeText(UserActivity.this, text, duration);
                             toast.show();
@@ -159,6 +165,8 @@ public class UserActivity extends AppCompatActivity {
         mLogo = findViewById(R.id.userlogo);
 //        mUsertype = findViewById(R.id.usertype);
         mUsername = findViewById(R.id.username);
+        mUsertype = findViewById(R.id.userTypeTV);
+        mUsertype.setText("Type: " + user.getType());
         mUserimage = findViewById(R.id.userimage);
 
 
@@ -184,7 +192,8 @@ public class UserActivity extends AppCompatActivity {
 
         // Set up statistics ListView and Adapter
         ListView listView = findViewById(R.id.statisticslistview);
-        MyArrayAdapter adapter = new MyArrayAdapter(this, android.R.layout.simple_list_item_1, mStatistics);
+        boolean pendingOrder = (user.getPendingOrders().size() > 0);
+        MyArrayAdapter adapter = new MyArrayAdapter(this, android.R.layout.simple_list_item_1, mStatistics, pendingOrder);
         listView.setAdapter(adapter);
 
         mRefresh = findViewById(R.id.userActivityRefresh);
@@ -239,25 +248,49 @@ public class UserActivity extends AppCompatActivity {
 
 
     //ArrayAdapter used for settings and statistics
-    public static class MyArrayAdapter extends ArrayAdapter<String> {
+    public class MyArrayAdapter extends ArrayAdapter<String> {
 
         private Context mContext;
         private List<String> mstatistics;
+        private boolean mPendingOrder;
 
-        public MyArrayAdapter(Context context, int resource, ArrayList<String> statistics) {
+        public MyArrayAdapter(Context context, int resource, ArrayList<String> statistics, boolean pendingOrder) {
             super(context, resource,statistics);
             mContext = context;
             mstatistics = statistics;
+            mPendingOrder = pendingOrder;
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View view = convertView;
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(android.R.layout.simple_list_item_1, null);
             }
             ((TextView) view.findViewById(android.R.id.text1)).setText(mstatistics.get(position));
+
+            // set on click so we can simply go to pending orders by clicking on my info > pending order(s)
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d(TAG, "clicked: " + mstatistics.get(position) + "at position" + position);
+                    if (position == 1) {
+                        if (!mPendingOrder) {
+                            CharSequence text = "You Have No Pending Orders!";
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(UserActivity.this, text, duration);
+                            toast.show();
+                        } else {
+                            Intent intent = new Intent(UserActivity.this, MyOrdersActivity.class);
+                            intent.putExtra("type", user.getType());
+                            intent.putExtra("user", user);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                }
+            });
             return view;
         }
     }
