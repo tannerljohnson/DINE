@@ -138,7 +138,7 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
                     }
                 }
                 if(mUserType.equals("student")){
-                    if (order.getStatus() == 1){
+                    if (order.getStatus() >= 1){
                         CharSequence text = "Order Already Taken!";
                         int duration = Toast.LENGTH_SHORT;
                         Toast toast = Toast.makeText(mContext, text, duration);
