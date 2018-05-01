@@ -44,6 +44,7 @@ import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
 
 public class UserPreferencesActivity extends AppCompatActivity {
+
     private static final String TAG = "UserPreferencesActivity";
 
     // set up fields
@@ -76,6 +77,7 @@ public class UserPreferencesActivity extends AppCompatActivity {
     private EditText mAddressEditText;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
+
 
 
 
