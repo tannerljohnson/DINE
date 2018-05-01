@@ -14,6 +14,8 @@ package edu.duke.compsci290.dukefoodapp.login;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * NOT USED IN THIS IMPLEMENTATION. USE FOR ITERATION 2.
  */
 
 

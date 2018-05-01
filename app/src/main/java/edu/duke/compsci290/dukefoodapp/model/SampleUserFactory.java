@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * Created by tannerjohnson on 4/5/18.
+ *
+ * Singleton instance of User object(s) used for testing.
  */
 
 public class SampleUserFactory {

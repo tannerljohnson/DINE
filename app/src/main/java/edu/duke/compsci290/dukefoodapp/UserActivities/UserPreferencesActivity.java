@@ -34,16 +34,19 @@ import edu.duke.compsci290.dukefoodapp.model.RecipientUser;
 import edu.duke.compsci290.dukefoodapp.model.StudentUser;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
-//import edu.duke.compsci290.dukefoodapp.model.User;
 
 /**
- * Created by maxwesterkam on 4/4/18.
+ * User preferences launched when user logs in for the first time (not located in Realtime DB)
+ * Manually enter relevant fields (based on user's type)
+ * Take picture and store in Cloud Storage
+ * Uneditable email field since we used Google Sign in
  */
 
-// name, email, number, type, bio
 
 public class UserPreferencesActivity extends AppCompatActivity {
     private static final String TAG = "UserPreferencesActivity";
+
+    // set up fields
     private String[] mTypes;
     private DatabaseReference mDatabase;
     private FirebaseStorage mStorage;
@@ -185,7 +188,6 @@ public class UserPreferencesActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
        super.onStart();
-       // get info from shared pref or Firebase and populate
     }
 
     // launch intent to take picture
@@ -257,7 +259,7 @@ public class UserPreferencesActivity extends AppCompatActivity {
                 newUser.setType("admin");
                 newUser.setAddress(mAddress);
             }
-
+            // set user fields
             newUser.setId(uId);
             newUser.setName(mUserName);
             newUser.setBio(mUserBio);
@@ -266,20 +268,23 @@ public class UserPreferencesActivity extends AppCompatActivity {
             newUser.setPendingOrders(null);
             newUser.setEligibleForReward(false);
             newUser.setPoints(0);
-//            newUser.setImageByteArray(null);
-//            Toast.makeText(this, "Creating User and sending as intent", Toast.LENGTH_SHORT).show();
+
+            // write new user to firebase
             writeToFirebase(newUser);
+
+            // take us to user's home page with fresh data
             Intent intent = new Intent(UserPreferencesActivity.this, UserActivity.class);
             intent.putExtra("user", newUser);
-//            intent.putExtra("picture", mImageByteArray);
             startActivity(intent);
         }
     }
 
+    // method to write to firebase
     private void writeToFirebase(UserParent newUser) {
         mDatabase.child("users").child(newUser.getId()).setValue(newUser);
     }
 
+    // check if form has been filled out correctly
     private boolean validateForm() {
         boolean valid = true;
 
@@ -292,11 +297,12 @@ public class UserPreferencesActivity extends AppCompatActivity {
         }
 
         userType = mSpinner.getSelectedItem().toString();
+
+        // check recipient fields
         if (userType.equals("recipient")) {
             mFamilySize = mFamilySizeEditText.getText().toString();
             mAddress = mAddressEditText.getText().toString();
             mAddressLength = mAddress.length();
-//            int familySizeInt = Integer.parseInt(mFamilySize);
             if (TextUtils.isEmpty(mFamilySize)) {
                 mPhoneText.setError("Required. Enter a number from 1 - 8");
                 Toast.makeText(this, "Enter a family size from 1 - 8", Toast.LENGTH_SHORT).show();
@@ -325,6 +331,7 @@ public class UserPreferencesActivity extends AppCompatActivity {
             } else {
                 mAddressEditText.setError(null);
             }
+            // check admin fields
         } else if (userType.equals("admin")) {
             mAddress = mAddressEditText.getText().toString();
             mAddressLength = mAddress.length();
@@ -357,12 +364,4 @@ public class UserPreferencesActivity extends AppCompatActivity {
         return valid;
     }
 
-    protected int saveInDB() {
-
-        return 0;
-    }
-
-    //public User getUser() {
-
-    //}
 }

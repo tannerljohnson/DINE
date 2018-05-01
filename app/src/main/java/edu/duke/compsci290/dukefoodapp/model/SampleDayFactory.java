@@ -10,6 +10,8 @@ import java.util.ListIterator;
 
 /**
  * Created by tevin on 4/11/2018.
+ *
+ * Singleton instance of Day object used for testing.
  */
 
 public class SampleDayFactory {

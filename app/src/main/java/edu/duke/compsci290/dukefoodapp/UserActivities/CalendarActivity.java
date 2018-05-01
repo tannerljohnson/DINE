@@ -22,12 +22,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.data.model.User;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import edu.duke.compsci290.dukefoodapp.Database.OrderDB;
 import edu.duke.compsci290.dukefoodapp.R;
+import edu.duke.compsci290.dukefoodapp.login.ChooserActivity;
 import edu.duke.compsci290.dukefoodapp.model.IUser;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
@@ -38,6 +43,10 @@ public class CalendarActivity extends AppCompatActivity {
     private String Tag = "CalendarActivity";
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
+
+    // for sign out
+    private FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
 
 
     @Override
@@ -70,6 +79,13 @@ public class CalendarActivity extends AppCompatActivity {
                         intent = new Intent(CalendarActivity.this, UserActivity.class);
                         intent.putExtra("type",user.getType());
                         intent.putExtra("user",user);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    case (R.id.logout):
+                        Log.d(Tag, "Log Out");
+                        signOut();
+                        intent = new Intent(CalendarActivity.this, ChooserActivity.class);
                         startActivity(intent);
                         finish();
                         break;
@@ -122,6 +138,21 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void signOut() {
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mAuth = FirebaseAuth.getInstance();
+        // Firebase sign out
+        mAuth.signOut();
+
+        // Google sign out
+        mGoogleSignInClient.signOut();
     }
 
 }

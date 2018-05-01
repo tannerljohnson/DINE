@@ -14,6 +14,8 @@ package edu.duke.compsci290.dukefoodapp.login;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * THIS IS MAIN ACTIVITY. NEXT ITERATION ADD EMAIL PASSWORD ACTIVITY BUTTON
  */
 
 
@@ -37,7 +39,7 @@ public class ChooserActivity extends AppCompatActivity  {
     private Button button;
     private static final Class[] CLASSES = new Class[]{
             GoogleSignInActivity.class
-//            EmailPasswordActivity.class,
+            // EmailPasswordActivity.class,
 
     };
 

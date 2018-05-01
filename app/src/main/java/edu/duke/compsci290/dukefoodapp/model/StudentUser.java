@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * Created by tannerjohnson on 4/3/18.
+ *
+ * UserParent subclass for student users.
  */
 
 
@@ -15,7 +17,7 @@ public class StudentUser extends UserParent {
         makeSettings();
     }
 
-
+    // only use this constructor for testing. otherwise use parent's getters/setters.
     public StudentUser(String id, String name, String type, String email, String phone, String bio,
                 int points, boolean eligibleForReward, List<String> pendingOrders,
                 List<String> orderHistory) {

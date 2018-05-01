@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * Created by tannerjohnson on 4/10/18.
+ *
+ * Statistics.java implements the IStats interface. A contract for Statistics methods.
  */
 
 public interface IStats {

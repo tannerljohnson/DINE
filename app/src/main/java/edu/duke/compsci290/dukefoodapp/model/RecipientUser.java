@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * Created by tannerjohnson on 4/3/18.
+ *
+ * UserParent subclass for recipient users.
  */
 
 
@@ -14,6 +16,7 @@ public class RecipientUser extends UserParent {
         makeSettings();
     }
 
+    // only use this constructor for testing. otherwise use parent's getters/setters.
     public RecipientUser(String id, String name, String type, String email, String phone, String bio,
                        int points, boolean eligibleForReward, List<String> pendingOrders,
                        List<String> orderHistory) {
@@ -29,13 +32,5 @@ public class RecipientUser extends UserParent {
         this.pendingOrders = pendingOrders;
         this.orderHistory = orderHistory;
     }
-
-//    public void setFamilySize(int famSize) {
-//        this.familySize = famSize;
-//    }
-//
-//    public int getFamilySize() {
-//        return this.familySize;
-//    }
 
 }

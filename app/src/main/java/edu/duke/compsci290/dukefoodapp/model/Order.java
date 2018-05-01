@@ -14,6 +14,9 @@ import java.sql.Timestamp;
 
 /**
  * Created by tannerjohnson on 4/6/18.
+ *
+ * Order object contains all necessary fields that decribe the current state of an order
+ * getters and setters required to firebase.
  */
 public class Order implements Parcelable{
 

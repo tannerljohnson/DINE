@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 /**
  * Created by tannerjohnson on 4/10/18.
+ *
+ * Separate class for storing user statistics. Isolated from User classes.
  */
 
 public class Statistics implements IStats {
@@ -18,6 +20,7 @@ public class Statistics implements IStats {
         buildStatistics(user);
     }
 
+    // user constructor passes this to buildStatistics, which updates stats based on current user state
     private void buildStatistics(IUser user) {
         // if user.instanceOf()
         assert user instanceof IUser;
@@ -59,6 +62,8 @@ public class Statistics implements IStats {
     public String getPointTotal(){
         return this.mPointTotal;
     }
+
+    // use this getter to construct the user's statistics field
     public ArrayList<String> getAllStats() { return this.mAllStats; }
 
 }

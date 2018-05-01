@@ -16,7 +16,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.FirebaseUIActivity" />
         <activity android:name=".login.EmailPasswordActivity" />
         <activity android:name=".login.GoogleSignInActivity" />
         <activity android:name=".UserActivities.UserActivity" />

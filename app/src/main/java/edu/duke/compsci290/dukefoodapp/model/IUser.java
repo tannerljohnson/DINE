@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * Created by tannerjohnson on 4/5/18.
+ *
+ * UserParent implements IUser interface. Minimal set of getters for all user fields.
  */
 
 public interface IUser{
