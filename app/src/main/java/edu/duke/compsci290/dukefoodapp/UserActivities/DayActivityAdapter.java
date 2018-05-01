@@ -32,6 +32,10 @@ import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
 /**
  * Created by tannerjohnson on 4/13/18.
+ *
+ * Adapter subclass for recycler view that holds all orders and their current state.
+ * All current information about orders is retrieved from firebase.
+ * Actions from dialogue boxes write to database and modify users and orders.
  */
 
 public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.ViewHolder> {
@@ -125,13 +129,10 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
                                 oDB.setObject(order);
                                 oDB.writeToDatabase();
                                 mUser.updatePendingOrders(order.getId());
-//                                mUser.updateOrderHistory(order.getId());
                                 uDB.setObject(mUser);
                                 uDB.writeToDatabase();
                                 dialog.dismiss();
-//                                Intent intent = new Intent(mContext, DayActivity.class);
-//                                intent.putExtra("user" ,mUser);
-//                                intent.putExtra("date", date);
+
 
                                 // ALWAYS GO BACK HOME SO WE CAN REFRESH DATA
                                 Intent intent = new Intent(mContext, GoogleSignInActivity.class);
@@ -140,6 +141,7 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
                         });
                     }
                 }
+                // dialogue for student
                 if(mUserType.equals("student")){
                     if (order.getStatus() >= 1){
                         CharSequence text = "Order Already Taken!";
@@ -193,7 +195,7 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
         });
     }
 
-
+    // view holder class
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mOrderName;
         public LinearLayout mLinearLayout;

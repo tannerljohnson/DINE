@@ -1,5 +1,11 @@
 package edu.duke.compsci290.dukefoodapp.UserActivities;
 
+/**
+ * Day is launched from CalendarActivity.
+ * All orders registered by admins are visible to each user on this page.
+ * Specific users can access and make specific actions on orders.
+ */
+
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.AsyncTask;
@@ -84,9 +90,6 @@ public class DayActivity extends AppCompatActivity {
         final Intent receivedIntent = this.getIntent();
         user = (UserParent) receivedIntent.getSerializableExtra("user");
 
-        // could be getting old data (bug) so must query for user again...
-
-
         date = receivedIntent.getStringExtra("date");
         uDB = UserDB.getInstance();
 
@@ -169,9 +172,8 @@ public class DayActivity extends AppCompatActivity {
         oDB.setOrdersByDate(date);
 
 
-        //TODO: Make the Dialogues for each user type
         //Make dialogue for admin
-        //dialogues for users are in the dayactivityadapter
+        //dialogues for other users are in the dayactivityadapter
         dynamicRL = findViewById(R.id.day_activity_RL);
         Button button = new Button(this);
         if(user.getType().equals("admin")){

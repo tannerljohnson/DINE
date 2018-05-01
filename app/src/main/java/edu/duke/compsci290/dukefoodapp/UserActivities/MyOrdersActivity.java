@@ -1,5 +1,10 @@
 package edu.duke.compsci290.dukefoodapp.UserActivities;
 
+/**
+ * This activity is for the user to look at their current orders, and the progress of the order
+ * maybe save the specific users order in SQLite, and update the orders the user already has.
+ * helps with the no connection problems
+ */
 
 import android.content.Context;
 import android.content.Intent;
@@ -40,11 +45,8 @@ import edu.duke.compsci290.dukefoodapp.model.StudentUser;
 import edu.duke.compsci290.dukefoodapp.model.UserParent;
 
 public class MyOrdersActivity extends AppCompatActivity {
-    //This activity is for the user to look at their current orders, and the progress of the order
-    //maybe save the specific users order in SQLite, and update the orders the user already has.
-    //helps with the no connection problems
-    public RecyclerView rv;
 
+    public RecyclerView rv;
     public UserParent user;
     public List<String> pendingOrders;
     private DrawerLayout mDrawerLayout;
@@ -239,15 +241,6 @@ public class MyOrdersActivity extends AppCompatActivity {
 
         private void readStudentUserFromDB() {
             uDB.readFromDatabase(mOrder.getStudentId());
-//            uDB.setCustomEventListener(new IOnDatabaseRead() {
-//                @Override
-//                public void onEvent() {
-//                    mStudentUser = (StudentUser) uDB.getObject();
-//                    Log.d(TAG, "Read from uDB: " + mStudentUser.getName() + " with points: " + mStudentUser.getPoints());
-//                }
-//            });
-//            mStudentUser = (StudentUser) uDB.getObject();
-//            Log.d(TAG, "Read from uDB: " + mStudentUser.getName() + " with points: " + mStudentUser.getPoints());
         }
 
         private void recipientDialogue() {

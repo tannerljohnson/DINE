@@ -1,5 +1,11 @@
 package edu.duke.compsci290.dukefoodapp.UserActivities;
 
+/**
+ * Calendar activity is launched from navigation bar.
+ * Accessible for each user to choose a date they'd like to inspect for orders.
+ * Calendar view from Android.
+ */
+
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -118,13 +124,9 @@ public class CalendarActivity extends AppCompatActivity {
         });
 
         mCalendarView = (CalendarView) findViewById(R.id.calendarView);
-        //TODO: access database and set up color of day based on availability of order.
-//        setUpColors();
         Date currentTime = Calendar.getInstance().getTime();
         Log.d(Tag,currentTime.toString());
-        //TODO: set up the Calendar to have fewer months present
-//        mCalendarView.setMinDate();
-//        mCalendarView.setMaxDate();
+
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
