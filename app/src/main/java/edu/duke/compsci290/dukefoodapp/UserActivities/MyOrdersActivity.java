@@ -220,8 +220,15 @@ public class MyOrdersActivity extends AppCompatActivity {
                                 studentDialogue();
                             }
                             if (user.getType().equals("recipient")){
-                                readStudentUserFromDB();
-                                recipientDialogue();
+                                if (mOrder.getStatus() < 3) {
+                                    Toast.makeText(MyOrdersActivity.this, "Order not ready!", Toast.LENGTH_SHORT).show();
+
+
+                                } else {
+                                    readStudentUserFromDB();
+                                    recipientDialogue();
+                                }
+
                             }
                         }
                     });

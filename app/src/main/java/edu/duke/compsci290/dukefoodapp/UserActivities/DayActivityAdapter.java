@@ -105,6 +105,7 @@ public class DayActivityAdapter extends RecyclerView.Adapter<DayActivityAdapter.
                         final EditText recipientAddress = mView.findViewById(R.id.recipient_address);
                         recipientAddress.setText(mUser.getAddress());
                         final EditText recipientPickupTime = mView.findViewById(R.id.recipient_pickup_time);
+                        recipientPickupTime.setHint("Past " + order.getPickupTime());
                         Button button = mView.findViewById(R.id.recipient_accept);
                         mBuilder.setView(mView);
                         final AlertDialog dialog = mBuilder.create();

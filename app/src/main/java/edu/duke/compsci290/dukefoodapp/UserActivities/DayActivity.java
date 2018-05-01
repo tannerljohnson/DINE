@@ -188,8 +188,10 @@ public class DayActivity extends AppCompatActivity {
                     View mView = getLayoutInflater().inflate(R.layout.create_order,null);
                     Button submit = mView.findViewById(R.id.button_create_order);
                     final EditText diningName = mView.findViewById(R.id.create_order_input_location);
+                    diningName.setText(user.getName());
                     final EditText allergens = mView.findViewById(R.id.create_order_input_allergens);
                     final EditText pickup = mView.findViewById(R.id.create_order_input_pickuptime);
+//                    pickup.setText(user.getAddress());
                     mBuilder.setView(mView);
                     final AlertDialog dialog = mBuilder.create();
                     dialog.show();
@@ -200,6 +202,7 @@ public class DayActivity extends AppCompatActivity {
                             order.setAllergens(allergens.getText().toString());
                             order.setPickupTime(pickup.getText().toString());
                             order.setDate(date);
+                            order.setPickupLocation(user.getAddress());
                             //create unique order id
                             String id = UUID.randomUUID().toString();
                             order.setId(id);

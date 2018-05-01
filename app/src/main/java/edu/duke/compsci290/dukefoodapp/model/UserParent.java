@@ -131,7 +131,7 @@ public abstract class UserParent implements IUser, Serializable {
 
     public void addPoints(int points) {
         this.points += points;
-        if (this.points >= 500) {
+        if (this.points >= 100) {
             setEligibleForReward(true);
         }
     }
